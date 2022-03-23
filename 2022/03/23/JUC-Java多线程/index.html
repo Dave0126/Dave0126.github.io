@@ -17,13 +17,13 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"dave0126.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="Java 并发多线程编程视频课程: BiliBili - 黑马程序员Java并发编程 JUC 笔记参考: Java并发 - Nyima’s Blog  注：本课程笔记基于JDK8，采用lsf4j打印日志">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java 并发多线程编程 (JUC)">
-<meta property="og:url" content="http://example.com/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
+<meta property="og:url" content="https://dave0126.github.io/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Lost N Found">
 <meta property="og:description" content="Java 并发多线程编程视频课程: BiliBili - 黑马程序员Java并发编程 JUC 笔记参考: Java并发 - Nyima’s Blog  注：本课程笔记基于JDK8，采用lsf4j打印日志">
 <meta property="og:locale" content="zh_CN">
@@ -34,7 +34,7 @@
 <meta property="article:tag" content="JUC">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+<link rel="canonical" href="https://dave0126.github.io/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
 
 
 <script id="page-configurations">
@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -328,7 +328,7 @@
 
 <h6 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h6><p>使用<strong>继承方式的好处是方便传参</strong>，你可以在子类里面添加成员变量，通过set方法设置参数或者通过构造函数进行传递，而如果使用Runnable方式，则只能使用主线程里面被声明为final的变量。</p>
 <p><strong>不好的地方是Java不支持多继承</strong>，如果继承了Thread类，那么子类不能再继承其他类，而Runable则没有这个限制。<strong>前两种方式都没办法拿到任务的返回结果，但是Futuretask方式可以</strong></p>
-<h4 id="2-2-原理之线程运行"><a href="#2-2-原理之线程运行" class="headerlink" title="2.2 原理之线程运行"></a>2.2 原理之线程运行</h4><h5 id="2-2-1-栈与栈帧"><a href="#2-2-1-栈与栈帧" class="headerlink" title="2.2.1 栈与栈帧"></a>2.2.1 栈与栈帧</h5><p><a target="_blank" rel="noopener" href="https://dave0126.github.io/2022/03/22/JVM-1/#2-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88">Java Virtual Machine Stacks</a> （Java 虚拟机栈） 我们都知道 JVM 中由堆、栈、方法区所组成，其中栈内存是给谁用的呢？</p>
+<h4 id="2-2-原理之线程运行"><a href="#2-2-原理之线程运行" class="headerlink" title="2.2 原理之线程运行"></a>2.2 原理之线程运行</h4><h5 id="2-2-1-栈与栈帧"><a href="#2-2-1-栈与栈帧" class="headerlink" title="2.2.1 栈与栈帧"></a>2.2.1 栈与栈帧</h5><p><a href="https://dave0126.github.io/2022/03/22/JVM-1/#2-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88">Java Virtual Machine Stacks</a> （Java 虚拟机栈） 我们都知道 JVM 中由堆、栈、方法区所组成，其中栈内存是给谁用的呢？</p>
 <ul>
 <li>其实就是线程，每个线程启动后，虚拟机就会为其分配一块<strong>栈内存</strong></li>
 <li>每个栈由多个栈帧（Frame）组成，对应着每次<strong>方法调用时所占用的内存</strong></li>
@@ -474,7 +474,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="Java 并发多线程编程 (JUC)">http://example.com/2022/03/23/JUC-Java多线程/</a>
+    <a href="https://dave0126.github.io/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="Java 并发多线程编程 (JUC)">https://dave0126.github.io/2022/03/23/JUC-Java多线程/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！

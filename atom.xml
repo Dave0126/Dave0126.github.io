@@ -3,11 +3,11 @@
   <title>Lost N Found</title>
   
   
-  <link href="http://example.com/atom.xml" rel="self"/>
+  <link href="https://dave0126.github.io/atom.xml" rel="self"/>
   
-  <link href="http://example.com/"/>
+  <link href="https://dave0126.github.io/"/>
   <updated>2022-03-23T22:58:04.132Z</updated>
-  <id>http://example.com/</id>
+  <id>https://dave0126.github.io/</id>
   
   <author>
     <name>Guohao</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Java 并发多线程编程 (JUC)</title>
-    <link href="http://example.com/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
-    <id>http://example.com/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/</id>
+    <link href="https://dave0126.github.io/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    <id>https://dave0126.github.io/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/</id>
     <published>2022-03-23T20:13:13.000Z</published>
     <updated>2022-03-23T22:58:04.132Z</updated>
     
@@ -34,19 +34,19 @@
     
     
     
-    <category term="JUC" scheme="http://example.com/categories/JUC/"/>
+    <category term="JUC" scheme="https://dave0126.github.io/categories/JUC/"/>
     
     
-    <category term="Java" scheme="http://example.com/tags/Java/"/>
+    <category term="Java" scheme="https://dave0126.github.io/tags/Java/"/>
     
-    <category term="JUC" scheme="http://example.com/tags/JUC/"/>
+    <category term="JUC" scheme="https://dave0126.github.io/tags/JUC/"/>
     
   </entry>
   
   <entry>
     <title>Java 虚拟机 - JVM 第二讲</title>
-    <link href="http://example.com/2022/03/22/JVM-2/"/>
-    <id>http://example.com/2022/03/22/JVM-2/</id>
+    <link href="https://dave0126.github.io/2022/03/22/JVM-2/"/>
+    <id>https://dave0126.github.io/2022/03/22/JVM-2/</id>
     <published>2022-03-22T21:36:23.000Z</published>
     <updated>2022-03-23T22:59:50.384Z</updated>
     
@@ -64,19 +64,19 @@
     
     
     
-    <category term="JVM" scheme="http://example.com/categories/JVM/"/>
+    <category term="JVM" scheme="https://dave0126.github.io/categories/JVM/"/>
     
     
-    <category term="Java" scheme="http://example.com/tags/Java/"/>
+    <category term="Java" scheme="https://dave0126.github.io/tags/Java/"/>
     
-    <category term="JVM" scheme="http://example.com/tags/JVM/"/>
+    <category term="JVM" scheme="https://dave0126.github.io/tags/JVM/"/>
     
   </entry>
   
   <entry>
     <title>Java 虚拟机 - JVM 第一讲</title>
-    <link href="http://example.com/2022/03/22/JVM-1/"/>
-    <id>http://example.com/2022/03/22/JVM-1/</id>
+    <link href="https://dave0126.github.io/2022/03/22/JVM-1/"/>
+    <id>https://dave0126.github.io/2022/03/22/JVM-1/</id>
     <published>2022-03-22T20:52:44.000Z</published>
     <updated>2022-03-23T22:59:48.864Z</updated>
     
@@ -94,12 +94,12 @@
     
     
     
-    <category term="JVM" scheme="http://example.com/categories/JVM/"/>
+    <category term="JVM" scheme="https://dave0126.github.io/categories/JVM/"/>
     
     
-    <category term="Java" scheme="http://example.com/tags/Java/"/>
+    <category term="Java" scheme="https://dave0126.github.io/tags/Java/"/>
     
-    <category term="JVM" scheme="http://example.com/tags/JVM/"/>
+    <category term="JVM" scheme="https://dave0126.github.io/tags/JVM/"/>
     
   </entry>
   
