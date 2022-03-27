@@ -47,9 +47,9 @@
 <meta property="og:image" content="https://dave0126.github.io/2022/03/26/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-2/20200608145303.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/03/26/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-2/20200608145313.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/03/26/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-2/20200608144621-8409900.png">
-<meta property="og:image" content="https://dave0126.github.io/2022/03/26/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-2/2022-03-26-JUC-Java多线程-2//image-20220327221126928.png">
+<meta property="og:image" content="https://dave0126.github.io/2022/03/26/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-2/image-20220327221126928.png">
 <meta property="article:published_time" content="2022-03-26T14:38:56.000Z">
-<meta property="article:modified_time" content="2022-03-27T20:22:43.679Z">
+<meta property="article:modified_time" content="2022-03-27T20:42:33.166Z">
 <meta property="article:author" content="Guohao">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="JUC">
@@ -217,7 +217,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-27 22:22:43" itemprop="dateModified" datetime="2022-03-27T22:22:43+02:00">2022-03-27</time>
+                <time title="修改时间：2022-03-27 22:42:33" itemprop="dateModified" datetime="2022-03-27T22:42:33+02:00">2022-03-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -235,14 +235,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>21k</span>
+              <span>24k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>20 分钟</span>
+              <span>22 分钟</span>
             </span>
 
         </div>
@@ -851,8 +851,160 @@
 </ul>
 <h5 id="3-11-3-饥饿"><a href="#3-11-3-饥饿" class="headerlink" title="3.11.3 饥饿"></a>3.11.3 饥饿</h5><p>某些线程因为优先级太低，导致一直无法获得资源的现象。</p>
 <p>为了避免死锁而使用顺序加锁时，可能会出现饥饿现象</p>
+<h5 id="3-11-4-死锁、饥饿和死循环的异同点"><a href="#3-11-4-死锁、饥饿和死循环的异同点" class="headerlink" title="3.11.4 死锁、饥饿和死循环的异同点"></a>3.11.4 死锁、饥饿和死循环的异同点</h5><table>
+<thead>
+<tr>
+<th></th>
+<th>共同点</th>
+<th>区别</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>死锁</td>
+<td>都是进程无法顺利向前推进的现象</td>
+<td>死锁一定是“循环等待对方手里的资源”导致的，因此如果有死锁现象，那<strong>至少有两个或两个以上的进程同时发生死锁</strong>。另外，发生死锁的进程一定处于阻塞态</td>
+</tr>
+<tr>
+<td>饥饿</td>
+<td><strong>可能只有一个进程发生饥饿</strong>。发生饥饿的进程可能是阻塞态（如长期得不到需要的IO设备），也可能是就绪态（长期得不到处理机）</td>
+<td></td>
+</tr>
+<tr>
+<td>死循环</td>
+<td>可能只有一个进程发生死循环。死循环可以是运行态，只不过无法继续推进。死锁和饥饿是由于操作系统分配资源的策略不合理导致的，而死循环是由代码逻辑错误导致的。<strong>死锁和饥饿是管理者(操作系统)的问题，死循环是被管理者的问题。</strong></td>
+<td></td>
+</tr>
+</tbody></table>
+<h5 id="3-11-5-预防死锁-静态策略"><a href="#3-11-5-预防死锁-静态策略" class="headerlink" title="3.11.5 预防死锁 - 静态策略"></a>3.11.5 预防死锁 - 静态策略</h5><h6 id="3-11-5-1-资源分配图（Graphe-d’allocation）"><a href="#3-11-5-1-资源分配图（Graphe-d’allocation）" class="headerlink" title="3.11.5.1 资源分配图（Graphe d’allocation）"></a>3.11.5.1 资源分配图（Graphe d’allocation）</h6><ul>
+<li>两种结点<ul>
+<li>进程结点：对应一个进程</li>
+<li>资源结点：对应一类资源，一类资源可能有多个。（一般用矩形代表资源结点，矩形中的小圆圈代表该类资源的数量）</li>
+</ul>
+</li>
+<li>两种边：<ul>
+<li>进程结点 -&gt; 资源结点：<strong>请求边</strong>，表示进程<strong>想申请几个资源</strong>（一条边代表一个）</li>
+<li>资源结点 -&gt; 进程结点：<strong>分配边</strong>，表示<strong>已经为进程分配了几个资源</strong></li>
+</ul>
+</li>
+</ul>
+<pre class="mermaid">graph LR
+  A(P1) --> B
+  B[R2:2] --> C
+  C(P2) --> D
+  D[R1:3] --> C
+  D --> A
+  D --> A</pre>
+
+
+
+<p>如果系统中剩余的可用资源数足够满足进程的需求，那么这个进程暂时是不会阻塞的，可以顺利地执行下去。</p>
+<pre class="mermaid">graph LR;
+  A(P1) 
+  B[R2:2] --> C
+  C(P2) --> D
+  D[R1:3] --> C</pre>
+
+<p>如果这个进程执行结束了把资源归还系统，就可能使某些正在等待资源的进程被激活，并顺利地执行下去。<br>相应的，这些被激活的进程执行完了之后又会归还一些资源，这样可能又会激活另外一些阻塞的进程….</p>
+<pre class="mermaid">graph TB;
+  A(P1) 
+  B[R2:2]
+  C(P2)
+  D[R1:3]</pre>
+
+
+
+<p>如果按上述过程分析，最终<strong>能消除所有边</strong>，就称这个图是<strong>可完全简化的</strong>。此时一定<strong>没有发生死锁</strong>（相当于能找到一个安全序列）</p>
+<p>另一个例子：</p>
+<pre class="mermaid">graph LR;
+  A(P1)
+  B[R2:2]
+  C(P2)
+  D[R1:3]
+  
+  E(P3)
+  E --> B
+  A --> B
+  A --> B
+  B --> C
+  C --> D
+  D --> C
+  D --> A
+  D --> A</pre>
+
+
+
+<p>如果最终<strong>不能消除所有边</strong>，那么此时就是<strong>发生了死锁</strong>。 <strong>最终没有被消除的边所连的进程就发生了死锁</strong>。</p>
+<h6 id="3-11-5-2-死锁的解除"><a href="#3-11-5-2-死锁的解除" class="headerlink" title="3.11.5.2 死锁的解除"></a>3.11.5.2 死锁的解除</h6><p>用死锁检测算法化简资源分配图后，还连着边的那此进程就是死锁进程。 解除死锁的主要方法有：</p>
+<ol>
+<li>资源剥夺法。挂起（暂时放到外存上）某些死锁进程，并抢占它的资源，将这些资源分配给其他的死锁进程。但是应防止被挂起的进程长时间得不到资源而饥饿。</li>
+<li>撤销进程法（或称终止进程法）。强制撤销部分、甚至全部死锁进程，并剥夺这些进程的资源，这种方式的优点是实现简单，但所付出的代价可能会很大。因为有些进程可能已经运行了很长时间，己经接近结束了，旦被终止可谓功亏一篑，以后还得从头再来。</li>
+<li>进程回退法。让一个或多个死锁进程回退到足以避免死锁的地步。这就要求系统耍记录进程的历史信息，设置还原点</li>
+</ol>
+<h5 id="3-11-6-避免死锁-动态策略"><a href="#3-11-6-避免死锁-动态策略" class="headerlink" title="3.11.6 避免死锁 - 动态策略"></a>3.11.6 避免死锁 - 动态策略</h5><h6 id="3-11-6-1-安全序列"><a href="#3-11-6-1-安全序列" class="headerlink" title="3.11.6.1 安全序列"></a>3.11.6.1 安全序列</h6><p>所谓<strong>安全序列</strong>，就是值如果系统按照这种序列分配资源，则每个进程都能顺利完成。只要能找出一个安全序列，系统就是<strong>安全状态</strong>。当然，<strong>安全序列可能有多个</strong>。<br>如果分配了资源之后，系统中找不出任何一个安全序列，系统就进入了<strong>不安全状态</strong>。这就意味着之后<strong>可能</strong>所有进程都无法顺利的进行下去。当然，如果有进程提前归还了一些资源，那系统也<strong>有可能重新回到安全状态</strong>，不过我们在分配资源之前总是要考虑到最坏的情况。</p>
+<p>因此可以<strong>在资源分配之前前预判这次分配是否会导致系统进入不安全状态</strong>，一次决定是否答应资源分配的请求。这也是“<strong>银行家算法</strong>”的核心思想。</p>
+<h6 id="3-11-6-2-银行家算法"><a href="#3-11-6-2-银行家算法" class="headerlink" title="3.11.6.2 银行家算法"></a>3.11.6.2 银行家算法</h6><p>假设系统中有<code>n</code>个进程，<code>m</code>种资源每个进程在运行前先声明对各种资源的最大需求数，则可用一个<code>n*m</code>的矩阵（可用二维数组实现） 表示所有进程对各种资源的最大需求数。不妨称为<strong>最大需求矩阵</strong> <code>Max</code>， <code>Max[i,j] = K</code> 表示进程<code>P_i</code>最多需要K个资源<code>R_j</code>。同理，系统可以用一个<code>n*m</code> 的<strong>分配矩阵 Allocation</strong> 表示对所有进程的资源分配情况。<code>Max - Allocation = Need</code> 矩阵，表示各进程最多还需要多少各类资源。<br>另外，还要用一个长度为<code>m</code>的一维数组 <code>Available(...)</code> 表示当前系统中<strong>还有多少可用资源</strong><br>某进程pi向系统申请资源，可用1个长度为<code>m</code>的一维数组 <code>Request(...)</code>， 表示<strong>本次申请的各种资源量</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>进程</th>
+<th>最大需求(Max 矩阵)</th>
+<th>已分配(Allocation 矩阵)</th>
+<th>最多还需要(Need 矩阵)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P0</td>
+<td>(7,5,3)</td>
+<td>(0,1,0)</td>
+<td>(7,4,3)</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>(3,2,2)</td>
+<td>(2,0,0)</td>
+<td>(1,2,2)</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>(9,0,2)</td>
+<td>(3,0,2)</td>
+<td>(6,0,0)</td>
+</tr>
+<tr>
+<td>P3</td>
+<td>(2,2,2)</td>
+<td>(2,1,1)</td>
+<td>(0,1,1)</td>
+</tr>
+<tr>
+<td>P4</td>
+<td>(4,3,3)</td>
+<td>(0,0,2)</td>
+<td>(4,3,1)</td>
+</tr>
+</tbody></table>
+<p>可用<strong>银行家算法</strong>预判本次分配是否会导致系统进入不安全状态：</p>
+<ol>
+<li>如果 <code>Request_i[j] &lt; Need[i,j] (0 &lt;= j &lt; m)</code>便转向②：否则认为出错</li>
+<li>如果 <code>Request_i[j] &lt; Available[i,j] (0 &lt;= j &lt; m)</code>，便转向③：否则表示尚无足够资源，p必须等待</li>
+<li>系统试探着把资源分配给进程Pi，并修改相应的数据（并非真的分配，修改数值只是为了做预判)：<ul>
+<li><code>Available = Available - Request_j;</code></li>
+<li><code>Allocation[i,j] = Allocation[i,j] + Request_i[j];</code></li>
+<li><code>Need[i,j] = Need[i,j] - Request_i[j]</code></li>
+</ul>
+</li>
+<li>操作系统执行<strong>安全性算法</strong>，检查此次资源分配后，系统是<strong>否处于安全状态</strong>。若安全，才正式分配;否则，恢复相应数据，让进程阻塞等待。</li>
+</ol>
+<p>银行家算法步骤：</p>
+<ol>
+<li>检查此次申请是否超过了之前声明的最大需求数</li>
+<li>检查此时系统剩余的可用资源是否还能满足这次请求</li>
+<li>试探着分配，更改各数据结构</li>
+<li>用安全性算法检查此次分配是否会导致系统进入不安全状态</li>
+</ol>
+<p>安全性算法步骤： 检查当前的剩余可用资源是否能满足某个进程的最大需求，如果可以，就把该进程加入安全序列，并把该讲程持有的资源全部回收。 不断重复上述过程，看最终是否能让所有进程都加入安全序列。</p>
 <h4 id="3-12-ReentrantLock"><a href="#3-12-ReentrantLock" class="headerlink" title="3.12 ReentrantLock"></a>3.12 ReentrantLock</h4><p>更新中。。。</p>
-<h4 id="3-16-经典问题：哲学家就餐问题"><a href="#3-16-经典问题：哲学家就餐问题" class="headerlink" title="3.16 经典问题：哲学家就餐问题"></a>3.16 经典问题：哲学家就餐问题</h4><img src="2022-03-26-JUC-Java多线程-2//image-20220327221126928.png" alt="image-20220327221126928" style="zoom:50%;">
+<h4 id="3-16-经典问题：哲学家就餐问题"><a href="#3-16-经典问题：哲学家就餐问题" class="headerlink" title="3.16 经典问题：哲学家就餐问题"></a>3.16 经典问题：哲学家就餐问题</h4><img src="/2022/03/26/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-2/image-20220327221126928.png" alt="image-20220327221126928" style="zoom:50%;">
 
 <p>圆桌上坐着5名哲学家，每两个哲学家之问的桌上摆一根筷子，桌子的中间是一碗米饭。哲学们倾注毕生的精力用于思考和进餐，哲学家在思考时，并不影响他人。只有当哲学家饥饿时才试图拿起左、右两根筷子（一根一根地拿起）。如果筷子已在他人手上，则需等待。饥饿的哲学家只有同时拿起两根筷子才可以开始进餐。当进餐完毕后，放下筷子继续思考。</p>
 <ol>
@@ -862,7 +1014,7 @@
 </ol>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Semaphore chopstick[<span class="number">5</span>] = <span class="keyword">new</span> <span class="title class_">Semaphore</span>(<span class="number">1</span>);</span><br><span class="line"><span class="type">Semaphore</span> <span class="variable">mutex</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Semaphore</span>(<span class="number">1</span>);</span><br><span class="line">Philosoph_i () &#123;    <span class="comment">// i号哲学家进程</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">        chopstick[i].down();            <span class="comment">// 拿起左边筷子</span></span><br><span class="line">        chopstick[(i+<span class="number">1</span>)%<span class="number">5</span>].down();      <span class="comment">// 拿起右边筷子</span></span><br><span class="line">        吃饭；</span><br><span class="line">        chopstick[i].up();              <span class="comment">// 放下左边筷子</span></span><br><span class="line">        chopstick[(i+<span class="number">1</span>)%<span class="number">5</span>].up();        <span class="comment">// 放下右边筷子</span></span><br><span class="line">        思考；</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    这种情况下，所有哲学家都会拿起左边的筷子，会造成死锁</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>**注意：**这种情况下，所有哲学家都会拿起左边的筷子，会造成**死锁**。这种解决方案不合理。</p>
+<p><strong>注意：</strong>这种情况下，所有哲学家都会拿起左边的筷子，会造成 <strong>死锁</strong>。这种解决方案不合理。</p>
 <p><strong>如何防止死锁的发生呢？</strong></p>
 <ol>
 <li>可以对哲学家进程施加一些限制条件，比如最多允许<strong>四个哲学家同时进餐</strong>。这样可以<strong>保证至少有一个哲学家是可以拿到左右两只筷子</strong>的</li>
@@ -975,7 +1127,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-%E5%B9%B6%E5%8F%91%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B"><span class="nav-text">Java 并发多线程编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%85%B1%E4%BA%AB%E6%A8%A1%E5%9E%8B-%E4%B9%8B-%E7%AE%A1%E7%A8%8B"><span class="nav-text">3 共享模型 之 管程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E5%85%B1%E4%BA%AB%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">3.1 共享带来的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-1-%E4%B8%B4%E7%95%8C%E5%8C%BA-Critical-Section"><span class="nav-text">3.1.1 临界区 Critical Section</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-2-%E7%AB%9E%E6%80%81%E6%9D%A1%E4%BB%B6-Race-Condition"><span class="nav-text">3.1.2 竞态条件 Race Condition</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-Synchronized-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">3.2 Synchronized 解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-1-%E8%A7%A3%E5%86%B3%E6%89%8B%E6%AE%B5"><span class="nav-text">3.2.1 解决手段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-2-Synchronized-%E8%AF%AD%E6%B3%95"><span class="nav-text">3.2.2 Synchronized 语法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-3-Synchronized-%E5%9C%A8%E6%96%B9%E6%B3%95%E4%B8%8A"><span class="nav-text">3.2.3 Synchronized 在方法上</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-%E5%8F%98%E9%87%8F%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90"><span class="nav-text">3.3 变量的线程安全分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-1-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%92%8C%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90"><span class="nav-text">3.3.1 成员变量和静态变量的线程安全分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-2-%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90"><span class="nav-text">3.3.2 局部变量线程安全分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-3-%E5%B8%B8%E8%A7%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%B1%BB"><span class="nav-text">3.3.3 常见线程安全类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-4-%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%B1%BB%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-text">3.3.4 不可变类线程安全性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-5-%E4%B9%A0%E9%A2%98"><span class="nav-text">3.3.5 习题</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-Monitor"><span class="nav-text">3.4 Monitor</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-1-Monitor%E5%8E%9F%E7%90%86"><span class="nav-text">3.4.1 Monitor原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-2-%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81"><span class="nav-text">3.4.2 轻量级锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-3-%E9%94%81%E8%86%A8%E8%83%80"><span class="nav-text">3.4.3 锁膨胀</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-4-%E8%87%AA%E6%97%8B%E4%BC%98%E5%8C%96"><span class="nav-text">3.4.4 自旋优化</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%87%AA%E6%97%8B%E6%88%90%E5%8A%9F%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-text">自旋成功的情况</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%87%AA%E6%97%8B%E9%87%8D%E8%AF%95%E5%A4%B1%E8%B4%A5%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-text">自旋重试失败的情况</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-5-%E5%81%8F%E5%90%91%E9%94%81"><span class="nav-text">3.4.5 偏向锁</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%81%8F%E5%90%91%E7%8A%B6%E6%80%81"><span class="nav-text">偏向状态</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%92%A4%E9%94%80%E5%81%8F%E5%90%91"><span class="nav-text">撤销偏向</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E9%87%8D%E5%81%8F%E5%90%91"><span class="nav-text">批量重偏向</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E6%92%A4%E9%94%80"><span class="nav-text">批量撤销</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-Wait-x2F-Notify"><span class="nav-text">3.5 Wait &#x2F; Notify</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-5-1-API%E4%BB%8B%E7%BB%8D"><span class="nav-text">3.5.1 API介绍</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-5-2-wait-%E5%92%8Csleep-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">3.5.2 wait() 和sleep()的区别</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-%E5%90%8C%E6%AD%A5%E6%A8%A1%E5%BC%8F-%E4%B9%8B-%E4%BF%9D%E6%8A%A4%E6%80%A7%E6%9A%82%E5%81%9C"><span class="nav-text">3.6 同步模式 之 保护性暂停</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-6-1-join-%EF%BC%9A%E4%BD%BF%E7%94%A8%E4%BF%9D%E6%8A%A4%E6%80%A7%E6%9A%82%E5%81%9C%E6%A8%A1%E5%BC%8F"><span class="nav-text">3.6.1 join()：使用保护性暂停模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-6-2-%E6%89%A9%E5%B1%95-Future"><span class="nav-text">3.6.2 扩展 - Future</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%BC%8F-%E4%B9%8B-%E7%94%9F%E4%BA%A7%E8%80%85-x2F-%E6%B6%88%E8%B4%B9%E8%80%85"><span class="nav-text">3.7 异步模式 之 生产者&#x2F;消费者</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-7-1-%E8%A6%81%E7%82%B9"><span class="nav-text">3.7.1 要点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-7-2-%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.7.2 实现</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-8-Park-amp-Unpark"><span class="nav-text">3.8 Park &amp; Unpark</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-8-1-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-text">3.8.1 基本使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-8-2-%E7%89%B9%E7%82%B9"><span class="nav-text">3.8.2 特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-8-3-%E5%8E%9F%E7%90%86"><span class="nav-text">3.8.3 原理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2"><span class="nav-text">3.9 线程状态转换</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E4%B8%80%EF%BC%9ANEW-gt-RUNNABLE"><span class="nav-text">情况一：NEW --&gt; RUNNABLE</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E4%BA%8C%EF%BC%9ARUNNABLE-lt-gt-WAITING"><span class="nav-text">情况二：RUNNABLE &lt;--&gt; WAITING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E4%B8%89%EF%BC%9ARUNNABLE-lt-gt-WAITING"><span class="nav-text">情况三：RUNNABLE &lt;--&gt; WAITING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E5%9B%9B%EF%BC%9A-RUNNABLE-lt-gt-WAITING"><span class="nav-text">情况四： RUNNABLE &lt;--&gt; WAITING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E4%BA%94%EF%BC%9A-RUNNABLE-lt-gt-TIMED-WAITING"><span class="nav-text">情况五： RUNNABLE &lt;--&gt; TIMED_WAITING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E5%85%AD%EF%BC%9ARUNNABLE-lt-gt-TIMED-WAITING"><span class="nav-text">情况六：RUNNABLE &lt;--&gt; TIMED_WAITING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E4%B8%83%EF%BC%9ARUNNABLE-lt-gt-TIMED-WAITING"><span class="nav-text">情况七：RUNNABLE &lt;--&gt; TIMED_WAITING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E5%85%AB%EF%BC%9ARUNNABLE-lt-gt-TIMED-WAITING"><span class="nav-text">情况八：RUNNABLE &lt;--&gt; TIMED_WAITING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E4%B9%9D%EF%BC%9ARUNNABLE-lt-gt-BLOCKED"><span class="nav-text">情况九：RUNNABLE &lt;--&gt; BLOCKED</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E5%8D%81%EF%BC%9A-RUNNABLE-lt-gt-TERMINATED"><span class="nav-text">情况十： RUNNABLE &lt;--&gt; TERMINATED</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-10-%E5%A4%9A%E6%8A%8A%E9%94%81"><span class="nav-text">3.10 多把锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-11-%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%B4%BB%E8%B7%83%E6%80%A7"><span class="nav-text">3.11 线程的活跃性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-11-1-%E6%AD%BB%E9%94%81"><span class="nav-text">3.11.1 死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8F%91%E7%94%9F%E6%AD%BB%E9%94%81%E7%9A%84%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6"><span class="nav-text">发生死锁的必要条件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E6%AD%BB%E9%94%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">避免死锁的方法</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-11-2-%E6%B4%BB%E9%94%81"><span class="nav-text">3.11.2 活锁</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E6%B4%BB%E9%94%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">避免活锁的方法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E4%B8%8E%E6%B4%BB%E9%94%81%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">死锁与活锁的区别</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-11-3-%E9%A5%A5%E9%A5%BF"><span class="nav-text">3.11.3 饥饿</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-12-ReentrantLock"><span class="nav-text">3.12 ReentrantLock</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-16-%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98%EF%BC%9A%E5%93%B2%E5%AD%A6%E5%AE%B6%E5%B0%B1%E9%A4%90%E9%97%AE%E9%A2%98"><span class="nav-text">3.16 经典问题：哲学家就餐问题</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-%E5%B9%B6%E5%8F%91%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B"><span class="nav-text">Java 并发多线程编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%85%B1%E4%BA%AB%E6%A8%A1%E5%9E%8B-%E4%B9%8B-%E7%AE%A1%E7%A8%8B"><span class="nav-text">3 共享模型 之 管程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E5%85%B1%E4%BA%AB%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">3.1 共享带来的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-1-%E4%B8%B4%E7%95%8C%E5%8C%BA-Critical-Section"><span class="nav-text">3.1.1 临界区 Critical Section</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-2-%E7%AB%9E%E6%80%81%E6%9D%A1%E4%BB%B6-Race-Condition"><span class="nav-text">3.1.2 竞态条件 Race Condition</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-Synchronized-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">3.2 Synchronized 解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-1-%E8%A7%A3%E5%86%B3%E6%89%8B%E6%AE%B5"><span class="nav-text">3.2.1 解决手段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-2-Synchronized-%E8%AF%AD%E6%B3%95"><span class="nav-text">3.2.2 Synchronized 语法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-3-Synchronized-%E5%9C%A8%E6%96%B9%E6%B3%95%E4%B8%8A"><span class="nav-text">3.2.3 Synchronized 在方法上</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-%E5%8F%98%E9%87%8F%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90"><span class="nav-text">3.3 变量的线程安全分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-1-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%92%8C%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90"><span class="nav-text">3.3.1 成员变量和静态变量的线程安全分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-2-%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90"><span class="nav-text">3.3.2 局部变量线程安全分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-3-%E5%B8%B8%E8%A7%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%B1%BB"><span class="nav-text">3.3.3 常见线程安全类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-4-%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%B1%BB%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-text">3.3.4 不可变类线程安全性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-5-%E4%B9%A0%E9%A2%98"><span class="nav-text">3.3.5 习题</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-Monitor"><span class="nav-text">3.4 Monitor</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-1-Monitor%E5%8E%9F%E7%90%86"><span class="nav-text">3.4.1 Monitor原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-2-%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81"><span class="nav-text">3.4.2 轻量级锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-3-%E9%94%81%E8%86%A8%E8%83%80"><span class="nav-text">3.4.3 锁膨胀</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-4-%E8%87%AA%E6%97%8B%E4%BC%98%E5%8C%96"><span class="nav-text">3.4.4 自旋优化</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%87%AA%E6%97%8B%E6%88%90%E5%8A%9F%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-text">自旋成功的情况</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%87%AA%E6%97%8B%E9%87%8D%E8%AF%95%E5%A4%B1%E8%B4%A5%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-text">自旋重试失败的情况</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-5-%E5%81%8F%E5%90%91%E9%94%81"><span class="nav-text">3.4.5 偏向锁</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%81%8F%E5%90%91%E7%8A%B6%E6%80%81"><span class="nav-text">偏向状态</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%92%A4%E9%94%80%E5%81%8F%E5%90%91"><span class="nav-text">撤销偏向</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E9%87%8D%E5%81%8F%E5%90%91"><span class="nav-text">批量重偏向</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E6%92%A4%E9%94%80"><span class="nav-text">批量撤销</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-Wait-x2F-Notify"><span class="nav-text">3.5 Wait &#x2F; Notify</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-5-1-API%E4%BB%8B%E7%BB%8D"><span class="nav-text">3.5.1 API介绍</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-5-2-wait-%E5%92%8Csleep-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">3.5.2 wait() 和sleep()的区别</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-%E5%90%8C%E6%AD%A5%E6%A8%A1%E5%BC%8F-%E4%B9%8B-%E4%BF%9D%E6%8A%A4%E6%80%A7%E6%9A%82%E5%81%9C"><span class="nav-text">3.6 同步模式 之 保护性暂停</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-6-1-join-%EF%BC%9A%E4%BD%BF%E7%94%A8%E4%BF%9D%E6%8A%A4%E6%80%A7%E6%9A%82%E5%81%9C%E6%A8%A1%E5%BC%8F"><span class="nav-text">3.6.1 join()：使用保护性暂停模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-6-2-%E6%89%A9%E5%B1%95-Future"><span class="nav-text">3.6.2 扩展 - Future</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%BC%8F-%E4%B9%8B-%E7%94%9F%E4%BA%A7%E8%80%85-x2F-%E6%B6%88%E8%B4%B9%E8%80%85"><span class="nav-text">3.7 异步模式 之 生产者&#x2F;消费者</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-7-1-%E8%A6%81%E7%82%B9"><span class="nav-text">3.7.1 要点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-7-2-%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.7.2 实现</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-8-Park-amp-Unpark"><span class="nav-text">3.8 Park &amp; Unpark</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-8-1-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-text">3.8.1 基本使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-8-2-%E7%89%B9%E7%82%B9"><span class="nav-text">3.8.2 特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-8-3-%E5%8E%9F%E7%90%86"><span class="nav-text">3.8.3 原理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2"><span class="nav-text">3.9 线程状态转换</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E4%B8%80%EF%BC%9ANEW-gt-RUNNABLE"><span class="nav-text">情况一：NEW --&gt; RUNNABLE</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E4%BA%8C%EF%BC%9ARUNNABLE-lt-gt-WAITING"><span class="nav-text">情况二：RUNNABLE &lt;--&gt; WAITING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E4%B8%89%EF%BC%9ARUNNABLE-lt-gt-WAITING"><span class="nav-text">情况三：RUNNABLE &lt;--&gt; WAITING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E5%9B%9B%EF%BC%9A-RUNNABLE-lt-gt-WAITING"><span class="nav-text">情况四： RUNNABLE &lt;--&gt; WAITING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E4%BA%94%EF%BC%9A-RUNNABLE-lt-gt-TIMED-WAITING"><span class="nav-text">情况五： RUNNABLE &lt;--&gt; TIMED_WAITING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E5%85%AD%EF%BC%9ARUNNABLE-lt-gt-TIMED-WAITING"><span class="nav-text">情况六：RUNNABLE &lt;--&gt; TIMED_WAITING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E4%B8%83%EF%BC%9ARUNNABLE-lt-gt-TIMED-WAITING"><span class="nav-text">情况七：RUNNABLE &lt;--&gt; TIMED_WAITING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E5%85%AB%EF%BC%9ARUNNABLE-lt-gt-TIMED-WAITING"><span class="nav-text">情况八：RUNNABLE &lt;--&gt; TIMED_WAITING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E4%B9%9D%EF%BC%9ARUNNABLE-lt-gt-BLOCKED"><span class="nav-text">情况九：RUNNABLE &lt;--&gt; BLOCKED</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%83%85%E5%86%B5%E5%8D%81%EF%BC%9A-RUNNABLE-lt-gt-TERMINATED"><span class="nav-text">情况十： RUNNABLE &lt;--&gt; TERMINATED</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-10-%E5%A4%9A%E6%8A%8A%E9%94%81"><span class="nav-text">3.10 多把锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-11-%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%B4%BB%E8%B7%83%E6%80%A7"><span class="nav-text">3.11 线程的活跃性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-11-1-%E6%AD%BB%E9%94%81"><span class="nav-text">3.11.1 死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8F%91%E7%94%9F%E6%AD%BB%E9%94%81%E7%9A%84%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6"><span class="nav-text">发生死锁的必要条件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E6%AD%BB%E9%94%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">避免死锁的方法</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-11-2-%E6%B4%BB%E9%94%81"><span class="nav-text">3.11.2 活锁</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E6%B4%BB%E9%94%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">避免活锁的方法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E4%B8%8E%E6%B4%BB%E9%94%81%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">死锁与活锁的区别</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-11-3-%E9%A5%A5%E9%A5%BF"><span class="nav-text">3.11.3 饥饿</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-11-4-%E6%AD%BB%E9%94%81%E3%80%81%E9%A5%A5%E9%A5%BF%E5%92%8C%E6%AD%BB%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%BC%82%E5%90%8C%E7%82%B9"><span class="nav-text">3.11.4 死锁、饥饿和死循环的异同点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-11-5-%E9%A2%84%E9%98%B2%E6%AD%BB%E9%94%81-%E9%9D%99%E6%80%81%E7%AD%96%E7%95%A5"><span class="nav-text">3.11.5 预防死锁 - 静态策略</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-11-5-1-%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D%E5%9B%BE%EF%BC%88Graphe-d%E2%80%99allocation%EF%BC%89"><span class="nav-text">3.11.5.1 资源分配图（Graphe d’allocation）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-11-5-2-%E6%AD%BB%E9%94%81%E7%9A%84%E8%A7%A3%E9%99%A4"><span class="nav-text">3.11.5.2 死锁的解除</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-11-6-%E9%81%BF%E5%85%8D%E6%AD%BB%E9%94%81-%E5%8A%A8%E6%80%81%E7%AD%96%E7%95%A5"><span class="nav-text">3.11.6 避免死锁 - 动态策略</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-11-6-1-%E5%AE%89%E5%85%A8%E5%BA%8F%E5%88%97"><span class="nav-text">3.11.6.1 安全序列</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-11-6-2-%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95"><span class="nav-text">3.11.6.2 银行家算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-12-ReentrantLock"><span class="nav-text">3.12 ReentrantLock</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-16-%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98%EF%BC%9A%E5%93%B2%E5%AD%A6%E5%AE%B6%E5%B0%B1%E9%A4%90%E9%97%AE%E9%A2%98"><span class="nav-text">3.16 经典问题：哲学家就餐问题</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -1039,13 +1191,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">52k</span>
+    <span title="站点总字数">54k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">47 分钟</span>
+    <span title="站点阅读时长">49 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
