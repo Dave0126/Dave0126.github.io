@@ -20,17 +20,21 @@
     var CONFIG = {"hostname":"dave0126.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="间歇性踌躇满志, 持续性划水摸鱼">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Lost N Found">
-<meta property="og:url" content="https://dave0126.github.io/archives/2022/index.html">
+  <meta name="description" content="Java 并发多线程编程视频课程: BiliBili - 黑马程序员Java并发编程 JUC 笔记参考: Java并发 - Nyima’s Blog  注：本课程笔记基于JDK8，采用lsf4j打印日志">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 并发多线程编程 (JUC) (三)">
+<meta property="og:url" content="https://dave0126.github.io/2022/03/28/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-3/index.html">
 <meta property="og:site_name" content="Lost N Found">
-<meta property="og:description" content="间歇性踌躇满志, 持续性划水摸鱼">
+<meta property="og:description" content="Java 并发多线程编程视频课程: BiliBili - 黑马程序员Java并发编程 JUC 笔记参考: Java并发 - Nyima’s Blog  注：本课程笔记基于JDK8，采用lsf4j打印日志">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-28T20:37:36.000Z">
+<meta property="article:modified_time" content="2022-03-28T20:44:51.888Z">
 <meta property="article:author" content="Guohao">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JUC">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://dave0126.github.io/archives/2022/">
+<link rel="canonical" href="https://dave0126.github.io/2022/03/28/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-3/">
 
 
 <script id="page-configurations">
@@ -38,12 +42,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>归档 | Lost N Found</title>
+  <title>Java 并发多线程编程 (JUC) (三) | Lost N Found</title>
   
 
 
@@ -154,130 +158,137 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 5 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/03/28/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guohao">
+      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost N Found">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java 并发多线程编程 (JUC) (三)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-28 22:37:36 / 修改时间：22:44:51" itemprop="dateCreated datePublished" datetime="2022-03-28T22:37:36+02:00">2022-03-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JUC/" itemprop="url" rel="index"><span itemprop="name">JUC</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>349</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
-    </div>
+        <h2 id="Java-并发多线程编程"><a href="#Java-并发多线程编程" class="headerlink" title="Java 并发多线程编程"></a>Java 并发多线程编程</h2><p>视频课程: <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16J411h7Rd?p=50">BiliBili - 黑马程序员Java并发编程 JUC</a></p>
+<p>笔记参考: <a target="_blank" rel="noopener" href="https://nyimac.gitee.io/2020/06/08/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Java并发 - Nyima’s Blog</a></p>
+<ul>
+<li>注：本课程笔记基于JDK8，采用lsf4j打印日志</li>
+</ul>
+<span id="more"></span>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-03-28T22:37:36+02:00"
-              content="2022-03-28">
-          03-28
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/28/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-3/" itemprop="url">
-            <span itemprop="name">Java 并发多线程编程 (JUC) (三)</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-03-26T15:38:56+01:00"
-              content="2022-03-26">
-          03-26
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/26/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-2/" itemprop="url">
-            <span itemprop="name">Java 并发多线程编程 (JUC) (二)</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-03-23T21:13:13+01:00"
-              content="2022-03-23">
-          03-23
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-1/" itemprop="url">
-            <span itemprop="name">Java 并发多线程编程 (JUC) (一)</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-03-22T22:36:23+01:00"
-              content="2022-03-22">
-          03-22
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/22/JVM-2/" itemprop="url">
-            <span itemprop="name">Java 虚拟机 - JVM 第二讲</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-03-22T21:52:44+01:00"
-              content="2022-03-22">
-          03-22
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/22/JVM-1/" itemprop="url">
-            <span itemprop="name">Java 虚拟机 - JVM 第一讲</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+<h3 id="4-共享模型之内存"><a href="#4-共享模型之内存" class="headerlink" title="4 共享模型之内存"></a>4 共享模型之内存</h3><p>上一章讲解的 Monitor 主要关注的是访问共享变量时，保证临界区代码的原子性</p>
+<p>这一章我们将进一步学习共享变量在多线程间的【可见性】问题与多条指令执行时的【有序性】问题</p>
+<h4 id="4-1-Java-内存模型"><a href="#4-1-Java-内存模型" class="headerlink" title="4.1 Java 内存模型"></a>4.1 Java 内存模型</h4><p>JMM 即 Java Memory Model，它定义了<strong>主存（共享内存）、工作内存（线程私有）</strong>抽象概念，底层对应着 CPU 寄存器、缓存、硬件内存、 CPU 指令优化等。</p>
+<p><strong>JMM体现在以下几个方面</strong></p>
+<ul>
+<li>原子性 - 保证指令不会受到线程上下文切换的影响</li>
+<li>可见性 - 保证指令不会受 cpu 缓存的影响</li>
+<li>有序性 - 保证指令不会受 cpu 指令并行优化的影响</li>
+</ul>
+<p>更新中。。。</p>
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Guohao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://dave0126.github.io/2022/03/28/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-3/" title="Java 并发多线程编程 (JUC) (三)">https://dave0126.github.io/2022/03/28/JUC-Java多线程-3/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/JUC/" rel="tag"># JUC</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/26/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-2/" rel="prev" title="Java 并发多线程编程 (JUC) (二)">
+      <i class="fa fa-chevron-left"></i> Java 并发多线程编程 (JUC) (二)
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
 
@@ -330,6 +341,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-%E5%B9%B6%E5%8F%91%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B"><span class="nav-text">Java 并发多线程编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%85%B1%E4%BA%AB%E6%A8%A1%E5%9E%8B%E4%B9%8B%E5%86%85%E5%AD%98"><span class="nav-text">4 共享模型之内存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="nav-text">4.1 Java 内存模型</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
