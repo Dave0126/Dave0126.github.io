@@ -232,7 +232,6 @@
 <li>注：本课程笔记基于JDK8，采用lsf4j打印日志</li>
 </ul>
 <span id="more"></span>
-
 <h3 id="4-共享模型之内存"><a href="#4-共享模型之内存" class="headerlink" title="4 共享模型之内存"></a>4 共享模型之内存</h3><p>上一章讲解的 Monitor 主要关注的是访问共享变量时，保证临界区代码的原子性</p>
 <p>这一章我们将进一步学习共享变量在多线程间的【可见性】问题与多条指令执行时的【有序性】问题</p>
 <h4 id="4-1-Java-内存模型"><a href="#4-1-Java-内存模型" class="headerlink" title="4.1 Java 内存模型"></a>4.1 Java 内存模型</h4><p>JMM 即 Java Memory Model，它定义了<strong>主存（共享内存）、工作内存（线程私有）</strong>抽象概念，底层对应着 CPU 寄存器、缓存、硬件内存、 CPU 指令优化等。</p>
@@ -282,7 +281,10 @@
     <a href="/2022/03/26/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-2/" rel="prev" title="Java 并发多线程编程 (JUC) (二)">
       <i class="fa fa-chevron-left"></i> Java 并发多线程编程 (JUC) (二)
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/" rel="next" title="Transition System(变迁系统) 与 TLA+ (一)">
+      Transition System(变迁系统) 与 TLA+ (一) <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -355,20 +357,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -405,13 +407,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">66k</span>
+    <span title="站点总字数">69k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:01</span>
+    <span title="站点阅读时长">1:03</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
@@ -477,6 +479,8 @@ if (document.querySelectorAll('pre.mermaid').length) {
 }
 </script>
 
+
+  
 
   
 
