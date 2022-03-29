@@ -33,8 +33,11 @@
 <meta property="og:image" content="https://dave0126.github.io/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-03-29%2013.48.33-8554538.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-03-29%2015.18.04.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-03-29%2015.19.07-8559976.png">
+<meta property="og:image" content="https://dave0126.github.io/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-03-29%2016.53.51-8565663.png">
+<meta property="og:image" content="https://dave0126.github.io/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-03-29%2017.02.57.png">
+<meta property="og:image" content="https://dave0126.github.io/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-03-29%2017.55.30.png">
 <meta property="article:published_time" content="2022-03-29T08:59:58.000Z">
-<meta property="article:modified_time" content="2022-03-29T13:30:24.013Z">
+<meta property="article:modified_time" content="2022-03-29T16:03:16.720Z">
 <meta property="article:author" content="Guohao">
 <meta property="article:tag" content="系统">
 <meta name="twitter:card" content="summary">
@@ -195,7 +198,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-03-29 10:59:58 / 修改时间：15:30:24" itemprop="dateCreated datePublished" datetime="2022-03-29T10:59:58+02:00">2022-03-29</time>
+              <time title="创建时间：2022-03-29 10:59:58 / 修改时间：18:03:16" itemprop="dateCreated datePublished" datetime="2022-03-29T10:59:58+02:00">2022-03-29</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -213,14 +216,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.4k</span>
+              <span>5.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>5 分钟</span>
             </span>
 
         </div>
@@ -360,6 +363,93 @@
 <li>可能有许多的有限状态：Nombre d’états infini possible</li>
 <li>可能有无限的执行：Exécution infinie possible</li>
 </ul>
+<h4 id="表示形式"><a href="#表示形式" class="headerlink" title="表示形式"></a>表示形式</h4><h5 id="显式的表示"><a href="#显式的表示" class="headerlink" title="显式的表示"></a>显式的表示</h5><p>在执行图(Graphe d’exécution) 中显式地给出，例如以图像形式或通过顶点和边的集合。仅适用于<strong>状态和转换数量有限</strong>的变迁系统。</p>
+<h5 id="隐式的表示"><a href="#隐式的表示" class="headerlink" title="隐式的表示"></a>隐式的表示</h5><p>基于变量的变迁系统的三元组$ ⟨V, Init,Trans⟩ $ 中，</p>
+<ul>
+<li>$V = \{ v_1, …, v_n\}$：有限的的变量集；</li>
+<li>$Init(v_1, …, v_n)$ ：定义初始状态并与变量 $v_i$ 相关的谓词（系数）</li>
+<li>$Trans(v_1, …, v_n, {v_1}’, …, {v_n}’)$：谓词定义转换，涉及表示当前状态的变量 $v_i$ 和表示后续状态的变量 ${v_i}’$。</li>
+</ul>
+<h5 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h5><h6 id="有界计数器"><a href="#有界计数器" class="headerlink" title="有界计数器"></a>有界计数器</h6><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (i &lt; N) &#123;</span><br><span class="line">	i = i+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>在显式的表示中，$N = 5$:</li>
+</ol>
+<script type="math/tex; mode=display">
+⟨(0, 1, 2, 3, 4, 5), \{ 0\}, \{ (0,1), (1,2), (2,3), (3,4), (4,5)\}⟩</script><p>​    执行图(Graphe d’exécution)为</p>
+<script type="math/tex; mode=display">
+0 \to 1 \to 2 \to 3 \to 4 \to5</script><ol>
+<li>隐型的表示为：</li>
+</ol>
+<ul>
+<li>$V \triangleq i \in \mathbb{N}$</li>
+<li>$Init \triangleq i = 0$</li>
+<li>$Trans \triangleq i &lt; N \land i’ = i+1$ 或 $Trans \triangleq i’ \leq N \land i’-i=1$ </li>
+</ul>
+<h6 id="循环计数器"><a href="#循环计数器" class="headerlink" title="循环计数器"></a>循环计数器</h6><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	i = (i+<span class="number">1</span>) % N;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>在显式的表示中，$N = 4$:</li>
+</ol>
+<script type="math/tex; mode=display">
+⟨(0, 1, 2, 3, 4), \{ 0\}, \{ (0,1), (1,2), (2,3), (3,4), (4,0)\}⟩</script><p>​    执行图(Graphe d’exécution)为</p>
+<p><img src="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-03-29 16.53.51-8565663.png" alt="2022-03-29 16.53.51" style="zoom:40%;"></p>
+<ol>
+<li>隐型的表示为：</li>
+</ol>
+<ul>
+<li>$V \triangleq i \in \mathbb{N}$</li>
+<li>$Init \triangleq i = 0$</li>
+<li>$Trans \triangleq i’ = (i+1) \mod N $ </li>
+</ul>
+<h6 id="振荡整数"><a href="#振荡整数" class="headerlink" title="振荡整数"></a>振荡整数</h6><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">		i &gt; <span class="number">0</span> -&gt; i = i - <span class="number">1</span>;</span><br><span class="line">	or</span><br><span class="line">  	i &lt; N -&gt; i = i + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>在显式的表示中，$N = 5$:</li>
+</ol>
+<script type="math/tex; mode=display">
+⟨(0, 1, 2, 3, 4, 5), \{ 0\}, \{ (0,1), (1,2), (2,3), (3,4), (4,5), (5,4), (4,3), (3,2), (2,1)\}⟩</script><p>​    执行图(Graphe d’exécution)为</p>
+<p><img src="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-03-29 17.02.57.png" alt="2022-03-29 17.02.57" style="zoom:40%;"></p>
+<ol>
+<li>隐型的表示为：</li>
+</ol>
+<ul>
+<li>$V \triangleq i \in \mathbb{N}$</li>
+<li>$Init \triangleq i = 0$</li>
+<li>$Trans \triangleq (i &gt; 0 \land i’=i-1) \lor (i &lt; N \land i’=i+1) $ 或 $Trans \triangleq \left| i’ -i \right| = 1 \land 0 \leq i’ \leq N$</li>
+</ul>
+<h5 id="表示形式所对应的变迁系统"><a href="#表示形式所对应的变迁系统" class="headerlink" title="表示形式所对应的变迁系统"></a>表示形式所对应的变迁系统</h5><p>对于符号描述$⟨V, Init,Trans⟩$，对应的变迁系统是$⟨S, I, R⟩$，其中：</p>
+<ul>
+<li>$S = \prod_{i \in 1..n} D_i$ ，其中$D_1,…,D_n$ 是变量 $v_1, …, v_n$ 的域（类型）</li>
+<li>$I = \{ (v_1,…,v_n) | Init(v_1, …, v_n)\}$</li>
+<li>$R = \{ ((v_1, …, v_n),({v_1}’, …, {v_n}’)) | Trans(v_1, …, v_n,{v_1}’, …, {v_n}’)\}$</li>
+</ul>
+<h5 id="状态谓词（Predicat-d’etat）"><a href="#状态谓词（Predicat-d’etat）" class="headerlink" title="状态谓词（Prédicat d’état）"></a>状态谓词（Prédicat d’état）</h5><p>状态谓词是与隐式表示的系统的（状态）变量有关的谓词。</p>
+<p>状态谓词可以看作是 S 的一部分的特征函数。</p>
+<h5 id="转换谓词（Predicat-de-transition）"><a href="#转换谓词（Predicat-de-transition）" class="headerlink" title="转换谓词（Prédicat de transition）"></a>转换谓词（Prédicat de transition）</h5><p>转换谓词是与已启动和未启动（状态）变量相关的谓词。</p>
+<p>转换谓词可以看作是 $S × S$ 子集的特征函数。</p>
+<h5 id="实例：谓词"><a href="#实例：谓词" class="headerlink" title="实例：谓词"></a>实例：谓词</h5><p>$V \triangleq n \in \mathbb{N} $ </p>
+<p>$Init \triangleq -5 \leq n \leq 5$</p>
+<p>$Trans \triangleq n \neq 1 \land ((n’ = n/2 \land n \equiv 0[2]) \lor (n’ = (3n+1)/2 \land n \equiv 1[2]))$</p>
+<ul>
+<li><p>Prédicat d’état : $ Init, n &lt; 20 $</p>
+</li>
+<li><p>Prédicat de transition : $Trans, n’ − n &gt; 3$</p>
+</li>
+</ul>
+<h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><h5 id="阻塞（Blocage）"><a href="#阻塞（Blocage）" class="headerlink" title="阻塞（Blocage）"></a>阻塞（Blocage）</h5><h6 id="死锁（Interblocage）"><a href="#死锁（Interblocage）" class="headerlink" title="死锁（Interblocage）"></a>死锁（Interblocage）</h6><p>一个系统有一个死锁  $\triangleq$  存在一个可访问的状态，没有关系 R 的后继。等效地，如果执行（execution）有限，系统就会出现死锁。</p>
+<p>对于建模经典顺序程序的系统，死锁相当于终止。</p>
+<h5 id="可复位（Reinitialisable）"><a href="#可复位（Reinitialisable）" class="headerlink" title="可复位（Réinitialisable）"></a>可复位（Réinitialisable）</h5><p>一个系统可以从任何可访问的状态重置  $\triangleq$  有一个有限轨迹导致一个初始状态。</p>
+<p>这个属性意味着在任何时候，都有一系列的转换（transitions）返回到系统的初始状态，从而重新启动。 这样的系统只有无限的执行。</p>
+<h5 id="重复（Begaiement）"><a href="#重复（Begaiement）" class="headerlink" title="重复（Bégaiement）"></a>重复（Bégaiement）</h5><p>重复状态  $\triangleq$  状态有一个循环：$(s,s) ∈ R$。</p>
+<p>一个重复变迁系统  $\triangleq$  任何状态都有一个到自身的循环：$Id ⊆ R$。</p>
+<p><strong>用处</strong></p>
+<ol>
+<li>我们可以在 $s_0$ 中停留任意时间后进入 $s_1$。</li>
+</ol>
+<p><img src="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-03-29 17.55.30.png" alt="2022-03-29 17.55.30" style="zoom:50%;"></p>
+<ol>
+<li>无限的执行：在无重复系统中，任何没有后继者的状态都有一个独特的后继者：它自己。</li>
+<li>终止状态时（或死锁）$… \to s_i$  就相当于  $… \to {s_i}^w$</li>
+<li>可以组成几个变迁系统。</li>
+</ol>
 
     </div>
 
@@ -457,7 +547,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Transition-System-%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F-%E4%B8%8E-TLA"><span class="nav-text">Transition System(变迁系统) 与 TLA+</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F"><span class="nav-text">变迁系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TLA"><span class="nav-text">TLA+</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BD%A2%E5%BC%8F%E5%8C%96%E9%AA%8C%E8%AF%81"><span class="nav-text">形式化验证</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TLA-1"><span class="nav-text">TLA+</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90"><span class="nav-text">学习资源</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86"><span class="nav-text">第一部分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-text">定义</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F-1"><span class="nav-text">变迁系统</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%EF%BC%88Sequence%EF%BC%89"><span class="nav-text">序列（Séquence）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%89%E9%99%90%E8%BD%A8%E8%BF%B9%EF%BC%88Traces-finies%EF%BC%89"><span class="nav-text">有限轨迹（Traces finies）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E6%9C%89%E9%99%90%E8%BD%A8%E8%BF%B9%EF%BC%88Traces-finies-maximales%EF%BC%89"><span class="nav-text">最大有限轨迹（Traces finies maximales）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%97%A0%E9%99%90%E8%BD%A8%E8%BF%B9%EF%BC%88Trace-infinies%EF%BC%89"><span class="nav-text">无限轨迹（Trace infinies）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9D%A5%E8%87%AA%E7%8A%B6%E6%80%81%E7%9A%84%E8%BD%A8%E8%BF%B9%EF%BC%88Traces-issues-d%E2%80%99un-etat%EF%BC%89"><span class="nav-text">来自状态的轨迹（Traces issues d’un état）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%EF%BC%88Executions%EF%BC%89"><span class="nav-text">执行（Exécutions）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E4%B8%80"><span class="nav-text">练习一</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BE%8B%E4%B8%80"><span class="nav-text">例一</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BE%8B%E4%BA%8C"><span class="nav-text">例二</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BE%8B%E4%B8%89"><span class="nav-text">例三</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E8%AE%BF%E9%97%AE%E7%8A%B6%E6%80%81%EF%BC%88Etats-accessibles%EF%BC%89"><span class="nav-text">可访问状态（Etats accessibles）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E5%9B%BE%EF%BC%88Graphe-des-Executions%EF%BC%89"><span class="nav-text">执行图（Graphe des Exécutions）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A2%AB%E6%A0%87%E8%AE%B0%E7%9A%84%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%EF%BC%88Systeme-de-Transitions-etiquete-%EF%BC%89"><span class="nav-text">被标记的变迁系统（Systeme de Transitions étiqueté ）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F-%E4%B8%8D%E7%AD%89%E4%BA%8E-%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="nav-text">变迁系统 不等于 自动机</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Transition-System-%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F-%E4%B8%8E-TLA"><span class="nav-text">Transition System(变迁系统) 与 TLA+</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F"><span class="nav-text">变迁系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TLA"><span class="nav-text">TLA+</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BD%A2%E5%BC%8F%E5%8C%96%E9%AA%8C%E8%AF%81"><span class="nav-text">形式化验证</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TLA-1"><span class="nav-text">TLA+</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90"><span class="nav-text">学习资源</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86"><span class="nav-text">第一部分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-text">定义</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F-1"><span class="nav-text">变迁系统</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%EF%BC%88Sequence%EF%BC%89"><span class="nav-text">序列（Séquence）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%89%E9%99%90%E8%BD%A8%E8%BF%B9%EF%BC%88Traces-finies%EF%BC%89"><span class="nav-text">有限轨迹（Traces finies）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E6%9C%89%E9%99%90%E8%BD%A8%E8%BF%B9%EF%BC%88Traces-finies-maximales%EF%BC%89"><span class="nav-text">最大有限轨迹（Traces finies maximales）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%97%A0%E9%99%90%E8%BD%A8%E8%BF%B9%EF%BC%88Trace-infinies%EF%BC%89"><span class="nav-text">无限轨迹（Trace infinies）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9D%A5%E8%87%AA%E7%8A%B6%E6%80%81%E7%9A%84%E8%BD%A8%E8%BF%B9%EF%BC%88Traces-issues-d%E2%80%99un-etat%EF%BC%89"><span class="nav-text">来自状态的轨迹（Traces issues d’un état）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%EF%BC%88Executions%EF%BC%89"><span class="nav-text">执行（Exécutions）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0%E4%B8%80"><span class="nav-text">练习一</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BE%8B%E4%B8%80"><span class="nav-text">例一</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BE%8B%E4%BA%8C"><span class="nav-text">例二</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BE%8B%E4%B8%89"><span class="nav-text">例三</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E8%AE%BF%E9%97%AE%E7%8A%B6%E6%80%81%EF%BC%88Etats-accessibles%EF%BC%89"><span class="nav-text">可访问状态（Etats accessibles）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E5%9B%BE%EF%BC%88Graphe-des-Executions%EF%BC%89"><span class="nav-text">执行图（Graphe des Exécutions）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A2%AB%E6%A0%87%E8%AE%B0%E7%9A%84%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%EF%BC%88Systeme-de-Transitions-etiquete-%EF%BC%89"><span class="nav-text">被标记的变迁系统（Systeme de Transitions étiqueté ）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F-%E4%B8%8D%E7%AD%89%E4%BA%8E-%E8%87%AA%E5%8A%A8%E6%9C%BA"><span class="nav-text">变迁系统 不等于 自动机</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E7%A4%BA%E5%BD%A2%E5%BC%8F"><span class="nav-text">表示形式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%98%BE%E5%BC%8F%E7%9A%84%E8%A1%A8%E7%A4%BA"><span class="nav-text">显式的表示</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9A%90%E5%BC%8F%E7%9A%84%E8%A1%A8%E7%A4%BA"><span class="nav-text">隐式的表示</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%9C%89%E7%95%8C%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-text">有界计数器</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-text">循环计数器</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%8C%AF%E8%8D%A1%E6%95%B4%E6%95%B0"><span class="nav-text">振荡整数</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A1%A8%E7%A4%BA%E5%BD%A2%E5%BC%8F%E6%89%80%E5%AF%B9%E5%BA%94%E7%9A%84%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F"><span class="nav-text">表示形式所对应的变迁系统</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E8%B0%93%E8%AF%8D%EF%BC%88Predicat-d%E2%80%99etat%EF%BC%89"><span class="nav-text">状态谓词（Prédicat d’état）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BD%AC%E6%8D%A2%E8%B0%93%E8%AF%8D%EF%BC%88Predicat-de-transition%EF%BC%89"><span class="nav-text">转换谓词（Prédicat de transition）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%EF%BC%9A%E8%B0%93%E8%AF%8D"><span class="nav-text">实例：谓词</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7"><span class="nav-text">属性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%EF%BC%88Blocage%EF%BC%89"><span class="nav-text">阻塞（Blocage）</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%EF%BC%88Interblocage%EF%BC%89"><span class="nav-text">死锁（Interblocage）</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E5%A4%8D%E4%BD%8D%EF%BC%88Reinitialisable%EF%BC%89"><span class="nav-text">可复位（Réinitialisable）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%8D%E5%A4%8D%EF%BC%88Begaiement%EF%BC%89"><span class="nav-text">重复（Bégaiement）</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -521,13 +611,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">69k</span>
+    <span title="站点总字数">71k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:03</span>
+    <span title="站点阅读时长">1:05</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
