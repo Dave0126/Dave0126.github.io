@@ -76,7 +76,7 @@
 <meta property="og:image" content="https://dave0126.github.io/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-04-04%2023.08.46.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-04-04%2023.08.46.png">
 <meta property="article:published_time" content="2022-03-29T08:59:58.000Z">
-<meta property="article:modified_time" content="2022-04-05T10:40:03.442Z">
+<meta property="article:modified_time" content="2022-04-05T10:48:08.809Z">
 <meta property="article:author" content="Guohao">
 <meta property="article:tag" content="系统">
 <meta name="twitter:card" content="summary">
@@ -243,7 +243,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-05 12:40:03" itemprop="dateModified" datetime="2022-04-05T12:40:03+02:00">2022-04-05</time>
+                <time title="修改时间：2022-04-05 12:48:08" itemprop="dateModified" datetime="2022-04-05T12:48:08+02:00">2022-04-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -782,7 +782,7 @@ R \triangleq
 <h3 id="第三部分：Fairness"><a href="#第三部分：Fairness" class="headerlink" title="第三部分：Fairness"></a>第三部分：Fairness</h3><h4 id="线性时间属性LT-Properties"><a href="#线性时间属性LT-Properties" class="headerlink" title="线性时间属性LT Properties"></a>线性时间属性LT Properties</h4><h5 id="刻画线性时间属性-LT-Properties"><a href="#刻画线性时间属性-LT-Properties" class="headerlink" title="刻画线性时间属性(LT Properties)"></a>刻画线性时间属性(LT Properties)</h5><p>因为线性时间属性（LT Properties）是TS中迹的要求，所以在原子命题（AP）上的线性时间属性是$S^{w}$<br>的子集。$S^{w}$表示的是AP中命题的无限级联的集合</p>
 <p>如果AP={a,b}，那么$(2^{AP})^{w}$ 可以表示为</p>
 <script type="math/tex; mode=display">
-\{\{a\}\{a,b\}∅...，\{b\}\{a\}∅∅...，...\}</script><p>类似该集合中的元素，由无限个字符级联在一起组成的序列称为无限字(infinite word)，无限字可以表示为:</p>
+\{\{a\}\{a,b\}\varnothing ...，\{b\}\{a\}\varnothing\varnothing...，...\}</script><p>类似该集合中的元素，由无限个字符级联在一起组成的序列称为无限字(infinite word)，无限字可以表示为:</p>
 <script type="math/tex; mode=display">
 W=A_{0}A_{1}A_{2}...</script><p>当这个序列是有限时，便称为有限字(finite word)，有限字可以表示为:</p>
 <script type="math/tex; mode=display">
@@ -795,7 +795,7 @@ TS \vDash P\text{ 当且仅当}Traces(TS) ⊆ P</script><blockquote>
 <h6 id="刻画基于信号量互斥系统的属性"><a href="#刻画基于信号量互斥系统的属性" class="headerlink" title="刻画基于信号量互斥系统的属性"></a>刻画基于信号量互斥系统的属性</h6><p>一说到信号量和互斥，再次搬出这个例子：</p>
 <p><img src="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/20201118212040185.png" alt="20201118212040185" style="zoom:50%;"></p>
 <p><img src="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/20201118212152854.png" alt="20201118212152854" style="zoom:60%;"></p>
-<p>在这里，AP={crit1, crit2}，这个系统中的约束有一条：</p>
+<p>在这里，$AP=\{crit_1, crit_2\}$，这个系统中的约束有一条：</p>
 <blockquote>
 <p>“Always at most one process is in its critical section”</p>
 <p>就是最多有一个进程能够进入临界区</p>
@@ -1029,7 +1029,7 @@ P=P_{safe}\cap P_{live}</script></li>
 </li>
 <li><p>如果$\rho$是<strong>strongly A-fair</strong>，那么无论何时</p>
 <script type="math/tex; mode=display">
-(\overset{∞}∃ j.Act(s_{j}\cap A\ne ∅)\Rightarrow(\text{if }\overset{∞}\exist j\ge 0,a_{j}∈A)</script><blockquote>
+(\overset{∞}∃ j.Act(s_{j}\cap A\ne ∅)\Rightarrow(\text{if }\overset{∞}∃ j\ge 0,a_{j}∈A)</script><blockquote>
 <p>strongly A-fair的含义是，<strong>存在无限经常次A为enabled时，A中动作将会无限经常次执行</strong>。</p>
 </blockquote>
 </li>
@@ -1514,17 +1514,17 @@ TS\vDash\phi\text{ 当且仅当 }S_{0}\subseteq Sat(\phi) \text{ 当且仅当 }\
 <script type="math/tex; mode=display">
 \frac{\forall \sigma \in Traces(S) : \forall i \ge 0 :a_i \models P}{s \models \forall \Box P}</script><h6 id="s-models-forall-Diamond-P"><a href="#s-models-forall-Diamond-P" class="headerlink" title="$s \models \forall \Diamond P$"></a>$s \models \forall \Diamond P$</h6><p>P 最终为真（未来）</p>
 <script type="math/tex; mode=display">
-\frac{\forall \sigma \in Traces(S) : \exist i \ge 0 :a_i \models P}{s \models \forall \Diamond P}</script><h6 id="s-models-P-forall-mathcal-U-Q"><a href="#s-models-P-forall-mathcal-U-Q" class="headerlink" title="$s \models P\;\forall\;\mathcal{U}\;Q$"></a>$s \models P\;\forall\;\mathcal{U}\;Q$</h6><p>P 最终为真，同时 P 仍然为真</p>
+\frac{\forall \sigma \in Traces(S) : ∃ i \ge 0 :a_i \models P}{s \models \forall \Diamond P}</script><h6 id="s-models-P-forall-mathcal-U-Q"><a href="#s-models-P-forall-mathcal-U-Q" class="headerlink" title="$s \models P\;\forall\;\mathcal{U}\;Q$"></a>$s \models P\;\forall\;\mathcal{U}\;Q$</h6><p>P 最终为真，同时 P 仍然为真</p>
 <script type="math/tex; mode=display">
-\frac{\forall \sigma \in Traces(S) : \exist j \ge 0 :a_j \models Q \land \forall i < j : \sigma_i \models P}{s \models P\;\forall\;\mathcal{U}\;Q}</script><h5 id="存在量词-从-s-开始的至少一条迹线（对于-s-状态）"><a href="#存在量词-从-s-开始的至少一条迹线（对于-s-状态）" class="headerlink" title="存在量词 : 从 s 开始的至少一条迹线（对于 s 状态）"></a>存在量词 : 从 s 开始的至少一条迹线（对于 s 状态）</h5><h6 id="s-models-∃-bigcirc-P"><a href="#s-models-∃-bigcirc-P" class="headerlink" title="$s \models ∃ \bigcirc P$"></a>$s \models ∃ \bigcirc P$</h6><p>P 在下一瞬间为真</p>
+\frac{\forall \sigma \in Traces(S) : ∃ j \ge 0 :a_j \models Q \land \forall i < j : \sigma_i \models P}{s \models P\;\forall\;\mathcal{U}\;Q}</script><h5 id="存在量词-从-s-开始的至少一条迹线（对于-s-状态）"><a href="#存在量词-从-s-开始的至少一条迹线（对于-s-状态）" class="headerlink" title="存在量词 : 从 s 开始的至少一条迹线（对于 s 状态）"></a>存在量词 : 从 s 开始的至少一条迹线（对于 s 状态）</h5><h6 id="s-models-∃-bigcirc-P"><a href="#s-models-∃-bigcirc-P" class="headerlink" title="$s \models ∃ \bigcirc P$"></a>$s \models ∃ \bigcirc P$</h6><p>P 在下一瞬间为真</p>
 <script type="math/tex; mode=display">
-\frac{\exist \sigma \in Traces(S) :a_1 \models P}{s \models \exist \bigcirc P}</script><h6 id="s-models-∃-Box-P"><a href="#s-models-∃-Box-P" class="headerlink" title="$s \models ∃ \Box P$"></a>$s \models ∃ \Box P$</h6><p>P 在每个状态下始终为真</p>
+\frac{∃ \sigma \in Traces(S) :a_1 \models P}{s \models ∃ \bigcirc P}</script><h6 id="s-models-∃-Box-P"><a href="#s-models-∃-Box-P" class="headerlink" title="$s \models ∃ \Box P$"></a>$s \models ∃ \Box P$</h6><p>P 在每个状态下始终为真</p>
 <script type="math/tex; mode=display">
-\frac{\exist \sigma \in Traces(S) : \forall i \ge 0 :a_i \models P}{s \models \exist \Box P}</script><h6 id="s-models-∃-Diamond-P"><a href="#s-models-∃-Diamond-P" class="headerlink" title="$s \models ∃ \Diamond P$"></a>$s \models ∃ \Diamond P$</h6><p>P 最终为真（未来）</p>
+\frac{∃ \sigma \in Traces(S) : \forall i \ge 0 :a_i \models P}{s \models ∃ \Box P}</script><h6 id="s-models-∃-Diamond-P"><a href="#s-models-∃-Diamond-P" class="headerlink" title="$s \models ∃ \Diamond P$"></a>$s \models ∃ \Diamond P$</h6><p>P 最终为真（未来）</p>
 <script type="math/tex; mode=display">
-\frac{\exist \sigma \in Traces(S) : \exist i \ge 0 :a_i \models P}{s \models \exist \Diamond P}</script><h6 id="s-models-P-∃-mathcal-U-Q"><a href="#s-models-P-∃-mathcal-U-Q" class="headerlink" title="$s \models P\;∃\;\mathcal{U}\;Q$"></a>$s \models P\;∃\;\mathcal{U}\;Q$</h6><p>Q 最终为真，同时 P 仍然为真</p>
+\frac{∃ \sigma \in Traces(S) : ∃ i \ge 0 :a_i \models P}{s \models ∃ \Diamond P}</script><h6 id="s-models-P-∃-mathcal-U-Q"><a href="#s-models-P-∃-mathcal-U-Q" class="headerlink" title="$s \models P\;∃\;\mathcal{U}\;Q$"></a>$s \models P\;∃\;\mathcal{U}\;Q$</h6><p>Q 最终为真，同时 P 仍然为真</p>
 <script type="math/tex; mode=display">
-\frac{\exist \sigma \in Traces(S) : \exist j \ge 0 :a_j \models Q \land \forall i < j : \sigma_i \models P}{s \models P\;\exist\;\mathcal{U}\;Q}</script><h5 id="forall-bigcirc-，-∃-bigcirc-图解"><a href="#forall-bigcirc-，-∃-bigcirc-图解" class="headerlink" title="$\forall \bigcirc$，$∃ \bigcirc$ 图解"></a>$\forall \bigcirc$，$∃ \bigcirc$ 图解</h5><p><img src="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-04-04 23.03.07.png" alt="2022-04-04 23.03.07" style="zoom:40%;"></p>
+\frac{∃ \sigma \in Traces(S) : ∃ j \ge 0 :a_j \models Q \land \forall i < j : \sigma_i \models P}{s \models P\;∃\;\mathcal{U}\;Q}</script><h5 id="forall-bigcirc-，-∃-bigcirc-图解"><a href="#forall-bigcirc-，-∃-bigcirc-图解" class="headerlink" title="$\forall \bigcirc$，$∃ \bigcirc$ 图解"></a>$\forall \bigcirc$，$∃ \bigcirc$ 图解</h5><p><img src="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-04-04 23.03.07.png" alt="2022-04-04 23.03.07" style="zoom:40%;"></p>
 <h5 id="forall-Box-，-∃-Box-图解"><a href="#forall-Box-，-∃-Box-图解" class="headerlink" title="$\forall \Box$，$∃ \Box$ 图解"></a>$\forall \Box$，$∃ \Box$ 图解</h5><p><img src="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-04-04 23.07.21.png" alt="2022-04-04 23.07.21" style="zoom:40%;"></p>
 <h5 id="forall-Diamond-，-∃-Diamond-图解"><a href="#forall-Diamond-，-∃-Diamond-图解" class="headerlink" title="$\forall \Diamond$，$∃ \Diamond$ 图解"></a>$\forall \Diamond$，$∃ \Diamond$ 图解</h5><p><img src="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-04-04 23.08.46.png" alt="2022-04-04 23.08.46" style="zoom:40%;"></p>
 <p>$\forall \mathcal{U}$，$∃ \mathcal{U}$ 图解</p>
@@ -1533,7 +1533,7 @@ TS\vDash\phi\text{ 当且仅当 }S_{0}\subseteq Sat(\phi) \text{ 当且仅当 }\
 <ul>
 <li>$∃ \bigcirc P \triangleq \neg \forall \neg P$</li>
 <li>$\forall \Diamond P \triangleq True \; \forall \mathcal{U} P$</li>
-<li>$∃ \Diamond P \triangleq True \; \exist  \mathcal{U} P$</li>
+<li>$∃ \Diamond P \triangleq True \; ∃  \mathcal{U} P$</li>
 <li>$\forall \Box P \triangleq \neg ∃ \Diamond \neg P$</li>
 <li>$∃ \Box P \triangleq \neg \forall \Diamond \neg P$</li>
 </ul>
