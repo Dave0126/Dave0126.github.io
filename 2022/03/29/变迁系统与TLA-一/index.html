@@ -76,7 +76,7 @@
 <meta property="og:image" content="https://dave0126.github.io/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-04-04%2023.08.46.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-04-04%2023.08.46.png">
 <meta property="article:published_time" content="2022-03-29T08:59:58.000Z">
-<meta property="article:modified_time" content="2022-04-05T12:13:19.017Z">
+<meta property="article:modified_time" content="2022-04-11T12:16:12.176Z">
 <meta property="article:author" content="Guohao">
 <meta property="article:tag" content="系统">
 <meta name="twitter:card" content="summary">
@@ -243,7 +243,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-05 14:13:19" itemprop="dateModified" datetime="2022-04-05T14:13:19+02:00">2022-04-05</time>
+                <time title="修改时间：2022-04-11 14:16:12" itemprop="dateModified" datetime="2022-04-11T14:16:12+02:00">2022-04-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -261,7 +261,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>38k</span>
+              <span>39k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -898,7 +898,19 @@ P=P_{safe}\cap P_{live}</script></li>
 <p><img src="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/20201120223125939.png" alt="20201120223125939" style="zoom:60%;"></p>
 </li>
 </ul>
-<h3 id="第四部分：Fairness"><a href="#第四部分：Fairness" class="headerlink" title="第四部分：Fairness"></a>第四部分：Fairness</h3><h4 id="公平性约束-Contraintes-d’equite"><a href="#公平性约束-Contraintes-d’equite" class="headerlink" title="公平性约束 Contraintes d’équité"></a>公平性约束 Contraintes d’équité</h4><p>公平性约束指定在程序的任何执行中必须<strong>经常无限</strong>地访问（或执行）某些状态（某些转换）。</p>
+<h3 id="第四部分：Fairness"><a href="#第四部分：Fairness" class="headerlink" title="第四部分：Fairness"></a>第四部分：Fairness</h3><p>系统的一个重要方面是公平性，公平性排除了被认为是不现实(unrealistic)的无限行为，并且这一步通常是建立活性属性所必需的。</p>
+<p>我们通过在并发系统中经常遇到的一个问题来说明公平的概念：</p>
+<blockquote>
+<p>现有一个并发系统N，有进程 $P_{1},P_{2}…P_{N}$，它们在有需要时就会请求服务，但是现在只有一个服务进程名叫Server会为这些进程提供服务，现在Server采用如下策略：</p>
+<ol>
+<li>从P1开始检查，如果P1请求了服务，那么就为P1提供服务;</li>
+<li>如果P1没有请求，那么就检查下一个进程P2，直到检查完毕，然后从头开始检查……</li>
+</ol>
+<p>我们可以想见，如果P1一直请求服务，那么Server会为P1无限次提供服务，而剩下的进程都会陷入无限等待的过程，这对除P1外的进程来说是是不公平(unfair)的，这种行为就属于不现实的无限行为。</p>
+</blockquote>
+<p>为了获得由TS建模的并行系统的行为的真实描述，我们需要一种另一种形式的LT属性，来解决TS中不确定性决策的问题。</p>
+<p>于是，为了排除上述不现实的行为，我们需要添加公平性约束(Fairness Constraints)，而公平的执行或者轨迹(execute or trace)就是满足了某些公平性约束。</p>
+<h4 id="公平性约束-Contraintes-d’equite"><a href="#公平性约束-Contraintes-d’equite" class="headerlink" title="公平性约束 Contraintes d’équité"></a>公平性约束 Contraintes d’équité</h4><p>公平性约束指定在程序的任何执行中必须<strong>经常无限</strong>地访问（或执行）某些状态（某些转换）。</p>
 <p>通常，公平性约束用于将程序或其环境约束为<strong><u>活性（liveness）</u></strong>，而不涉及有关这些约束的实际实现的细节。</p>
 <p>公平约束通过消除不尊重公平约束的执行来减少合法执行的集合。</p>
 <h5 id="循环状态集-（Ensemble-recurrent-d’etats）"><a href="#循环状态集-（Ensemble-recurrent-d’etats）" class="headerlink" title="循环状态集 （Ensemble recurrent d’etats）"></a>循环状态集 （Ensemble recurrent d’etats）</h5><p>令 $⟨S, I, R⟩$ 是一个变迁系统，且$\sigma = \langle s_0 \to … \rangle$是一段执行。状态集$P$在$\sigma$ 中是循环的，当</p>
@@ -1011,14 +1023,13 @@ P=P_{safe}\cap P_{live}</script></li>
 <blockquote>
 <p>满足 $\{s_3\} ⇒ \{s_4\}$ 条件公平性意味着什么？</p>
 </blockquote>
-<h4 id="关于转换的公平性"><a href="#关于转换的公平性" class="headerlink" title="关于转换的公平性"></a>关于转换的公平性</h4><p>系统的一个重要方面是<strong>公平性</strong>，公平性排除了被认为是<strong>不现实(unrealistic)</strong>的无限行为，并且这一步通常是建立活性属性所必需的。</p>
-<p>我们通过在并发系统中经常遇到的一个问题来说明公平的概念：</p>
-<blockquote>
-<p>现有一个并发系统N，有进程$P_{1},P_{2}…P_{N}$，它们在有需要时就会请求服务，但是现在只有一个服务进程名叫Server会为这些进程提供服务，现在Server采用如下策略：从P1开始检查，如果P1请求了服务，那么就为P1提供服务，如果P1没有请求，那么就检查下一个进程P2，直到检查完毕，然后从头开始检查。我们可以想见，如果P1一直请求服务，那么Server会为P1无限次提供服务，而剩下的进程都会陷入无限等待的过程，这对除P1外的进程来说是是不公平(unfair)的，这种行为就属于不现实的无限行为。</p>
-</blockquote>
-<p>为了获得由TS建模的并行系统的行为的真实描述，我们需要一种另一种形式的LT属性，来解决TS中不确定性决策的问题。</p>
-<p>于是，为了排除上述不现实的行为，我们需要添加<strong>公平性约束(Fairness Constraints)</strong>，而公平的执行或者轨迹(execute or trace)就是满足了某些公平性约束。</p>
-<h5 id="基于动作的公平性约束"><a href="#基于动作的公平性约束" class="headerlink" title="基于动作的公平性约束"></a>基于动作的公平性约束</h5><p>如何表述这类公平性约束？这里采用基于动作(action)的观点</p>
+<h4 id="关于转换的公平性"><a href="#关于转换的公平性" class="headerlink" title="关于转换的公平性"></a>关于转换的公平性</h4><h5 id="基于动作的公平性约束"><a href="#基于动作的公平性约束" class="headerlink" title="基于动作的公平性约束"></a>基于动作的公平性约束</h5><p>如何表述这类公平性约束？这里采用基于动作(action)的观点</p>
+<p>公平属性是 <a target="_blank" rel="noopener" href="https://wikichi.icu/wiki/Precondition">前提条件</a> 施加在系统上以排除不切实际的痕迹。</p>
+<ul>
+<li>无条件公平的形式是<strong>“每个过程都会无休止地轮流使用”</strong>。</li>
+<li>强公平性 (SF) 的形式是<strong>“如果无限频繁地启用它，则每个过程都将无限次地轮流运行”</strong>。</li>
+<li>弱公平性 (WF) 的形式是<strong>“如果从某个特定点连续进行，则每个过程都会无限制地轮流转动”</strong>。</li>
+</ul>
 <p>对于一个没有终止状态的$TS=⟨S,I,R⟩$，$ \alpha ⊆ Act$，TS上的无限执行片段$ρ =s{0}\xrightarrow{α{0}} s{1}\xrightarrow{α{1}}…$，公平约束具有三种：</p>
 <ol>
 <li><p>如果$\rho$是<strong>无条件公平性（unconditionally A-fair）</strong>，那么无论何时</p>
@@ -1040,7 +1051,7 @@ P=P_{safe}\cap P_{live}</script></li>
 </ol>
 <p><img src="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/20201126194333746.png" alt="20201126194333746" style="zoom:70%;"></p>
 <blockquote>
-<p>strong和weak这俩引入了enabled这个概念，</p>
+<p>strong和weak引入了enabled这个概念，</p>
 <p>strongly A-fair要求在enable的片段中动作能够无限经常次执行，而在not enabled的片段中没有规定</p>
 <p>weakly A-fair则是，不管之前如何，如果在某一个时间点之后，动作持续一直enabled，那么在这片段中动作要求能够无限经常次执行。</p>
 <p>从上面的定义中我们可以容易得到</p>
@@ -1112,7 +1123,7 @@ P=P_{safe}\cap P_{live}</script></li>
 \frac{\forall k \ge 0 :(\sigma ,i+k) \models P}{(\sigma,i) \models \Box P}</script><h6 id="P-rightsquigarrow-Q"><a href="#P-rightsquigarrow-Q" class="headerlink" title="$P \rightsquigarrow Q$"></a>$P \rightsquigarrow Q$</h6><script type="math/tex; mode=display">
 \frac{\{\forall k \ge 0 :(\sigma ,i+k) \models P \} \Rightarrow \{∃ k' \ge k :(\sigma ,i+k') \models Q\} } { (\sigma,i) \models P \rightsquigarrow Q}</script><h5 id="简化为纯逻辑"><a href="#简化为纯逻辑" class="headerlink" title="简化为纯逻辑"></a>简化为纯逻辑</h5><p>线性时序逻辑具有这样的表达能力，以至于它可以准确地表示根据转换系统描述的任何操作规范，因此：</p>
 <ul>
-<li>检查转换系统 M 是否具有时间属性 $F_{\mathcal{S}pec}$：</li>
+<li>检查变迁系统 M 是否具有时间属性 $F_{\mathcal{S}pec}$：</li>
 </ul>
 <script type="math/tex; mode=display">
 \mathcal{M} \models F_{\mathcal{S}pec}</script><ul>
@@ -1183,24 +1194,31 @@ F_{\mathcal{M}} ⇒ F_{\mathcal{S}pec}</script>其中 $F_{\mathcal{M}}$ 是一�
 <tr>
 <td>$s_0 \mathcal{U} s_1$</td>
 <td>$n ({s_0}^ω) $</td>
-<td>o</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
+<td>o：</td>
 </tr>
 </tbody>
 </table>
 </div>
+<blockquote>
+<p>个人理解：以例1中的第一行 $s_0 \land \bigcirc s_0$ 为例，可以将其视为一个条件，意为在该条件下是否满足“无公平性” 和 “$WF(s_1,s_2)$”：</p>
+<p>$s_0 \land \bigcirc s_0$ 意为 “当前为 $s_0$ 并且 下一个为 $s_0$“，此时我们需要找出有否所有的迹都符合该条件。</p>
+<ol>
+<li><p>对于“无公平性”：由图可见存在一个迹 $\sigma = ⟨s_0 \to {s_1}^w⟩$ ，并不符合$s_0 \land \bigcirc s_0$ ： “当前为 $s_0$ 并且 下一个为 $s_0$“条件，所以为<code>n(means no)</code>。</p>
+</li>
+<li><p>对于“$WF(s_1, s_2)$”：</p>
+</li>
+</ol>
+</blockquote>
 <h5 id="例2"><a href="#例2" class="headerlink" title="例2"></a>例2</h5><p><img src="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/2022-04-03 17.34.49.png" alt="2022-04-03 17.34.49" style="zoom:50%;"></p>
+<p>$Exec(S) = ⟨s_0 \to {s_1}^w⟩, ⟨(s_0 \to {s_1}^+)^w⟩, ⟨s_0 \to {s_1}^+ \to {s_2}^w⟩$</p>
 <div class="table-container">
 <table>
 <thead>
 <tr>
 <th></th>
 <th>无公平性</th>
-<th>$\mathcal{W_{eak}F_{airness}}$</th>
-<th>$\mathcal{S_{trong}F_{airness}}$</th>
+<th>$\mathcal{W_{eak}F_{airness}}(s_1,s_2)$</th>
+<th>$\mathcal{S_{trong}F_{airness}}(s_1,s_2)$</th>
 </tr>
 </thead>
 <tbody>
@@ -1272,7 +1290,7 @@ F_{\mathcal{M}} ⇒ F_{\mathcal{S}pec}</script>其中 $F_{\mathcal{M}}$ 是一�
 </tbody>
 </table>
 </div>
-<h4 id="时间逻辑TL属性"><a href="#时间逻辑TL属性" class="headerlink" title="时间逻辑TL属性"></a>时间逻辑TL属性</h4><h5 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h5><p>没有什么不好的事情发生（<a href="https://dave0126.github.io/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/#%E5%AE%89%E5%85%A8%E6%80%A7-Safety-Properties-%E5%92%8C%E4%B8%8D%E5%8F%98%E6%80%A7-Invariants">详见第三部分</a>）= 在执行的有限前缀上无效的属性：</p>
+<h4 id="时间逻辑TL属性"><a href="#时间逻辑TL属性" class="headerlink" title="时间逻辑TL属性"></a>时间逻辑TL属性</h4><h5 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h5><p>没有什么不好的事情发生（<a href="https://dave0126.github.io/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/#%E5%AE%89%E5%85%A8%E6%80%A7-safety">详见第三部分</a>）= 在执行的有限前缀上无效的属性：</p>
 <ul>
 <li>$\Box P$, $\Box (P ⇒ \Box P)$, $P \mathcal{W} Q$, …</li>
 </ul>
@@ -1286,7 +1304,7 @@ F_{\mathcal{M}} ⇒ F_{\mathcal{S}pec}</script>其中 $F_{\mathcal{M}}$ 是一�
 <li>Reponse: $\Box \Diamond P$</li>
 <li>Persistance: $\Diamond \Box P$</li>
 </ul>
-<h5 id="不变性"><a href="#不变性" class="headerlink" title="不变性"></a>不变性</h5><p>指定系统可达状态的超集（<a href="https://dave0126.github.io/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/#%E4%B8%8D%E5%8F%98%E6%80%A7">详见第三部分</a>）：</p>
+<h5 id="不变性"><a href="#不变性" class="headerlink" title="不变性"></a>不变性</h5><p>指定系统可达状态的超集（<a href="https://dave0126.github.io/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/#%E4%B8%8D%E5%8F%98%E6%80%A7-Invariants">详见第三部分</a>：</p>
 <script type="math/tex; mode=display">
 \mathcal{S} \models \Box P</script><p>其中 P 是状态谓词。</p>
 <h5 id="稳定性"><a href="#稳定性" class="headerlink" title="稳定性"></a>稳定性</h5><p>指定情况发生时的稳定性：</p>
@@ -1614,7 +1632,10 @@ S \models F，或\; S \models \neg F，
     <a href="/2022/03/28/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-3/" rel="prev" title="Java 并发多线程编程 (JUC) (三)">
       <i class="fa fa-chevron-left"></i> Java 并发多线程编程 (JUC) (三)
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/" rel="next" title="事务 Transaction 简介">
+      事务 Transaction 简介 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -1687,20 +1708,20 @@ S \models F，或\; S \models \neg F，
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1737,13 +1758,13 @@ S \models F，或\; S \models \neg F，
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">104k</span>
+    <span title="站点总字数">113k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:35</span>
+    <span title="站点阅读时长">1:43</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
