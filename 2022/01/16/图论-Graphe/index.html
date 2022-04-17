@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dave0126.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="图论前言本文章是根据法国国立高等电力技术、电子学、计算机、水力学与电信学校 (E.N.S.E.E.I.H.T.) 第七学期课程“Graph Theory” 总结而来的课程笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。 参考：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图论 复习笔记">
+<meta property="og:url" content="https://dave0126.github.io/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/index.html">
+<meta property="og:site_name" content="Lost N Found">
+<meta property="og:description" content="图论前言本文章是根据法国国立高等电力技术、电子学、计算机、水力学与电信学校 (E.N.S.E.E.I.H.T.) 第七学期课程“Graph Theory” 总结而来的课程笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。 参考：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://dave0126.github.io/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-16%2016.15.46.png">
+<meta property="og:image" content="https://dave0126.github.io/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/4-tournament.svg.png">
+<meta property="og:image" content="https://dave0126.github.io/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-16%2018.25.30.png">
+<meta property="og:image" content="https://dave0126.github.io/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-16%2018.36.59.png">
+<meta property="article:published_time" content="2022-01-16T13:08:24.000Z">
+<meta property="article:modified_time" content="2022-04-17T10:37:21.477Z">
+<meta property="article:author" content="Guohao">
+<meta property="article:tag" content="图论">
+<meta property="article:tag" content="课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dave0126.github.io/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-16%2016.15.46.png">
+
+<link rel="canonical" href="https://dave0126.github.io/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>图论 复习笔记 | Lost N Found</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Lost N Found" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Lost N Found</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/Dave0126" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guohao">
+      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost N Found">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图论 复习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-16 14:08:24" itemprop="dateCreated datePublished" datetime="2022-01-16T14:08:24+01:00">2022-01-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-17 12:37:21" itemprop="dateModified" datetime="2022-04-17T12:37:21+02:00">2022-04-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">课程笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="图论"><a href="#图论" class="headerlink" title="图论"></a>图论</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本文章是根据法国国立高等电力技术、电子学、计算机、水力学与电信学校 (E.N.S.E.E.I.H.T.) 第七学期课程<em>“Graph Theory”</em> 总结而来的课程笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。</p>
+<p>参考：</p>
+<span id="more"></span>
+<h3 id="第一部分：基本概念及定义"><a href="#第一部分：基本概念及定义" class="headerlink" title="第一部分：基本概念及定义"></a>第一部分：基本概念及定义</h3><h4 id="无向图"><a href="#无向图" class="headerlink" title="无向图"></a>无向图</h4><h5 id="图"><a href="#图" class="headerlink" title="图"></a>图</h5><p>一个有限图 $G = (V,E)$ 由<strong>非空</strong>(non vide) <strong>有限</strong>(fini) <strong>顶点集</strong> (sommets / vertex) $V$</p>
+<script type="math/tex; mode=display">
+V = \{ v_0, v_1,...,v_{n-1}\}</script><p>和<strong>有限边集</strong>(Arête / Edge) $E$ 组成。</p>
+<script type="math/tex; mode=display">
+E = \{ e_0, e_1,...,e_{n-1}\}</script><p>其中，每个<strong>边</strong>由一对<strong>顶点</strong> $\{ v_i, v_j\}$ 构成。<strong>顶点数</strong>又被称为图的<strong>阶数</strong>(ordre)。</p>
+<p><strong>相关概念：</strong></p>
+<ul>
+<li>如果 $n = nb(V)$，那么我们称该图 $G = (V,E)$ 是一个 <strong>$n阶图$ (ordre)</strong>;</li>
+<li>如果 $e = \{v_i, v_j\}$，我们说边 $e$ 与顶点 $v_i$ 和  $v_j$ <strong>相关 (incidente)</strong>;</li>
+<li>如果 $e = \{v_i,v_j\}$，我们说 $v_i$ 和 $v_j$ 是<strong>邻接的 (adjacents)</strong>;</li>
+<li>两条<strong>边</strong>是<strong>相邻</strong>的当且仅当它们有一个<strong>共同的顶点</strong>;</li>
+<li>$e = \{v_i, v_i\}$ 是一个<strong>环 (boucle)</strong>;</li>
+<li>两个节点之间可能有多条边的图称为<strong>多重图 (multigraphe)</strong>。</li>
+<li>一个图是<strong>简单的 (simple)</strong>，当且仅当<ul>
+<li>没有<strong>环 (boucle)</strong>，</li>
+<li>两个顶点之间最多有一条边 (无重边);</li>
+</ul>
+</li>
+<li>一个顶点在图中的<strong>度</strong> (<strong>degree</strong>) $δ(v_i)$ 为 与这个顶点 $v_i$ 相<strong>连接的边的数目</strong>;</li>
+<li>如果每个顶点彼此相邻，即每两个顶点间都有边相连，则称该图是<strong>完全(complet)</strong>图;</li>
+</ul>
+<blockquote>
+<p>Q1 : n阶简单完全图的边数是多少？</p>
+<script type="math/tex; mode=display">
+\# E(n阶简单完全图) = \tfrac{n(n-1)}{n}</script></blockquote>
+<ul>
+<li>无向图中，所有顶点度数之和 $∑deg(v)=2|E|$，即<strong>奇数度的顶点数必是偶数</strong>。</li>
+</ul>
+<blockquote>
+<p>思考：一种“从无到有”的推广假设</p>
+<ol>
+<li>连接两个偶度顶点，这个时候奇度顶点的数量增加2；</li>
+<li>连接两个奇度顶点，这个时候奇度顶点的数量减少2；</li>
+<li>连接一个奇度顶点和一个偶度顶点，奇度顶点的数量不变。</li>
+</ol>
+</blockquote>
+<ul>
+<li><strong>$k$-正则图 (k-regulier)</strong>是指所有顶点的度都为 $k$ 的图;</li>
+</ul>
+<h4 id="有向图"><a href="#有向图" class="headerlink" title="有向图"></a>有向图</h4><p>如果一个图 $G = (V,E)$ 的点对(或边)是有序的，那么图 $G$ 就是<strong>有向的(orienté)</strong>。</p>
+<p><strong>相关概念：</strong></p>
+<ul>
+<li>在一个有向弧 $e =(i,j)$ 中，$i$ 被称为 $e$ 的起点(l’origine), $j$ 是 $e$ 的终点( l’arrivée);</li>
+<li>对于顶点$v$，<strong>出度</strong> $δ^+(v)$ 是以 $v$ 为起点的弧的数量;</li>
+<li><strong>入度</strong> $δ^−(v)$ 是以 $v$ 为终点的弧的数量;</li>
+<li>总度数 $δ(v) = δ^+(v) + δ^−(v)$ , $∑_{v \in V} δ(v) = 2 \times nb(E)$。</li>
+</ul>
+<h4 id="子图（sous-graphe）"><a href="#子图（sous-graphe）" class="headerlink" title="子图（sous-graphe）"></a>子图（sous-graphe）</h4><p>由图 $G = (V,E)$ 的顶点 $V$的子集 $V ‘ ⊂ V$ 生成的 $G’ = (V’ , E’ )$ 是 $G$ 的子图。其中 $E’$ 表示 $E$ 的两个端点都在 $V’$ 中的所有边。</p>
+<script type="math/tex; mode=display">
+G=(V,E) \quad \stackrel{V'⊂V} \longrightarrow \quad G'=(V',E')</script><ul>
+<li>子图：点和边都能在原图中找到</li>
+<li>母图：原图</li>
+<li>真子图：不等于母图的子图</li>
+<li>生成子图：包含所有顶点的子图</li>
+<li>基础简单图：从一个图中去掉所有重边及环后所得的剩余图称为基础简单图</li>
+<li>点导出子图：顶点是原图顶点的子集且加入两端都在子集中的边构成的图</li>
+<li>边导出子图：由原图边集的子集及其所有端点构成的图</li>
+</ul>
+<h5 id="完全子图"><a href="#完全子图" class="headerlink" title="完全子图"></a>完全子图</h5><script type="math/tex; mode=display">
+IF(子图 \; is\; 完全图)\quad THEN(完全子图)</script><h5 id="团（clique）"><a href="#团（clique）" class="headerlink" title="团（clique）"></a>团（clique）</h5><p>$G$ 的完全子图是 $G$ 的团，当且仅当 $G’$ 不包含在 $G$ 的更大的完全子图中，也就是说 $G’$ 是 $G$ 的极大完全子图。</p>
+<p><img src="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-16 16.15.46.png" alt="2022-04-16 16.15.46" style="zoom:40%;"></p>
+<p>由上图所示，1 和 2 就是原图的两个团。其中 1 是最大团。</p>
+<h5 id="最大团"><a href="#最大团" class="headerlink" title="最大团"></a>最大团</h5><p>$G$ 的最大团是指 $G$ 的所有团中，含顶点数最大的团，比如说 1 就是最大团。</p>
+<h4 id="部分图（graphe-partiel）"><a href="#部分图（graphe-partiel）" class="headerlink" title="部分图（graphe partiel）"></a>部分图（graphe partiel）</h4><p>由 $E’ ⊂ E$ 生成的 $G = (V,E)$ 的部分图是图 $G’= (V,E’)$。</p>
+<script type="math/tex; mode=display">
+G=(V,E) \quad \stackrel{E'⊂E} \longrightarrow \quad G'=(V,E')</script><h4 id="关联矩阵（matrice-d’incidence）"><a href="#关联矩阵（matrice-d’incidence）" class="headerlink" title="关联矩阵（matrice d’incidence）"></a>关联矩阵（matrice d’incidence）</h4><p>设任意图 $G=(V,E)$，其中顶点集 $V=v_1,v_2,…,v_n$，边集 $E=e_1,e_2,…,e_ε$。用 $m_{ij}$ 表示顶点 $v_i$ 与边 $e_j$ 关联的次数，可能取值为 $0,1,2,…$，称所得矩阵 $\mathcal{M}(G)=(m_{ij})_{n×ε}$ 为图G的<strong>关联矩阵</strong></p>
+<p>类似地，有向图 $D$ 的关联矩阵 $\mathcal{M}(D)=(m_{ij})_{n×ε}$的元素 $m_{i×j}$定义为：</p>
+<script type="math/tex; mode=display">
+m_{ij}=\begin{cases}
+1 \qquad v_i是有向边a_j的始点\\
+-1 \qquad v_i是有向边a_j的终点\\
+0 \qquad v_i是有向边a_j的不关联点
+\end{cases}</script><h4 id="邻接矩阵（matrice-d’adjacence）"><a href="#邻接矩阵（matrice-d’adjacence）" class="headerlink" title="邻接矩阵（matrice d’adjacence）"></a>邻接矩阵（matrice d’adjacence）</h4><p>设无向图 $G=(V,E)$ ，其中顶点集$V=v_1,v_2,…,v_n$，边集 $E=e_1,e_2,…,e_ε$。用 $a_{ij}$ 表示顶点 $v_i$ 与顶点 $v_j$ 之间的边数，可能取值为 $0,1,2,…$，称所得矩阵 $A=A(G)=(a_{ij})_{n×n}$ 为图$G$ 的邻接矩阵</p>
+<p><strong>若干性质：</strong></p>
+<ul>
+<li>$\mathcal{A}(G)$ 为对称矩阵</li>
+<li>若 $G$ 为无环图，则 $\mathcal{A}(G)$ 中第 $i$ 行（列）的元素之和等于顶点 $v_i$ 的度</li>
+<li>两图 $G$ 和 $H$ <strong>同构</strong>的充要条件是存在置换矩阵 $\mathcal{P}$ 使得 $\mathcal{A}(G) = \mathcal{P}^T\mathcal{A}(H) \mathcal{P}$</li>
+</ul>
+<p>类似地，有向图 $D$ 的邻接矩阵$=\mathcal{A}(D)(a_{ij})_{n×n}$， $a_{ij}$ 表示从始点 $v_i$ 到终点 $v_j$ 的<strong>有向边的条数</strong>，其中 $v_i$ 和 $v_j$ 为 $D$ 的顶点。</p>
+<blockquote>
+<p>示例，求图中有向图的邻接矩阵和关联矩阵（图中边上的数字为<em>边的编号</em>，而非权重）：</p>
+<p><img src="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/4-tournament.svg.png" alt="4-tournament.svg" style="zoom:15%;"></p>
+<p>邻接矩阵为：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+0 & 1 & 0 & 1\\
+0 & 0 & 0 & 1\\
+1 & 1 & 0 & 0\\
+0 & 0 & 1 & 0
+\end{bmatrix}</script><p>关联矩阵为：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+1 & 0 & 0 & -1 & 1 & 0\\
+-1 & 1 & 0 & 0 & 0 & -1\\
+0 & 0 & -1 & 1 & 0 & 1\\
+0 & -1 & 1 & 0 & -1 & 0
+\end{bmatrix}</script></blockquote>
+<h4 id="加权图（graphe-pondere）"><a href="#加权图（graphe-pondere）" class="headerlink" title="加权图（graphe pondéré）"></a>加权图（graphe pondéré）</h4><p>如果每条弧与<strong>正</strong>的实际权重 (poids) 相关联，则对图进行加权。</p>
+<h3 id="第二部分：连通"><a href="#第二部分：连通" class="headerlink" title="第二部分：连通"></a>第二部分：连通</h3><h4 id="链（Chaine）"><a href="#链（Chaine）" class="headerlink" title="链（Chaîne）"></a>链（Chaîne）</h4><p>长度为 $q ∈ N$ 的链 $(e_1, …, e_q)$ 是 $q$ 个<strong>连续相邻边的序列</strong>。 因此存在一个顶点序列 $(v_1,…,v_{q+1})$，使得 $v_i$ 是 $e_{i-1}$ 和 $e_i$ 的端点。</p>
+<p>链也可称为<strong>路径 (chemin)</strong>。</p>
+<p><strong>相关概念：</strong></p>
+<ul>
+<li>该链被称为连接 顶点 $v_1$ 和 $v_{q+1}$ 的链；</li>
+<li><strong>简单链 (simple)</strong>：在边的序列中各边互不相同</li>
+<li><strong>基本链 (élémentaire)</strong>：在顶点的序列中各顶点互不相同</li>
+<li>如果 $v_1 = v_{q+1}$，则链是<strong>闭合 (fermée)</strong>的；</li>
+<li>$q$ 是链的长度。</li>
+</ul>
+<h4 id="环（Cycle）"><a href="#环（Cycle）" class="headerlink" title="环（Cycle）"></a>环（Cycle）</h4><ul>
+<li>环是一个<strong>闭合 (fermée)</strong>的单链；</li>
+<li>两个顶点间的<strong>距离 (Distance)</strong> 是两个顶点间<strong>最短链的长度</strong>；</li>
+<li>图的<strong>直径 (Diamètre)</strong> 是图的两个顶点之间的<strong>最大距离</strong>。 如果有未连接的顶点，则为 $+∞$（连接性的定义在后面）。</li>
+<li>如果遍历的顶点除了第一个和最后一个之外是互不相同的，则环是<strong>基本的 (élémentaire)</strong>。</li>
+</ul>
+<blockquote>
+<p>​    例1：在下图的无向图中，</p>
+<p><img src="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-16 18.25.30.png" alt="截屏2022-04-16 18.25.30" style="zoom:30%;"></p>
+<ol>
+<li>链 $(1,2,5,1,3,5,1)$ 是一条<strong>非基本 (non-élémentaire) 闭合 (fermée) 链</strong></li>
+<li>链 $(1,2,5,1,3,)$ 是一条<strong>非基本 (non-élémentaire) 非闭合 (non-fermée) 链</strong></li>
+<li>基本环（基本闭合链）：$(1,2,5,1)$</li>
+<li>非基本环（非基本闭合链）：$(1,2,5,1,3,5,4,1)$</li>
+</ol>
+<p>例2 ：在下图的有向图中，</p>
+<p><img src="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-16 18.36.59.png" alt="2022-04-16 18.36.59" style="zoom:33%;"></p>
+<ol>
+<li><strong>基本路径 (chemin: non-fermée)</strong> ：$(1,4,2,3)$</li>
+<li>非基本路径：$(1,3,1,4)$</li>
+<li>基本<strong>环 (circuit)</strong>：$(1,4,2,3,1)$</li>
+<li>非基本<strong>环 (circuit)</strong>：$(1,3,1,4,2,1)$</li>
+</ol>
+</blockquote>
+<h4 id="连通图（Graphe-connexe）"><a href="#连通图（Graphe-connexe）" class="headerlink" title="连通图（Graphe connexe）"></a>连通图（Graphe connexe）</h4><ul>
+<li>在一个<strong>无向图</strong> $G$ 中，若从顶点 ${ v_{i}}$ 到顶点 $v_{j}$ 有路径<strong>相连</strong>（当然从 $v_{j}$ 到 $ v_{i}$也一定有路径），则称$ v_{i}$ 和 $v_{j}$ 是<strong>连通 (connexe)</strong>的。</li>
+<li>如果 $G$ 是<strong>有向图</strong>，那么连接 $v_{i}$ 和 $v_{j}$ 的路径中所有的边都必须<strong>同向</strong>。</li>
+<li>如果图中<strong>任意两点都是连通的</strong>，那么图被称作<strong>连通图</strong>。图的连通性是图的基本性质。连通度是指为了让图分解成孤立的子图所要删除的顶点数的最小值。</li>
+</ul>
+<h5 id="弱连通"><a href="#弱连通" class="headerlink" title="弱连通"></a>弱连通</h5><p>一个有向图被称作<strong>弱连通</strong>(<strong>weakly connected</strong>)的，如果将所有有向边替换为无向边之后的无向图是连通的，如果对于任意一对顶点 $u$ ，$v$，或者存在一条从 $u$ 到 $v$ 的有向路径，或者存在一条从 $u$ 到 $v$ 的有向路径，则该图是<strong>单连通</strong>(<strong>unilaterally conncected</strong>)的。</p>
+<script type="math/tex; mode=display">
+对于任意一对顶点(u,v),\; 存在路径u \to v,\; 不存在路径v\to u</script><h5 id="强连通"><a href="#强连通" class="headerlink" title="强连通"></a>强连通</h5><p>如果对于如果对于任意一对顶点 $u$，$v$，同时存在一条从 $u$ 到 $v$ 的有向路径和一条从 $v$ 到 $u$ 的有向路径，则该图是<strong>强连通</strong>(<strong>strongly connected</strong>)的</p>
+<script type="math/tex; mode=display">
+对于任意一对顶点(u,v),\; 存在路径u \to v,\; 且存在路径v\to u</script><h4 id="二元关系"><a href="#二元关系" class="headerlink" title="二元关系"></a>二元关系</h4><p>集合 $X$ 与集合 $Y$ 上的二元关系是 $\mathcal{R}=(X,Y,G(\mathcal{R}))$，其中 $G(\mathcal{R})$，称为 $\mathcal{R}$ 的<strong>图</strong>，是笛卡儿积 $X\times Y$ 的子集。若 $(x,y) ∈ G(\mathcal{R})$ ，则称 $x\;与\;y\;有关系于 \mathcal{R}$，并记作 $x\mathcal{R}y$ 或 $\mathcal{R}(x,y)$。</p>
+<p>否则称 $x \; 与 \; y \; 无关系\mathcal{R}$。但经常地我们把关系与其图等同起来，即：若 $\mathcal{R}⊆X×Y$，则 $\mathcal{R}$ 是一个关系。</p>
+<h5 id="关系的性质"><a href="#关系的性质" class="headerlink" title="关系的性质"></a>关系的性质</h5><p>关系的性质主要有以下五种：自反性，反自反性，对称性，反对称性和传递性。</p>
+<ul>
+<li><strong>自反性 (réfexivité)</strong>：在集合 $X$ 上的关系 $\mathcal{R}$ ，如对任意 $x \in E$，有 $(x,x) \in \mathcal{R}$，则称<em>R</em>是自反的。</li>
+</ul>
+<script type="math/tex; mode=display">
+\forall x \in E,\quad x \mathcal{R} x</script><ul>
+<li>非自反性（自反性的否定的强型式）：在集合 $X$ 上的关系 $\mathcal{R}$ ，如对任意 $x\in X$，有 $(x,x)\notin R$，则称R是非自反的。</li>
+</ul>
+<script type="math/tex; mode=display">
+\forall x\in A, (x,x)\notin \mathcal{R}</script><ul>
+<li><strong>对称性 (symétrie)</strong>：在集合 $X$ 上的关系 $\mathcal{R}$，如果有 $(x,y) \in \mathcal{R}$ 则必有  $(y,x) \in \mathcal{R}$，则称R是对称的。</li>
+</ul>
+<script type="math/tex; mode=display">
+\forall (x,y) \in E^2,\quad x \mathcal{R} y \Rightarrow y \mathcal{R} x</script><ul>
+<li>非对称性（对称性的否定的强形式）：</li>
+</ul>
+<script type="math/tex; mode=display">
+\forall (x,y) \in E^2, \quad (x,y) \in \mathcal{R} \Rightarrow (y,x) \notin \mathcal{R}</script><ul>
+<li>反对称性（不是对称性的否定）：</li>
+</ul>
+<script type="math/tex; mode=display">
+\forall (x,y) \in E^2, \quad ((x \mathcal{R} y) \land (y \mathcal{R} x) \Rightarrow x=y)</script><ul>
+<li><strong>传递性 (transitivité)</strong>：</li>
+</ul>
+<script type="math/tex; mode=display">
+\forall (x,y,z) \in E^3, \quad ((x \mathcal{R} y) \land (y \mathcal{R} z) \Rightarrow x \mathcal{R} z</script><p>设 $\mathcal{R}$ 为集合 $E$ 上的关系，下面给出 $\mathcal{R}$ 的五种性质成立的<strong>充要条件</strong>：</p>
+<ol>
+<li>$\mathcal{R}$ 在 $E$ 上自反，当且仅当$I_{E}\subseteq \mathcal{R}$</li>
+<li>$\mathcal{R}$ 在 $E$ 上非自反，当且仅当 $\mathcal{R} \cap I_{E}=\emptyset $</li>
+<li>$\mathcal{R}$ 在 $E$ 上对称，当且仅当 $\mathcal{R} = \mathcal{R} ^{-1}$</li>
+<li>$\mathcal{R}$ 在 $E$ 上反对称，当且仅当 $ \mathcal{R} \cap \mathcal{R}^{-1}\subseteq I_{E}$</li>
+<li>$\mathcal{R}$ 在 $E$ 上非对称，当且仅当 $\mathcal{R} \cap \mathcal{R}^{-1}= \emptyset$</li>
+<li>$\mathcal{R}$ 在 $E$ 上传递，当且仅当 $\mathcal{R} \circ \mathcal{R}\subseteq \mathcal{R}$</li>
+</ol>
+<h5 id="等价关系（-Relation-d’equivalence）"><a href="#等价关系（-Relation-d’equivalence）" class="headerlink" title="等价关系（ Relation d’équivalence）"></a>等价关系（ Relation d’équivalence）</h5><p><strong>等价关系</strong>也称为同值关系（英语：Equivalence relation）即设 $\mathcal{R}$ 是某个集合 $E$ 上的一个二元关系。若 $\mathcal{R}$ 满足以下条件（充分必要）：</p>
+<ol>
+<li>自反性 (réfexivité)：$\forall x \in E, \quad x \mathcal{R} x$</li>
+<li>对称性 (symétrie)：$\forall (x,y) \in E^2, \quad x \mathcal{R} y \Rightarrow y \mathcal{R}x$</li>
+<li>传递性 (transitivité)：$\forall (x,y,z) \in E^3, \quad ((x \mathcal{R} y) \land (y \mathcal{R} z) \Rightarrow x \mathcal{R} z$</li>
+</ol>
+<blockquote>
+<p>例如，设 $E={1,2,…,8}$，定义 $E$上的关系 $\mathcal{R}$ 如下：</p>
+<script type="math/tex; mode=display">
+x \mathcal{R} y \Longleftrightarrow \forall (x,y) \in E, x \equiv y(mod \; 3)</script><p>其中，$x \equiv y(mod \; 3)$ 叫做 $x$ 与 $y模3$ 同余，即 $x$ 除以3的余数 与 $y$ 除以3的余数相等。例子有$1\mathcal{R} 4$，$2\mathcal{R}5$，$3\mathcal{R}6$。不难验证 $\mathcal{R}$ 为 $E$ 上的等价关系。</p>
+<p>并非所有的二元关系都是等价关系。一个简单的反例是<strong>比较两个数中哪个较大</strong>：</p>
+<ul>
+<li>没有自反性：任何一个数不能比自身为较大 $n\ngtr n$</li>
+<li>没有对称性：如果 $m&gt;n$，就肯定不能有 $n&gt;m$</li>
+</ul>
+</blockquote>
+<h5 id="等价类（Classe-d’equivalence）"><a href="#等价类（Classe-d’equivalence）" class="headerlink" title="等价类（Classe d’équivalence）"></a>等价类（Classe d’équivalence）</h5><p>令 $\mathcal{R}$ 是集合 $E$ 上的等价关系，$x$ 是 $E$ 的元素。我们称 $x$ 的等价类为 $E$ 中与 $x$ 相关的所有元素的集 $[x]$：</p>
+<script type="math/tex; mode=display">
+[x] = {y ∈ E,x\mathcal{R}y}</script><ul>
+<li><p>设 $\mathcal{R}$ 为集合 $E$ 上的等价关系，两个等价类不相交或相等。</p>
+<blockquote>
+<p>证明：</p>
+<script type="math/tex; mode=display">
+\begin{aligned} IF (v_k = \{v_j\} \cup \{v_i\}) \quad 
+& THEN(v_i \mathcal{R} v_k,\;v_j \mathcal{R} v_k \Rightarrow v_i \mathcal{R} v_j \Rightarrow [v_i]=[v_j]) \\
+& ELSE(\{v_j\} \cap \{v_i\} = \emptyset)
+\end{aligned}</script></blockquote>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Guohao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://dave0126.github.io/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/" title="图论 复习笔记">https://dave0126.github.io/2022/01/16/图论-Graphe/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9B%BE%E8%AE%BA/" rel="tag"># 图论</a>
+              <a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" rel="tag"># 课程笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/03/22/JVM-1/" rel="next" title="Java 虚拟机 - JVM 第一讲">
+      Java 虚拟机 - JVM 第一讲 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E8%AE%BA"><span class="nav-text">图论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%9A%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%8F%8A%E5%AE%9A%E4%B9%89"><span class="nav-text">第一部分：基本概念及定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E5%90%91%E5%9B%BE"><span class="nav-text">无向图</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%BE"><span class="nav-text">图</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E5%90%91%E5%9B%BE"><span class="nav-text">有向图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%90%E5%9B%BE%EF%BC%88sous-graphe%EF%BC%89"><span class="nav-text">子图（sous-graphe）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%8C%E5%85%A8%E5%AD%90%E5%9B%BE"><span class="nav-text">完全子图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%A2%EF%BC%88clique%EF%BC%89"><span class="nav-text">团（clique）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E5%9B%A2"><span class="nav-text">最大团</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E5%9B%BE%EF%BC%88graphe-partiel%EF%BC%89"><span class="nav-text">部分图（graphe partiel）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E7%9F%A9%E9%98%B5%EF%BC%88matrice-d%E2%80%99incidence%EF%BC%89"><span class="nav-text">关联矩阵（matrice d’incidence）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5%EF%BC%88matrice-d%E2%80%99adjacence%EF%BC%89"><span class="nav-text">邻接矩阵（matrice d’adjacence）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E6%9D%83%E5%9B%BE%EF%BC%88graphe-pondere%EF%BC%89"><span class="nav-text">加权图（graphe pondéré）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%9A%E8%BF%9E%E9%80%9A"><span class="nav-text">第二部分：连通</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%93%BE%EF%BC%88Chaine%EF%BC%89"><span class="nav-text">链（Chaîne）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%EF%BC%88Cycle%EF%BC%89"><span class="nav-text">环（Cycle）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9E%E9%80%9A%E5%9B%BE%EF%BC%88Graphe-connexe%EF%BC%89"><span class="nav-text">连通图（Graphe connexe）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%B1%E8%BF%9E%E9%80%9A"><span class="nav-text">弱连通</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%BA%E8%BF%9E%E9%80%9A"><span class="nav-text">强连通</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E5%85%83%E5%85%B3%E7%B3%BB"><span class="nav-text">二元关系</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="nav-text">关系的性质</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AD%89%E4%BB%B7%E5%85%B3%E7%B3%BB%EF%BC%88-Relation-d%E2%80%99equivalence%EF%BC%89"><span class="nav-text">等价关系（ Relation d’équivalence）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AD%89%E4%BB%B7%E7%B1%BB%EF%BC%88Classe-d%E2%80%99equivalence%EF%BC%89"><span class="nav-text">等价类（Classe d’équivalence）</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Guohao</p>
+  <div class="site-description" itemprop="description">间歇性踌躇满志, 持续性划水摸鱼</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Guohao</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">123k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:52</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : '[object Object]',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
