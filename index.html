@@ -160,6 +160,672 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/04/22/%E6%9C%80%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guohao">
+      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost N Found">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/22/%E6%9C%80%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">最优化</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-22 21:25:39" itemprop="dateCreated datePublished" datetime="2022-04-22T21:25:39+02:00">2022-04-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-23 23:46:56" itemprop="dateModified" datetime="2022-04-23T23:46:56+02:00">2022-04-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">课程笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="范数"><a href="#范数" class="headerlink" title="范数"></a>范数</h4><p>是数学中的一种基本概念。 在泛函分析中，它定义在赋范线性空间中，并满足一定的条件，即 <strong>①非负性</strong>；<strong>②齐次性</strong>；<strong>③三角不等式</strong>。 它常常被用来度量<u>某个向量空间（或矩阵）中的每个向量的长度或大小</u>。</p>
+<ul>
+<li><p>$l_1范数$ ：</p>
+<script type="math/tex; mode=display">
+\lVert x\rVert_1 = \sum_{i=1}^n |x_i|</script></li>
+<li><p>$l_2范数$ ：</p>
+<script type="math/tex; mode=display">
+\lVert x\rVert_2 = \sqrt{x^Tx} = \sqrt{\sum_{i=1}^n x_i^2}</script></li>
+<li><p>$l_\infin范数$ ：</p>
+<script type="math/tex; mode=display">
+\lVert x\rVert_{\infin} = max\{ |x_i|:i\in 1,2,...,n\}</script></li>
+<li><p>$l_p范数$ ：</p>
+<script type="math/tex; mode=display">
+\lVert x\rVert_p =(\sum_{i=1}^n |x_i|^p)^{\frac {1}{p}},p \in [1,\infin)</script></li>
+</ul>
+<h4 id="凸集"><a href="#凸集" class="headerlink" title="凸集"></a>凸集</h4><h5 id="凸集-Convex-set"><a href="#凸集-Convex-set" class="headerlink" title="凸集 (Convex set)"></a>凸集 (Convex set)</h5><p>给定非空集合 $F \subseteq \R^n$，如果 $\forall x,y \in F, \alpha \in [0,1]$ 都有 $\alpha x+(1-\alpha) y \in F$，那么我们就称这个 $F$ 为 $\R^n$ 中的一个凸集，即集合中的任意两点的连线仍然属于该集合。</p>
+<h5 id="凸组合-Convex-combination"><a href="#凸组合-Convex-combination" class="headerlink" title="凸组合 (Convex combination)"></a>凸组合 (Convex combination)</h5><p>$x^1, x^2,…,x^k$ 的凸组合：</p>
+<script type="math/tex; mode=display">
+\lambda_1x^1 + \lambda_2x^2 + ... +\lambda_kx^k</script><p>其中，$\lambda_1, \lambda_2,…,\lambda_k \ge 0, \sum_{i=1}^k \lambda_i = 1$</p>
+<h4 id="黑塞矩阵-Hessain"><a href="#黑塞矩阵-Hessain" class="headerlink" title="黑塞矩阵 (Hessain)"></a>黑塞矩阵 (Hessain)</h4><p>在之前的学习中我们已经知道，一阶导数，也就是目标函数的梯度，反映了函数值随着自变量 $x$ 变化的速率情况。所谓二阶导数，就是在一阶导数的基础上再求导数，反映了一阶导数的变化情况。</p>
+<p>例如对于二次型函数 $f(x) = x^2$，它的一阶导数就是 $\frac {df(x)}{dx} = 2x$，二阶导数为 $\frac{d^2f(x)}{dx^2} = 2$</p>
+<p>将其推广，对于一般的多元函数 $f(x) : \R^n \to \R$， 对其求一阶偏导数 (partial)，一阶偏导为向量称作梯度 (gradient):</p>
+<script type="math/tex; mode=display">
+\nabla f(x) = \begin{bmatrix}
+\frac{\partial f}{\partial x_1} \\
+\frac{\partial f}{\partial x_2} \\
+\vdots\\
+\frac{\partial f}{\partial x_n}
+\end{bmatrix}</script><p>我们再对一阶导数 $\frac{\part f(x)}{\part x}$ 对于 $x_i$ 求偏导，我们可以得到</p>
+<script type="math/tex; mode=display">
+\nabla (\frac{\partial f}{\partial x_i}) = \nabla^2 f(x) =
+\begin{bmatrix}
+\frac{\partial}{\partial x_1}\frac{\partial f}{\partial x_1} & \frac{\partial}{\partial x_2}\frac{\partial f}{\partial x_1} & \cdots & \frac{\partial}{\partial x_n}\frac{\partial f}{\partial x_1}      \\
+\frac{\partial}{\partial x_1}\frac{\partial f}{\partial x_2} & \frac{\partial}{\partial x_2}\frac{\partial f}{\partial x_2} & \cdots & \frac{\partial}{\partial x_n}\frac{\partial f}{\partial x_2}      \\
+\vdots & \vdots & \ddots & \vdots \\
+\frac{\partial}{\partial x_1}\frac{\partial f}{\partial x_n} & \frac{\partial}{\partial x_2}\frac{\partial f}{\partial x_n} & \cdots & \frac{\partial}{\partial x_n}\frac{\partial f}{\partial x_n}      \\
+\end{bmatrix}
+\leftarrow Hessian \; Matrix</script><p>黑塞矩阵是对梯度再求一次偏导，所以它是 $n \times n$ 的方阵，满足对称性 $\mathcal{H}_{ij} = \mathcal{H}_{ji}$</p>
+<blockquote>
+<p>例：对于 $f(x,y) = 5x + 8y +xy -x^2 -2y^2$</p>
+</blockquote>
+<script type="math/tex; mode=display">
+\nabla f(x,y) = 
+\begin{bmatrix}
+\frac{\partial f}{\partial x} \\
+\frac{\partial f}{\partial y} 
+\end{bmatrix}
+= 
+\begin{bmatrix}
+5-2x+y \\
+8+x-4y 
+\end{bmatrix}\\
+\mathcal{H} (x) =
+\begin{bmatrix}
+2 & 1 \\
+1 & -4\\
+\end{bmatrix}</script><p>对于二次函数，黑塞矩阵为常数矩阵。</p>
+<h5 id="黑塞矩阵的意义"><a href="#黑塞矩阵的意义" class="headerlink" title="黑塞矩阵的意义"></a>黑塞矩阵的意义</h5><p>如果一个函数的黑塞矩阵是<strong>正定</strong> (positive definite) 的，即特征值大于 0，也即目标函数在所有可行方向 $d$ 上的二阶导数都大于 $0$。我们就可以得出 $f(x)$ 是<u>一个严格的凸函数</u>，其<u>极值就是极小值</u>，而且也是<strong><u>全局的最小值</u></strong>。</p>
+<h4 id="矩阵的正定"><a href="#矩阵的正定" class="headerlink" title="矩阵的正定"></a>矩阵的正定</h4><p>正定矩阵首先是一个对称阵。以下我们介绍一种判断矩阵是否正定的方法，Sylvester’s Criterion：</p>
+<h5 id="Sylvester’s-Criterion"><a href="#Sylvester’s-Criterion" class="headerlink" title="Sylvester’s Criterion"></a>Sylvester’s Criterion</h5><p>各阶行列式（顺序主子式）都大于0 $\Rightarrow$ 矩阵正定 $\succ 0$</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+2 & -1 & 0 \\
+-1 & 2 & -1 \\
+0 & -1 & 2
+\end{bmatrix}
+\quad \Rightarrow \quad 
+\begin{vmatrix}
+2 
+\end{vmatrix} > 0\quad
+\begin{vmatrix}
+2 & -1 \\
+-1 & 2 
+\end{vmatrix} > 0\quad
+\begin{vmatrix}
+2 & -1 & 0 \\
+-1 & 2 & -1 \\
+0 & -1 & 2
+\end{vmatrix} > 0</script><h4 id="无约束优化问题的最优性条件"><a href="#无约束优化问题的最优性条件" class="headerlink" title="无约束优化问题的最优性条件"></a>无约束优化问题的最优性条件</h4><p>无约束优化问题： $\min f(x)$</p>
+<p>最优解的定义：</p>
+<ul>
+<li><p>局部最优解：对于一个解 $\bar x$，在 $\bar x$ 的临域空间 $N_s(\bar x)$ 内 $f(\bar x)$ 的值是最大或最小的。</p>
+<script type="math/tex; mode=display">
+\forall x \in N_s(\bar x), f(x) \ge f(\bar x) \;或\; f(x) \le f(\bar x)</script></li>
+<li><p>全局最优解：对于一个解 $\bar x$，在任意n维空间 $\R^n$ 内 $f(\bar x)$ 的值是最大或最小的。</p>
+<script type="math/tex; mode=display">
+\forall x \in \R^n, f(x) \ge f(\bar x) \;或\; f(x) \le f(\bar x)</script></li>
+<li><p>严格局部最优解：对于一个解 $\bar x$，在 $\bar x$ 的临域空间 $N_s(\bar x)$ 内 $f(\bar x)$ 的值是严格最大或最小的（不包含等于情况）。</p>
+<script type="math/tex; mode=display">
+\forall x \in N_s(\bar x), f(x) > f(\bar x) \;或\; f(x) < f(\bar x)</script></li>
+<li><p>严格全局最优解：对于一个解 $\bar x$，在任意n维空间 $\R^n$ 内 $f(\bar x)$ 的值是严格最大或最小的（不包含等于情况）。</p>
+<script type="math/tex; mode=display">
+\forall x \in \R^n, f(x) > f(\bar x) \;或\; f(x) < f(\bar x)</script></li>
+</ul>
+<h5 id="最优性条件"><a href="#最优性条件" class="headerlink" title="最优性条件"></a>最优性条件</h5><p>考虑无约束优化问题： $\min f(x)$</p>
+<ul>
+<li><p>必要条件：若 $x^<em>$ 是最优解，则 $x^</em>$ 有如下性质：</p>
+<script type="math/tex; mode=display">
+(1)\quad \nabla f(x^*) = 0 \qquad \qquad \qquad \text{目标函数在 } x^* \text{的位置时梯度为零} \\
+(2)\quad \nabla^2 f(x^*) \succeq 0 \qquad \text{目标函数在 } x^* \text{的位置时黑塞矩阵是半正定的}</script></li>
+<li><p>充分条件：</p>
+<script type="math/tex; mode=display">
+若 \nabla f(x^*) = 0, \nabla^2 f(x^*) \succ 0 \quad \Rightarrow \quad 则 x^* 是严格最优的</script></li>
+</ul>
+<h4 id="无约束优化：线搜索-和-信赖域"><a href="#无约束优化：线搜索-和-信赖域" class="headerlink" title="无约束优化：线搜索 和 信赖域"></a>无约束优化：线搜索 和 信赖域</h4><p>考虑无约束优化问题： $\min f(x)$</p>
+<p>迭代下降算法的描述：</p>
+<p>给定一个初始点 $x_0$ ，我们可以判断 $x_0$ 是否是我们需要找的点，如果不是，我们要产生点列 $\{x_k\}^\infin_{k=1}$ ，并且满足 $f(x_{k+1}) &lt; f(x)$ “下一个点的函数值比当前点的函数值小”。我们有两种策略：线搜索 (Line search) 和 信赖域 (Trust region)</p>
+<h5 id="线搜索方法"><a href="#线搜索方法" class="headerlink" title="线搜索方法"></a>线搜索方法</h5><h6 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h6><ol>
+<li>给定初始点 $x_0$</li>
+<li>判断 $x_0$ 是否满足【终止条件】；是，则终止</li>
+<li>当前点为 $x_k$，首先找到【下降方向 $d_k$】（从这个点出发，有一段步长的距离，目标函数值会减小的方向）</li>
+<li>确定【步长 $\alpha _k &gt; 0$ 】，使得 $f(x_k + \alpha_k d_k) &lt; f(x)$</li>
+<li>我们就得到了下一个点 $x_{k+1} :=x_k + \alpha_k d_k$；转第 2 步</li>
+</ol>
+<ul>
+<li>终止条件：$\lVert \nabla f(x_k) \rVert_2 \le \mathcal{E}$，其中 $\mathcal{E}$ 是一个很小的正整数，意味着当梯度趋近于 0</li>
+<li>下降方向 $d_k$ 的选择：最速下降、共轭梯度等</li>
+<li>步长 $\alpha _k$ 的选择：我们令 $\phi(\alpha) := f(x_k + \alpha d_k)$，步长 $\alpha_k = \min \phi (\alpha),\alpha \ge 0$</li>
+<li>算法结束后会给我们一个点列 $\{x_k\}$，我们需要关心点列的收敛性和收敛速度</li>
+</ul>
+<h5 id="信赖域方法"><a href="#信赖域方法" class="headerlink" title="信赖域方法"></a>信赖域方法</h5><ol>
+<li>当前点为 $x_k$，首先决定“活动范围 $\Delta$” $\lVert d\rVert_2 \le \Delta$</li>
+<li>再决定“活动方向”</li>
+</ol>
+<h4 id="无约束优化：最速下降"><a href="#无约束优化：最速下降" class="headerlink" title="无约束优化：最速下降"></a>无约束优化：最速下降</h4><h5 id="收敛速度"><a href="#收敛速度" class="headerlink" title="收敛速度"></a>收敛速度</h5><p>设当前点列 $\{x_k\}$ 收敛到 $x^*$，若存在极限</p>
+<script type="math/tex; mode=display">
+\lim_{k\to \infin} \frac{\lVert x_{k+1} - x^* \rVert_2}{\lVert x_{k} - x^* \rVert_2} = \beta</script><ul>
+<li>当 $0 &lt; \beta &lt; 1$ 时，则称点列 $\{x_k\}$ 为<strong>线性收敛</strong></li>
+<li>当 $\beta = 0$ 时，则称点列 $\{x_k\}$ 为<strong>超线性收敛</strong></li>
+</ul>
+<p>若存在某个 $p \ge 1$，有</p>
+<script type="math/tex; mode=display">
+\lim_{k\to \infin} \frac{\lVert x_{k+1} - x^* \rVert_2}{\lVert x_{k} - x^* \rVert_2^p} = \beta <+\infin</script><p>则称点列 $\{x_k\}$ 为<strong>p阶收敛</strong></p>
+<ul>
+<li>当 $p &gt; 1$ 时，p阶收敛必为超线性收敛</li>
+</ul>
+<h5 id="最速下降法"><a href="#最速下降法" class="headerlink" title="最速下降法"></a>最速下降法</h5><p>也叫做梯度下降法。【基本思想】是选择 $x_k$ 处的负梯度方向作为搜素方向，即 $d_k = -\nabla f(x_k) $</p>
+<ul>
+<li>优点：简单直观；收敛；搜素方向只需计算 $-\nabla f(x_k) $</li>
+<li>缺点：收敛速度慢（线性搜索）；Zigzag现象（路径是“之”字形）；不具备“在有限步内求得凸二次函数最优解”的特性</li>
+</ul>
+<h4 id="约束优化：-mathcal-KKT-条件"><a href="#约束优化：-mathcal-KKT-条件" class="headerlink" title="约束优化：$\mathcal{KKT}$ 条件"></a>约束优化：$\mathcal{KKT}$ 条件</h4><h5 id="一阶必要条件-最优解-to-mathcal-KKT-点"><a href="#一阶必要条件-最优解-to-mathcal-KKT-点" class="headerlink" title="一阶必要条件 : $最优解 \to \mathcal{KKT} 点$"></a>一阶必要条件 : $最优解 \to \mathcal{KKT} 点$</h5><p>假设 $x^<em>$ 是问题 $\mathcal{P}$ 的局部最优解，且 $x^</em>$ 某处的约束规范 (constraint qualification) 成立，则存在 $\lambda$，$\mu$ 使得</p>
+<script type="math/tex; mode=display">
+\min_{x\in \R^2} f(x) \\
+s.t. \quad \forall i \in \{1,2,...,l\}:h_i(x)=0\quad 且 \quad \forall j \in \{1,2,...,m\}:g_j(x) \le 0 \\
+可行集 S(\mathcal{E}) = \{x| 满足 \; s.t.\} \\</script><ol>
+<li><script type="math/tex; mode=display">
+\nabla f(x^*) + \sum_{i=1}^m \lambda_i \nabla g_i(x^*) + \sum_{i=1}^l \mu_i \nabla h_i(x^*)= 0</script></li>
+<li><p>$\forall i \in \{1,2,…,m\}:\lambda_i \ge 0$</p>
+</li>
+<li><p>$\forall i \in \{1,2,…,m\}:g_i(x^*) \le 0$</p>
+</li>
+<li><p>$\forall i \in \{1,2,…,m\}:h_i(x^*) = 0$</p>
+</li>
+<li><p>$\forall i \in \{1,2,…,m\}:\lambda_i g_i(x^*) = 0$</p>
+</li>
+</ol>
+<h5 id="二阶充分条件-mathcal-KKT-点-to-最优解"><a href="#二阶充分条件-mathcal-KKT-点-to-最优解" class="headerlink" title="二阶充分条件 : $\mathcal{KKT}点 \to 最优解$"></a>二阶充分条件 : $\mathcal{KKT}点 \to 最优解$</h5><p>假设 $x^*$ 满足上述的 $\mathcal{KKT}$ 条件，我们定义一个函数 $\mathcal{L}(x) = f(x) + \sum \mu_i h_i(x) + \sum \lambda_i g_i(x))$，可知：</p>
+<ol>
+<li>$\nabla_{x} \mathcal{L}(x^*) = 0 \qquad \mathcal{KKT}\text{条件中的第 1 条}$</li>
+<li>$\mathcal{L}(x^<em>) = f(x^</em>) + \sum \mu_i h_i(x^<em>) + \sum \lambda_i g_i(x^</em>)) = f(x^<em>) + 0 + 0 \quad \Rightarrow \quad \mathcal{L}(x^</em>) = f(x^*)$</li>
+<li>$\forall x \in S(\mathcal{E}),\;\mathcal{L}(x) \le f(x)$</li>
+</ol>
+<p>有以下结论：</p>
+<ul>
+<li>由 2, 3 可知，若 $x^<em>$ 是 $\mathcal{L} (x)$ 的最优解，则$x^</em>$ 也是 $\mathcal{P}$ 的最优解：$f(x^<em>) = \mathcal{L}(x^</em>) \le \mathcal{L}(x) \le f(x)$</li>
+<li>若 $\nabla_{xx} \mathcal{L}(x^<em>) \succeq 0, \; \forall x \in S(\mathcal{E})$，则 $x^</em>$ 是 $\mathcal{P}$ 的<u>全局最优解</u></li>
+<li>若 $\nabla_{xx} \mathcal{L}(x^<em>) \succeq 0, \; \forall x \in \{S(\mathcal{E})\cap _{临域}N_S(x</em>)\}$，则 $x^*$ 是 $\mathcal{P}$ 的<u>局部最优解</u></li>
+<li>若 $\nabla_{xx} \mathcal{L}(x^<em>) \succ 0$，则 $x^</em>$ 是 $\mathcal{P}$ 的<u>严格局部最优解</u></li>
+</ul>
+<h4 id="约束优化：对偶理论"><a href="#约束优化：对偶理论" class="headerlink" title="约束优化：对偶理论"></a>约束优化：对偶理论</h4><p>考虑如下一般形式的约束优化问题：</p>
+<script type="math/tex; mode=display">
+(\mathcal{P}):\; \min_{x\in \R^2} f(x) \\
+s.t. \quad 
+\left\{\begin{aligned}
+& h_i(x)=0, \;\forall i \in \{1,2,...,l\} \\ 
+& g_j(x) \le 0 , \; \forall j \in \{1,2,...,m\} \\
+& x \in X
+\end{aligned}\right.
+\\ \\
+可行集 S(\mathcal{E}) = \{ x \in X | 满足 \; s.t.\} \\</script><p>其中 $X$ 是“<strong>集合约束</strong>”，如果：</p>
+<ol>
+<li>$X = \R^n$ 所研究的问题 $\mathcal{P}$ 就是在 <strong>n 维实数域</strong>上的<strong>连续优化问题</strong>，就可以运用以上知识</li>
+<li>$X = \Z^n_+$ 所研究的问题 $\mathcal{P}$ 就是在 <strong>n 维整数（或非负整数）域</strong>上的<strong>连续优化问题</strong>，就可以运用以上知识</li>
+<li>$X = \{0,1\}^n$ 所研究的问题 $\mathcal{P}$ 就是在 <strong>n 维 0-1 集合</strong>上的<strong>离散整数优化问题</strong></li>
+</ol>
+<h5 id="对偶问题的意义"><a href="#对偶问题的意义" class="headerlink" title="对偶问题的意义"></a>对偶问题的意义</h5><script type="math/tex; mode=display">
+原问题 \; (\mathcal{P}) \quad \xrightarrow{构建} \quad 对偶问题 \; (\mathcal{D})</script><ol>
+<li>如果原问题 $(\mathcal{P})$ 是非凸问题，我们很难求解这一类 <code>NP-hard</code> 问题，我们就可以构造一个和原问题 $(\mathcal{P})$ 的关系紧密又简单的对偶问题 $(\mathcal{D})$ 来求解；</li>
+<li>在线性规划问题中的对偶问题；</li>
+<li>鲁棒优化，锥优化</li>
+</ol>
+<h5 id="拉格朗日对偶问题"><a href="#拉格朗日对偶问题" class="headerlink" title="拉格朗日对偶问题"></a>拉格朗日对偶问题</h5><script type="math/tex; mode=display">
+(\mathcal{P}):\; \min_{x\in \R^2} f(x) \\
+s.t. \quad 
+\left\{\begin{aligned}
+& h_i(x)=0, \;\forall i \in \{1,2,...,l\} \\ 
+& g_j(x) \le 0 , \; \forall j \in \{1,2,...,m\} \\
+& x \in X
+\end{aligned}\right.
+\\ \\
+可行集 S(\mathcal{E}) = \{ x \in X | 满足 \; s.t.\} \\</script><p>我们引入拉格朗日函数：</p>
+<script type="math/tex; mode=display">
+\mathcal{L}(x, \lambda, \mu) = f(x) + \sum_{i=1}^l \mu_i h_i(x) + \sum_{i=1}^m \lambda_i g_i(x))</script><p>此时我们对拉格朗日函数 $\mathcal{L}$ 求最小值，得到拉格朗日对偶函数 (dual function)：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+d(\lambda,\mu)
+& = \min _{x \in X} (\mathcal{L}(x, \lambda, \mu)) = \min _{x \in X} \{ f(x) + \sum_{i=1}^l \mu_i h_i(x) + \sum_{i=1}^m \lambda_i g_i(x)\} \\
+& \le \min _{x \in S(\mathcal{E})} \{ f(x) + \sum_{i=1}^l \mu_i h_i(x) + \sum_{i=1}^m \lambda_i g_i(x)\} \\
+& \le \min _{x \in S(\mathcal{E})} \{ f(x) \}
+\end{aligned}</script><ul>
+<li>对于 $\forall (\lambda, \mu), \lambda \ge 0$ 必有 $d(\lambda,\mu) \le v (\mathcal{P})$，即 $d(\lambda, \mu)$ 是 $v (\mathcal{P})$ 的下界，所以我们要找出 $d(\lambda, \mu)$ 的【最大值】</li>
+</ul>
+<p>此时我们就可以给出拉格朗日问题的对偶问题 $(\mathcal{D})$ ：</p>
+<script type="math/tex; mode=display">
+(\mathcal{D}):\; \max d(\lambda, \mu) \\
+s.t. \quad 
+\lambda_i \ge 0,\; \forall i \in \{1,2,...,m\}</script><p>写成以下形式：</p>
+<script type="math/tex; mode=display">
+(\mathcal{D}):\; \max _{\lambda \ge 0} \quad \min _{x \in X} (\mathcal{L}(x, \lambda, \mu)) 
+\quad \xrightarrow{交换} \quad \min _{x \in X} \quad \max _{\lambda \ge 0}  (\mathcal{L}(x, \lambda, \mu))</script><p>经过推导，问题 $(\mathcal{D})$ 可转化成原问题 $(\mathcal{P})$：</p>
+<script type="math/tex; mode=display">
+(\mathcal{P}):\; \min_{x\in \R^2} f(x) \\
+s.t. \quad 
+\left\{\begin{aligned}
+& h_i(x)=0, \;\forall i \in \{1,2,...,l\} \\ 
+& g_j(x) \le 0 , \; \forall j \in \{1,2,...,m\} \\
+& x \in X
+\end{aligned}\right.</script><h5 id="弱对偶定理"><a href="#弱对偶定理" class="headerlink" title="弱对偶定理"></a>弱对偶定理</h5><p>在之前拉格朗日对偶问题中，“对于 $\forall (\lambda, \mu), \lambda \ge 0$ 必有 $d(\lambda,\mu) \le v (\mathcal{P})$，即 $d(\lambda, \mu)$ 是 $v (\mathcal{P})$ 的下界，所以我们要找出 $d(\lambda, \mu)$ 的最大值”。我们可以推导到一般：</p>
+<ul>
+<li>设 $ v (\mathcal{P})$ 是原问题 $(\mathcal{P})$ 的最优值，$ v (\mathcal{D})$ 是对偶问题 $(\mathcal{D})$ 的最优值，则 $ v (\mathcal{D}) \le v (\mathcal{P})$ </li>
+</ul>
+<p>推论：假设 $\bar x \in S(\mathcal{E})，(\bar \lambda,\bar \mu),\bar \lambda \ge 0 \; 且 \; d(\bar \lambda,\bar \mu) = f(\bar x)$，则 $ v (\mathcal{P}) =  v (\mathcal{D}) \; 且 \; \bar x,(\bar \lambda,\bar \mu) \; 是\; v (\mathcal{P}) \; 和 \; v (\mathcal{D}) \; 的最优解$</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/04/21/KKT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guohao">
+      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost N Found">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/21/KKT/" class="post-title-link" itemprop="url">KKT</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-21 22:57:45" itemprop="dateCreated datePublished" datetime="2022-04-21T22:57:45+02:00">2022-04-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-23 23:48:04" itemprop="dateModified" datetime="2022-04-23T23:48:04+02:00">2022-04-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">课程笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Lagrange-Multipliers-amp-mathcal-KKT-几何关联推导"><a href="#Lagrange-Multipliers-amp-mathcal-KKT-几何关联推导" class="headerlink" title="Lagrange Multipliers &amp; $\mathcal{KKT}$ 几何关联推导"></a>Lagrange Multipliers &amp; $\mathcal{KKT}$ 几何关联推导</h3><h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><p>我们想要找到一个满足一些约束的函数的最大值或最小值</p>
+<h4 id="公式描述"><a href="#公式描述" class="headerlink" title="公式描述"></a>公式描述</h4><p>给定一个函数 $f$，不等式约束 $g_1, . . . , g_m$ 和等式约束 $h_1,…, h_l$ 都在在定义域 $Ω ⊂ R^n$ 上的优化问题：</p>
+<script type="math/tex; mode=display">
+\min_{x∈Ω} \;f(x) \\
+s.t.\left\{\begin{aligned}
+∀i \quad g_i(x) ≤ 0 \\
+∀j \quad h_j (x) = 0 
+\end{aligned}\right.</script><h4 id="No-constraints"><a href="#No-constraints" class="headerlink" title="No constraints"></a>No constraints</h4><p><strong>Assume</strong>: Let $f$ : $Ω → \R$  be a continuously differentiable function. 在定义域上连续可微</p>
+<p>【局部最小值】的【充要条件】(Necessary and sufficient conditions): </p>
+<p>$x^*$ is a local minimum of $f(x)$ 当且仅当</p>
+<ol>
+<li><p>$f$ 在 $x^*$ 处是零梯度 (zero gradient)：</p>
+<script type="math/tex; mode=display">
+∇_x f(x^∗) = 0</script></li>
+<li><p>$f$ 的 Hessian 矩阵在 $x^<em>$ 处是半正定的 (positive semi-definite)：保证$f$ 在 $x^</em>$ 处是“波谷”</p>
+<script type="math/tex; mode=display">
+v^t (∇^2f(x^*)) v ≥ 0, ∀v ∈ \R^n
+\\
+\\
+ \nabla_{xx}^2 f(x) =
+\begin{bmatrix}
+\frac{\partial^2 f(x)}{\partial x_1 ^2} & \frac{\partial^2 f(x)}{\partial x_1 \partial x_2} & \cdots & \frac{\partial^2 f(x)}{\partial x_1 \partial x_n}      \\
+\frac{\partial^2 f(x)}{\partial x_2 \partial x_1} & \frac{\partial^2 f(x)}{\partial x_2 ^2} & \cdots & \frac{\partial^2 f(x)}{\partial x_2 \partial x_n}      \\
+\vdots & \vdots & \ddots & \vdots \\
+\frac{\partial^2 f(x)}{\partial x_n \partial x_1} & \frac{\partial^2 f(x)}{\partial x_n  \partial x_2} & \cdots & \frac{\partial^2 f(x)}{\partial x_n ^2}      \\
+\end{bmatrix}
+\leftarrow Hessian \; Matrix</script></li>
+</ol>
+<p>【局部最大值】的【充要条件】(Necessary and sufficient conditions): $x^*$ is a local minimum of $f(x)$ 当且仅当</p>
+<ol>
+<li><p>$f$ 在 $x^*$ 处是零梯度 (zero gradient)：</p>
+<script type="math/tex; mode=display">
+∇_x f(x^∗) = 0</script></li>
+<li><p>$f$ 的 Hessian 矩阵在 $x^<em>$ 处是半正定的 (positive semi-definite)：保证$f$ 在 $x^</em>$ 处是“波谷”</p>
+<script type="math/tex; mode=display">
+v^t (∇^2f(x^*)) v \le 0, ∀v ∈ \R^n \\
+\\
+\\
+\nabla^2 f(x) =
+\begin{bmatrix}
+\frac{\partial^2 f(x)}{\partial x_1 ^2} & \frac{\partial^2 f(x)}{\partial x_1 \partial x_2} & \cdots & \frac{\partial^2 f(x)}{\partial x_1 \partial x_n}      \\
+\frac{\partial^2 f(x)}{\partial x_2 \partial x_1} & \frac{\partial^2 f(x)}{\partial x_2 ^2} & \cdots & \frac{\partial^2 f(x)}{\partial x_2 \partial x_n}      \\
+\vdots & \vdots & \ddots & \vdots \\
+\frac{\partial^2 f(x)}{\partial x_n \partial x_1} & \frac{\partial^2 f(x)}{\partial x_n  \partial x_2} & \cdots & \frac{\partial^2 f(x)}{\partial x_n ^2}      \\
+\end{bmatrix}
+\leftarrow Hessian \; Matrix</script></li>
+</ol>
+<h4 id="Equality-Constrainsts"><a href="#Equality-Constrainsts" class="headerlink" title="Equality Constrainsts"></a>Equality Constrainsts</h4><p>问题提出：</p>
+<script type="math/tex; mode=display">
+\min_{x∈\R^2} \;f(x) \\
+s.t. \quad h_i (x) = 0, \; ∀i\in \{1,2,...,l\}</script><p>举例：</p>
+<script type="math/tex; mode=display">
+f(x) = x_1 + x_2 \\s.t.\; h(x) = x^2_1 + x^2_2 − 2</script><ol>
+<li><p>可行点 (feasible point) $x_F \in$ 可行域 (feasible region) 满足约束 $h(x) = x^2_1 + x^2_2 − 2 = 0$，图形上的表示就是在 $x^2_1 + x^2_2 − 2$ 的圆上</p>
+</li>
+<li><p>目标函数 $f(x) = x_1 + x_2$ 的梯度方向 $\nabla_x f(x) = [1,1]^T$，所以它的负梯度方向为 $- \nabla_x f(x) = [-1,-1]^T$</p>
+</li>
+<li><p>我们找到一个点 $x_i$ 满足约束：其中 $\alpha$ 为步长，$\delta x_i$ 为 $x_i$ 点的运动方向</p>
+<ul>
+<li>$h(x_F + \alpha \delta x_i) = 0$（确保在圆上）</li>
+<li>$f(x_F + \alpha \delta x) &lt; f(x_F)$（确保移动后的函数值 &lt; 移动前）</li>
+</ul>
+<p><img src="/2022/04/21/KKT/2022-04-23 20.51.01.png" alt="2022-04-23 20.51.01" style="zoom:35%;"></p>
+</li>
+<li><p>一个点 $x_i$ 要沿着 $f(x)$ 的最速下降 (the steepest descent) 方向，即负梯度方向为 $- \nabla_x f(x) = [-1,-1]^T$ ；但是 $x_i$ 还要满足等式约束，所以我们要确保 $\delta x_i$ 与 负梯度方向 $- \nabla_x f(x)$ 的夹角为锐角，即内积 $\delta x_i \cdot (- \nabla_x f(x_F)) &gt; 0$</p>
+<p><img src="/2022/04/21/KKT/2022-04-23 21.12.41.png" alt="2022-04-23 21.12.41" style="zoom:35%;"></p>
+<ul>
+<li>至此，我们就找到了满足约的点 $x_i$ 移动的方向，即与目标函数 $f(x)$ 负梯度方向的夹角为锐角的约束函数 $h(x)$ 的切线方向。那么，什么时候停止移动呢？</li>
+</ul>
+</li>
+<li><p>从图像中我们可以看到，当目标函数 $f(x)$ 与约束函数 $h(x)$ 相切的时候，我们可以取到局部极值点 (临界点 critical point)，即 目标函数 $f(x)$ 的梯度方向与约束函数 $h(x)$ 的梯度方向共线：</p>
+<script type="math/tex; mode=display">
+\nabla_x f(x_F) = \mu \nabla_x h(x_F)
+\quad \Rightarrow \quad
+\nabla_x f(x_F) + \mu \nabla_x h(x_F) = 0 \quad ①</script><p>这个条件【确保局部极值】</p>
+<p><img src="/2022/04/21/KKT/2022-04-23 21.30.49.png" alt="2022-04-23 21.30.49" style="zoom:35%;"></p>
+<p>而此时， $x_i$ 移动的方向 $\delta x_i$ 始终与约束函数 $g(x)$ 梯度方向 $\nabla_x h(x)$ 正交，即</p>
+<script type="math/tex; mode=display">
+\delta x_i \cdot \mu \nabla_x h(x_F) = \delta x_i \cdot (- \nabla_x h(x_F))</script></li>
+</ol>
+<ol>
+<li><p>我们重新构造这个优化问题 $(\mathcal{P})$，并推广到多等式约束：</p>
+<script type="math/tex; mode=display">
+\min_{x∈\R^2} \;f(x) \\
+s.t. \quad h_i (x) = 0, \; ∀i\in \{1,2,...,l\}</script><p>我们定义拉格朗日函数 $\mathcal{L}$：</p>
+<script type="math/tex; mode=display">
+\mathcal{L} (x, \mu) = f(x) + \sum_{i=1}^l \mu_i h_i(x)</script><p>当 $x^<em>$ 是局部最小值时，存在唯一的 $\mu ^</em>$ 满足约束：</p>
+<ul>
+<li>$\nabla_{x} \mathcal{L} (x^<em>,\mu ^</em>)= 0 \qquad \Leftarrow \qquad \nabla_x f(x_F) + \mu \nabla_x h(x_F) = 0 \quad ①$ </li>
+<li>$\begin{aligned} \nabla_{\mu} \mathcal{L} (x^<em>,\mu ^</em>)= 0 \qquad \Leftarrow \qquad \frac {\partial \mathcal{L} (x,\mu_i)}{\partial \mu_i} = h_i(x) = 0\end{aligned} \quad \text{满足约束条件}$ </li>
+<li>$\nabla_{xx}^2 \mathcal{L}(x^<em>, \mu^</em>) \succeq 0\qquad \Leftarrow \qquad \text{Hessain matrix 半正定：满足局部极小}$</li>
+</ul>
+</li>
+</ol>
+<h4 id="Inequality-Constraints"><a href="#Inequality-Constraints" class="headerlink" title="Inequality Constraints"></a>Inequality Constraints</h4><p>问题提出：</p>
+<script type="math/tex; mode=display">
+\min_{x∈\R^2} \;f(x) \\
+s.t. \quad g_j (x) \le 0, \; ∀j\in \{1,2,...,m\}</script><h5 id="Case-1-可退化到无约束"><a href="#Case-1-可退化到无约束" class="headerlink" title="Case 1 : 可退化到无约束"></a>Case 1 : 可退化到无约束</h5><p>举例：</p>
+<script type="math/tex; mode=display">
+f(x) = x_1^2 + x_2^2 \\s.t.\; h(x) = x^2_1 + x^2_2 − 1</script><p><img src="/2022/04/21/KKT/2022-04-23 22.33.13.png" alt="2022-04-23 22.33.13" style="zoom:40%;"></p>
+<ol>
+<li>可以从图像中看出，当 $f(x)$ 不加约束条件时的最优点为 $(0,0)$</li>
+<li>可行点 (feasible point) $x_F \in$ 可行域 (feasible region) 满足约束 $h(x) = x^2_1 + x^2_2 − 1 = 0$，图形上的表示就是在 $x^2_1 + x^2_2 − 1$ 的圆上</li>
+<li>当 $f(x)$ 加入约束条件时的最优点还是 $(0,0)$</li>
+<li>说明有无约束条件对这个问题的求解并没有影响</li>
+<li>此时我们就可以将这个约束优化问题退化成无约束问题：<ul>
+<li>$f(x)$ 在 $x^*$ 处是零梯度 (zero gradient)：$∇_x f(x^∗) = 0$</li>
+<li>$f$ 的 Hessian 矩阵在 $x^<em>$ 处是半正定的 (positive definite) ：$\nabla_{xx}^2 f(x^</em>) \succeq 0$</li>
+</ul>
+</li>
+</ol>
+<h5 id="Case-2-不等式约束"><a href="#Case-2-不等式约束" class="headerlink" title="Case 2 : 不等式约束"></a>Case 2 : 不等式约束</h5><p>我们更改上一例题的条件：</p>
+<script type="math/tex; mode=display">
+f(x) = (x_1 - 1.1)^2 + (x_2 - 1.1)^2 \\s.t.\; h(x) = x^2_1 + x^2_2 − 1</script><p><img src="/2022/04/21/KKT/2022-04-23 22.49.34.png" alt="2022-04-23 22.49.34" style="zoom:40%;"></p>
+<ol>
+<li><p>可以从图像中看出，当 $f(x)$ 不加约束条件时的最优点为 $(1.1,-1.1)$</p>
+</li>
+<li><p>可行点 (feasible point) $x_F \in$ 可行域 (feasible region) 满足约束 $h(x) = x^2_1 + x^2_2 − 1 = 0$，图形上的表示就是在 $x^2_1 + x^2_2 − 1$ 的圆上</p>
+</li>
+<li><p>当 $f(x)$ 加入约束条件时的最优点并不在原来的 $(1.1,-1.1)$ 点</p>
+</li>
+<li><p>在这种情况下，极值在约束面上，即 $g(x^<em>) = 0$，此时就与<em>*等式约束条件</em></em>一致了</p>
+</li>
+<li><p>所以参考等式约束问题，最优值出现在目标函数 $f(x)$ 的梯度方向与约束函数 $h(x)$ 的梯度方向共线：</p>
+<script type="math/tex; mode=display">
+-\nabla_x f(x) = \lambda \nabla_x g(x), \lambda > 0
+\quad \Rightarrow \quad
+\nabla_x f(x) + \lambda \nabla_x g(x) = 0 \quad ②</script><p><img src="/2022/04/21/KKT/2022-04-23 22.57.55.png" alt="2022-04-23 22.57.55" style="zoom:40%;"></p>
+</li>
+</ol>
+<h5 id="总结两种情况"><a href="#总结两种情况" class="headerlink" title="总结两种情况"></a>总结两种情况</h5><script type="math/tex; mode=display">
+\min_{x∈\R^2} \;f(x) \\
+s.t. \quad g_j (x) \le 0, \; ∀j\in \{1,2,...,m\}</script><h6 id="Case-1-无约束时的局部极小值的可行域【中】"><a href="#Case-1-无约束时的局部极小值的可行域【中】" class="headerlink" title="Case 1 : 无约束时的局部极小值的可行域【中】"></a>Case 1 : 无约束时的局部极小值的可行域【中】</h6><ol>
+<li>$g(x^*) &lt; 0 \qquad \Leftarrow \qquad 在可行域里$</li>
+<li>$\nabla_x f(x^<em>) = \nabla_x f(x^</em>) + \lambda_{(=0)} \nabla_x g(x^*) = 0 \qquad \Leftarrow \qquad \mathcal{KKT} 条件1$</li>
+<li>$\nabla_{xx}^2 f(x^*) \succeq 0 \qquad \Leftarrow \qquad Hessian 矩阵是半正定的$</li>
+</ol>
+<h6 id="Case-2-无约束时的局部极小值的可行域【外】"><a href="#Case-2-无约束时的局部极小值的可行域【外】" class="headerlink" title="Case 2 : 无约束时的局部极小值的可行域【外】"></a>Case 2 : 无约束时的局部极小值的可行域【外】</h6><ol>
+<li>$g(x^*) = 0 \qquad \Leftarrow \qquad \mathcal{KKT} 条件3$</li>
+<li>$- \nabla_x f(x^<em>) + \lambda \nabla_x g(x^</em>) = 0, \; \lambda &gt; 0 \qquad \Leftarrow \qquad \mathcal{KKT} 条件1$</li>
+<li>$\nabla_{xx}^2 f(x^*) \succeq 0 \qquad \Leftarrow \qquad Hessian 矩阵是半正定的$</li>
+</ol>
+<p>$\mathcal{KKT}$ 条件4 ：$x^*$ 是可行点</p>
+<h5 id="多等式和多不等式的-mathcal-KKT-条件"><a href="#多等式和多不等式的-mathcal-KKT-条件" class="headerlink" title="多等式和多不等式的 $\mathcal{KKT}$ 条件"></a>多等式和多不等式的 $\mathcal{KKT}$ 条件</h5><p>给定一个函数 $f$，不等式约束 $g_1, . . . , g_m$ 和等式约束 $h_1,…, h_l$ 都在在定义域 $Ω ⊂ \R^n$ 上的优化问题：</p>
+<script type="math/tex; mode=display">
+(\mathcal{P}):\; \min_{x\in Ω} f(x) \\
+s.t. \quad 
+\left\{\begin{aligned}
+& h_i(x)=0, \;\forall i \in \{1,2,...,l\} \\ 
+& g_j(x) \le 0 , \; \forall j \in \{1,2,...,m\} 
+\end{aligned}\right.</script><p>我们定义拉格朗日函数 $\mathcal{L}$：</p>
+<script type="math/tex; mode=display">
+\mathcal{L}(x, \lambda, \mu) = f(x) + \sum_{i=1}^l \mu_i h_i(x) + \sum_{j=1}^m \lambda_j g_j(x))</script><p>当 $x^<em>$ 是局部最小值时，存在唯一的 $\mu ^</em>$ 满足约束：</p>
+<ul>
+<li><p>$\nabla_{x} \mathcal{L} (x^<em>,\mu ^</em>, \lambda^<em>)= 0 \qquad \Leftarrow \qquad \nabla_x f(x^</em>) + \sum_{i=1}^l \mu_i \nabla_x h_i(x^<em>) + \sum_{j=1}^m \lambda_j \nabla_x g_j(x^</em>) = 0$ </p>
+</li>
+<li><p>$\lambda^*_j \ge 0 \text{ for } j=1,…,m$</p>
+</li>
+<li>$\lambda^<em>_j g_j(x^</em>) = 0 \text{ for } j=1,…,m$</li>
+<li>$g_j(x^*) \le 0 \text{ for } j=1,…,m$</li>
+<li>$g_i(x^*) = 0 \text{ for } i=1,…,l$</li>
+<li>$\nabla_{xx}^2 \mathcal{L}(x^<em>, \lambda^</em>) \succ 0\qquad \Leftarrow \qquad \text{Hessain matrix 正定：满足局部极小}$</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/04/19/%E8%BF%90%E7%AD%B9%E5%AD%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guohao">
+      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost N Found">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/19/%E8%BF%90%E7%AD%B9%E5%AD%A6/" class="post-title-link" itemprop="url">运筹学</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-19 22:02:52" itemprop="dateCreated datePublished" datetime="2022-04-19T22:02:52+02:00">2022-04-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-21 21:40:14" itemprop="dateModified" datetime="2022-04-21T21:40:14+02:00">2022-04-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">课程笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>14k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="基础运筹学"><a href="#基础运筹学" class="headerlink" title="基础运筹学"></a>基础运筹学</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><a href>本文章</a>是根据法国国立高等电力技术、电子学、计算机、水力学与电信学校 (E.N.S.E.E.I.H.T.) 第七学期课程<em>“Recherche Operation”</em> 总结而来的【部分课程笔记】。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。</p>
+<p>总而言之，运筹学就是从真实系统中<strong>建立模型</strong>，用数学的形式表示出来。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/19/%E8%BF%90%E7%AD%B9%E5%AD%A6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -852,103 +1518,11 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guohao">
-      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lost N Found">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/" class="post-title-link" itemprop="url">图论 复习笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-16 14:08:24" itemprop="dateCreated datePublished" datetime="2022-01-16T14:08:24+01:00">2022-01-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-18 23:20:17" itemprop="dateModified" datetime="2022-04-18T23:20:17+02:00">2022-04-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">课程笔记</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>22k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>20 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="图论"><a href="#图论" class="headerlink" title="图论"></a>图论</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><a href="https://dave0126.github.io/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/">本文章</a>是根据法国国立高等电力技术、电子学、计算机、水力学与电信学校 (E.N.S.E.E.I.H.T.) 第七学期课程<em>“Graph Theory”</em> 总结而来的课程笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
 
 
@@ -1013,7 +1587,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1026,7 +1600,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1063,13 +1637,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">139k</span>
+    <span title="站点总字数">162k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:06</span>
+    <span title="站点阅读时长">2:27</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
