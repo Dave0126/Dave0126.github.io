@@ -57,7 +57,7 @@
 <meta property="og:image" content="https://dave0126.github.io/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-18%2020.34.52.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-18%2022.56.54.png">
 <meta property="article:published_time" content="2022-01-16T13:08:24.000Z">
-<meta property="article:modified_time" content="2022-04-18T21:20:17.056Z">
+<meta property="article:modified_time" content="2022-04-25T08:14:45.803Z">
 <meta property="article:author" content="Guohao">
 <meta property="article:tag" content="图论">
 <meta property="article:tag" content="课程笔记">
@@ -225,7 +225,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-18 23:20:17" itemprop="dateModified" datetime="2022-04-18T23:20:17+02:00">2022-04-18</time>
+                <time title="修改时间：2022-04-25 10:14:45" itemprop="dateModified" datetime="2022-04-25T10:14:45+02:00">2022-04-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -243,14 +243,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>22k</span>
+              <span>24k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>20 分钟</span>
+              <span>22 分钟</span>
             </span>
 
         </div>
@@ -288,7 +288,7 @@ E = \{ e_0, e_1,...,e_{n-1}\}</script><p>其中，每个<strong>边</strong>由�
 <blockquote>
 <p>Q1 : n阶简单完全图的边数是多少？</p>
 <script type="math/tex; mode=display">
-\# E(n阶简单完全图) = \tfrac{n(n-1)}{n}</script></blockquote>
+\# E(n阶简单完全图) = \tfrac{n(n-1)}{2}</script></blockquote>
 <ul>
 <li>无向图中，所有顶点度数之和 $∑deg(v)=2|E|$，即<strong>奇数度的顶点数必是偶数</strong>。</li>
 </ul>
@@ -391,7 +391,8 @@ m_{ij}=\begin{cases}
 <li><p><u>无环图 $G$ <strong>最多</strong>有 $n-1$ 条边</u></p>
 <blockquote>
 <p>proof：</p>
-</blockquote>
+<script type="math/tex; mode=display">
+\# E_{一般无环图} \le \# E_{无环连通图} = n-1</script></blockquote>
 </li>
 <li><p>如果遍历的顶点除了第一个和最后一个之外是互不相同的，则环是<strong>基本的 (élémentaire)</strong>。</p>
 </li>
@@ -590,7 +591,15 @@ x \mathcal{R} y \Longleftrightarrow \forall (x,y) \in E, x \equiv y(mod \; 3)</s
 <script type="math/tex; mode=display">
 每棵非平凡树至少有两片树叶</script><p>证明 :</p>
 <p>设 $d_1 ≤ d_2 ≤ · · · ≤ dn$ 是树 $T$ 的度序列，因为 $T$ 是连通的，所以树 $T$ 的最小度 $δ(T) = d_1 ≥ 1$. 如果树 $T$ 中至多有一片树叶，那么 $2n − 2 = 2m(T) = \sum_{i=1}^n d_i ≥ 1 + 2(n − 1)$ , 出现矛盾．</p>
-</blockquote>
+<script type="math/tex; mode=display">
+n := \text{NB of vertex}\\
+m := \text{NB of Edge}\\
+t := \text{NB of vertex with 1 degre}\\
+\because \text{G is a tree}\quad 
+\therefore \text{G is a connected graph}\\
+\therefore \sum \delta(v) = 2m = 2(n-1) \quad \text{according to n=m-1} \\
+\because \sum_{\delta(v) \ge 2} \delta(v) \ge 2(n-t)+t \\
+\therefore 2(n-1) \ge 2(n-t)+t  \quad \Rightarrow \quad t \ge 2</script></blockquote>
 <p>设 $G$ 是具有 $n$ 个点 $m$ 条边的图，则下列命题<strong>等价</strong>：</p>
 <ol>
 <li>$G$ 是树；</li>
@@ -1278,6 +1287,19 @@ n-m+f=2,\quad 即 \quad 顶点数-边数+面数=2</script><p>【推论】具有 
 </ul>
 </li>
 </ul>
+<p>Proof:</p>
+<p>We use <u>induction</u> on the number of vertices in the graph, which we denote by $n$. Let $P(n)$ be the proposition that an <code>n-vertex</code> graph with maximum degree $\Delta(G)$ at most $k$ is $(k + 1)$-colorable.</p>
+<p><strong>Base case (n = 1):</strong></p>
+<ol>
+<li>A <code>1-vertex</code> graph has maximum degree $0$ and is <code>1-colorable</code>, so $P (1)$ is true.</li>
+</ol>
+<p><strong>Inductive step:</strong></p>
+<ol>
+<li>Now assume that $P (n)$ is true, and let $G$ be an <code>(n + 1)-vertex</code> graph with maximum degree  $\Delta(G)$ at most $k$.</li>
+<li>Remove a vertex $v$ (and all edges incident to it), leaving an <code>n-vertex</code> subgraph, $H$. The maximum degree of $H$, $\Delta H$ is at most $k$, and so $H$ is <code>(k + 1)-colorable</code>  by our assumption $P (n)$.</li>
+<li>Now add back vertex $v$. We can assign $v$ a color (from the set of $k + 1$ colors) that is different from all its <u>adjacent vertices</u>, since there are at most $k$ vertices adjacent to $v$ and so at least one of the $k + 1$ colors is still available.</li>
+<li>Therefore, $G$ is <code>(k + 1)-colorable</code>. This completes the inductive step, and the theorem follows by <u>induction</u>.</li>
+</ol>
 </blockquote>
 <h6 id="上界-2-上界-1-的收紧"><a href="#上界-2-上界-1-的收紧" class="headerlink" title="上界 (2): 上界 (1) 的收紧"></a>上界 (2): 上界 (1) 的收紧</h6><p>【Brooks定理】</p>
 <p>设连通图即不是完全图 $K_n(n \ge 3)$，也不是长度为奇数的环，则</p>
@@ -1292,6 +1314,9 @@ n-m+f=2,\quad 即 \quad 顶点数-边数+面数=2</script><p>【推论】具有 
 <p>如果一个地图所需颜色 $\gamma^* (G)$ 的最小数量是 $k$，则我们称该图是 $k-面可着色的$ </p>
 <p>【定理】地图 $G$ 是 $k-面可着色的$ 当且仅当 他的对偶图 $G^*$ 是 $k-点可着色的$</p>
 <p>【五色定理】任何一个平面图都是 $5-面可着色的$</p>
+<blockquote>
+<p>证明：</p>
+</blockquote>
 <h3 id="第六部分：网络流问题"><a href="#第六部分：网络流问题" class="headerlink" title="第六部分：网络流问题"></a>第六部分：网络流问题</h3><p>回顾第二部分的连通部分</p>
 <h4 id="网络流"><a href="#网络流" class="headerlink" title="网络流"></a>网络流</h4><p><img src="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-18 20.34.52.png" alt="2022-04-18 20.34.52" style="zoom:40%;"></p>
 <p>在生活中，经常会遇到一类问题：我们有一个如上图所示的抽象的供水管网，有起点和终点，我们需要求解关于这个供水管网的一系列性能问题。那么我们可以将其网络模型视为一种有向图 $D$，而网络上的流可视为边上的权，所以我们可以将该问题建模为</p>
@@ -1315,20 +1340,24 @@ D=(V,E,\omega)</script><p> 其中：</p>
 <li><p>我们根据原图 (左) 创建一个残差图 (右)，其中空闲量 $R_{esidual} = C_{apacity} - F_{low}$，初始时 $F_{low}$ 均为 $0$；</p>
 <p><img src="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-18 20.50.35.png" alt="2022-04-18 20.50.35" style="zoom:30%;"></p>
 <p>【第一轮循环】</p>
+<p>|       节点       |  $v_1$  |  $v_2$  |    $v_4$    |      t      |<br>| :———————: | :——-: | :——-: | :————-: | :————-: |<br>| [前序,方向,权重] | [s,+,4] | [S,+,2] | [$v_2$,+,2] | [$v_4$,+,3] |</p>
 <p>我们在残差图中找出一条从起点 $s$ 到终点 $t$ 的简单路径，其中不能有回路。例如，我们已经找到了一条最右边的路径 $s \stackrel{2}\longrightarrow v_2 \stackrel{2}\longrightarrow v_4 \stackrel{3}\longrightarrow t $ 。由于短板效应，该条路径最多只能输送 $2$ ，所以三条边的路径的残差量都会 $-2$，即 $s \stackrel{0}\longrightarrow v_2 \stackrel{0}\longrightarrow v_4 \stackrel{1}\longrightarrow t $。</p>
 <p>当某一条边的饱和 (Staturated) 即残差量为 $0$ 时，就将其从残差图中<strong>移除</strong>。第一轮循环结束。</p>
 </li>
 <li><p>【第二轮循环】</p>
+<p>|       节点       |  $v_1$  |    $v_4$    |    $v_3$    |      t      |<br>| :———————: | :——-: | :————-: | :————-: | :————-: |<br>| [前序,方向,权重] | [s,+,4] | [$v_1$,+,4] | [$v_1$,+,2] | [$v_3$,+,3] |</p>
 <p>如下图所示，我们找到了一条从起点 $s$ 到终点 $t$ 的简单路径：$s \stackrel{4}\longrightarrow v_1 \stackrel{2}\longrightarrow v_3 \stackrel{3}\longrightarrow t $ ，</p>
 <p><img src="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-18 21.07.49.png" alt="2022-04-18 21.07.49" style="zoom:30%;"></p>
 <p>由于短板效应，该条路径最多只能输送 $2$ ，所以三条边的路径的残差量都会 $-2$，即 $s \stackrel{2}\longrightarrow v_1 \stackrel{0}\longrightarrow v_3 \stackrel{1}\longrightarrow t $。更新残差图。第二轮循环结束。</p>
 </li>
 <li><p>【第三次循环】</p>
+<p>|       节点       |  $v_1$  |    $v_4$    |      t      |<br>| :———————: | :——-: | :————-: | :————-: |<br>| [前序,方向,权重] | [s,+,2] | [$v_1$,+,4] | [$v_4$,+,1] |</p>
 <p>如下图所示，我们找到了一条从起点 $s$ 到终点 $t$ 的简单路径：$s \stackrel{2}\longrightarrow v_1 \stackrel{4}\longrightarrow v_4 \stackrel{1}\longrightarrow t $ ，</p>
 <p><img src="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-18 21.14.31.png" alt="2022-04-18 21.14.31" style="zoom:30%;"></p>
 <p>由于短板效应，该条路径最多只能输送 $1$ ，所以三条边的路径的残差量都会 $-1$，即 $s \stackrel{1}\longrightarrow v_1 \stackrel{3}\longrightarrow v_4 \stackrel{0}\longrightarrow t $。更新残差图。第三轮循环结束。</p>
 </li>
 <li><p>【第四次循环】</p>
+<p>|       节点       |  $v_1$  |    $v_2$    |    $v_4$    |      t      |<br>| :———————: | :——-: | :————-: | :————-: | :————-: |<br>| [前序,方向,权重] | [s,+,1] | [$v_1$,+,1] | [$v_1$,+,3] | [$v_3$,+,1] |</p>
 <p>如下图所示，我们<strong>无法找到</strong>一条从起点 $s$ 到终点 $t$ 的简单路径，终止程序。</p>
 <p><img src="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-18 21.17.50.png" alt="2022-04-18 21.17.50" style="zoom:30%;"></p>
 </li>
@@ -1352,11 +1381,42 @@ D=(V,E,\omega)</script><p> 其中：</p>
 <ol>
 <li>【第一轮循环】</li>
 </ol>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">节点</th>
+<th style="text-align:center">$v_1$</th>
+<th style="text-align:center">$v_2$</th>
+<th style="text-align:center">$v_4$</th>
+<th style="text-align:center">t</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">[前序,方向,权重]</td>
+<td style="text-align:center">[s,+,4]</td>
+<td style="text-align:center">[S,+,2]</td>
+<td style="text-align:center">[$v_1$,+,4]</td>
+<td style="text-align:center">[$v_4$,+,3]</td>
+</tr>
+<tr>
+<td style="text-align:center">backtracking path (next)</td>
+<td style="text-align:center">[S,-,0]</td>
+<td style="text-align:center">[S,-,0]</td>
+<td style="text-align:center">[$v_1$,-,0]</td>
+<td style="text-align:center">[$v_4$,-,0]</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p>我们在残差图中找出一条从起点 $s$ 到终点 $t$ 的简单路径，其中不能有回路。例如，我们已经找到了一条路径 $s \stackrel{4}\longrightarrow v_1 \stackrel{4}\longrightarrow v_4 \stackrel{3}\longrightarrow t $ 。由于短板效应，该条路径最多只能输送 $3$ ，所以三条边的路径的残差量都会 $-3$，即 $s \stackrel{1}\longrightarrow v_1 \stackrel{1}\longrightarrow v_4 \stackrel{0}\longrightarrow t  $。更新残差图。</p>
 <p><img src="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-18 21.54.44.png" alt="2022-04-18 21.54.44" style="zoom:30%;"></p>
 <p>如上图所示，添加一条绿色的<strong>回溯路径</strong>，每个边的权都为 $3$： $t \stackrel{3}\longrightarrow v_4\stackrel{3}\longrightarrow v_1 \stackrel{3}\longrightarrow s$    。第一轮循环结束。</p>
 <ol>
-<li>【第二轮循环】</li>
+<li><p>【第二轮循环】</p>
+<p>|       节点        |  $v_1$  |  $v_2$  |    $v_3$    |      t      |<br>| :———————-: | :——-: | :——-: | :————-: | :————-: |<br>| [前序,方向,权重]  | [S,+,1] | [S,+,2] | [$v_1$,+,2] | [$v_3$,+,3] |<br>| backtracking path | [S,-,3] | [S,-,0] | [$v_1$,-,0] | [$v_3$,-,0] |</p>
+</li>
 </ol>
 <p>如下图所示，我们找到了一条从起点 $s$ 到终点 $t$ 的简单路径：$s \stackrel{1}\longrightarrow v_1 \stackrel{2}\longrightarrow v_3 \stackrel{3}\longrightarrow t $ ，</p>
 <p><img src="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-18 21.55.35.png" alt="2022-04-18 21.55.35" style="zoom:30%;"></p>
@@ -1364,7 +1424,9 @@ D=(V,E,\omega)</script><p> 其中：</p>
 <p><img src="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-18 22.00.24.png" alt="2022-04-18 22.00.24" style="zoom:30%;"></p>
 <p>如上图所示，添加一条绿色的<strong>回溯路径</strong>，每个边的权都为 $1$： $t \stackrel{1}\longrightarrow v_3\stackrel{1}\longrightarrow v_1 \stackrel{1}\longrightarrow s$，并于之前的回溯路径合并。第二轮循环结束。</p>
 <ol>
-<li>【第三轮循环】</li>
+<li><p>【第三轮循环】</p>
+<p>|       节点        |  $v_1$  |  $v_2$  |           $v_4$           |    $v_3$    |      t      |<br>| :———————-: | :——-: | :——-: | :———————————-: | :————-: | :————-: |<br>| [前序,方向,权重]  | [S,+,0] | [S,+,2] | [$v_2$,+,2] / [$v_1$,+,1] | [$v_1$,+,1] | [$v_3$,+,2] |<br>| backtracking path | [S,-,4] | [S,-,0] | [$v_2$,-,0] / [$v_1$,-,1] | [$v_1$,-,1] | [$v_3$,-,1] |</p>
+</li>
 </ol>
 <p>如果此时我们将绿色的回溯路径去掉，我们就不能在起点和终点之间找到一条路径。Ford-Fulkerson 算法的关键就在于这些回溯路径。如下图所示，我们考虑回溯路径，我们找到了一条从起点 $s$ 到终点 $t$ 的简单路径：$s \stackrel{2}\longrightarrow v_2 \stackrel{2}\longrightarrow v_4 \stackrel{3^*}\longrightarrow v_1 \stackrel{1}\longrightarrow v_3 \stackrel{2}\longrightarrow t$ ，</p>
 <p><img src="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/2022-04-18 22.15.53.png" alt="2022-04-18 22.15.53" style="zoom:25%;"></p>
@@ -1574,13 +1636,13 @@ Max \;flow = Min\;cut</script><p>我们可以将 <strong>寻找最小割的问�
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">162k</span>
+    <span title="站点总字数">165k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:27</span>
+    <span title="站点阅读时长">2:30</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>

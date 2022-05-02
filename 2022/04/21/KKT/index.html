@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"dave0126.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Lagrange Multipliers &amp; $\mathcal{KKT}$ 几何关联推导目的我们想要找到一个满足一些约束的函数的最大值或最小值 公式描述给定一个函数 $f$，不等式约束 $g_1, . . . , g_m$ 和等式约束 $h_1,…, h_l$ 都在在定义域 $Ω ⊂ R^n$ 上的优化问题：  \min_{x∈Ω} \;f(x) \\ s.t.\left\{\begin">
+  <meta name="description" content="Lagrange Multipliers &amp; $\mathcal{KKT}$ 几何关联推导目的我们想要找到一个满足一些约束的函数的最大值或最小值 公式描述给定一个函数 $f$，不等式约束 $g_1, . . . , g_m$ 和等式约束 $h_1,…, h_l$ 都在在定义域 $Ω ⊂ \mathbb{R}^n$ 上的优化问题：  \min_{x∈Ω} \;f(x) \\ s.t.\lef">
 <meta property="og:type" content="article">
-<meta property="og:title" content="KKT">
+<meta property="og:title" content="拉格朗日乘数与KKT几何关联推导">
 <meta property="og:url" content="https://dave0126.github.io/2022/04/21/KKT/index.html">
 <meta property="og:site_name" content="Lost N Found">
-<meta property="og:description" content="Lagrange Multipliers &amp; $\mathcal{KKT}$ 几何关联推导目的我们想要找到一个满足一些约束的函数的最大值或最小值 公式描述给定一个函数 $f$，不等式约束 $g_1, . . . , g_m$ 和等式约束 $h_1,…, h_l$ 都在在定义域 $Ω ⊂ R^n$ 上的优化问题：  \min_{x∈Ω} \;f(x) \\ s.t.\left\{\begin">
+<meta property="og:description" content="Lagrange Multipliers &amp; $\mathcal{KKT}$ 几何关联推导目的我们想要找到一个满足一些约束的函数的最大值或最小值 公式描述给定一个函数 $f$，不等式约束 $g_1, . . . , g_m$ 和等式约束 $h_1,…, h_l$ 都在在定义域 $Ω ⊂ \mathbb{R}^n$ 上的优化问题：  \min_{x∈Ω} \;f(x) \\ s.t.\lef">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://dave0126.github.io/2022/04/21/KKT/2022-04-23%2020.51.01.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/04/21/KKT/2022-04-23%2021.12.41.png">
@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://dave0126.github.io/2022/04/21/KKT/2022-04-23%2022.49.34.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/04/21/KKT/2022-04-23%2022.57.55.png">
 <meta property="article:published_time" content="2022-04-21T20:57:45.000Z">
-<meta property="article:modified_time" content="2022-04-23T21:48:04.481Z">
+<meta property="article:modified_time" content="2022-04-24T07:18:01.085Z">
 <meta property="article:author" content="Guohao">
 <meta property="article:tag" content="课程笔记">
 <meta property="article:tag" content="最优化">
@@ -54,7 +54,7 @@
   };
 </script>
 
-  <title>KKT | Lost N Found</title>
+  <title>拉格朗日乘数与KKT几何关联推导 | Lost N Found</title>
   
 
 
@@ -185,7 +185,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          KKT
+          拉格朗日乘数与KKT几何关联推导
         </h1>
 
         <div class="post-meta">
@@ -202,7 +202,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-23 23:48:04" itemprop="dateModified" datetime="2022-04-23T23:48:04+02:00">2022-04-23</time>
+                <time title="修改时间：2022-04-24 09:18:01" itemprop="dateModified" datetime="2022-04-24T09:18:01+02:00">2022-04-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -220,7 +220,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.6k</span>
+              <span>5.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -240,13 +240,13 @@
 
       
         <h3 id="Lagrange-Multipliers-amp-mathcal-KKT-几何关联推导"><a href="#Lagrange-Multipliers-amp-mathcal-KKT-几何关联推导" class="headerlink" title="Lagrange Multipliers &amp; $\mathcal{KKT}$ 几何关联推导"></a>Lagrange Multipliers &amp; $\mathcal{KKT}$ 几何关联推导</h3><h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><p>我们想要找到一个满足一些约束的函数的最大值或最小值</p>
-<h4 id="公式描述"><a href="#公式描述" class="headerlink" title="公式描述"></a>公式描述</h4><p>给定一个函数 $f$，不等式约束 $g_1, . . . , g_m$ 和等式约束 $h_1,…, h_l$ 都在在定义域 $Ω ⊂ R^n$ 上的优化问题：</p>
+<h4 id="公式描述"><a href="#公式描述" class="headerlink" title="公式描述"></a>公式描述</h4><p>给定一个函数 $f$，不等式约束 $g_1, . . . , g_m$ 和等式约束 $h_1,…, h_l$ 都在在定义域 $Ω ⊂ \mathbb{R}^n$ 上的优化问题：</p>
 <script type="math/tex; mode=display">
 \min_{x∈Ω} \;f(x) \\
 s.t.\left\{\begin{aligned}
 ∀i \quad g_i(x) ≤ 0 \\
 ∀j \quad h_j (x) = 0 
-\end{aligned}\right.</script><h4 id="No-constraints"><a href="#No-constraints" class="headerlink" title="No constraints"></a>No constraints</h4><p><strong>Assume</strong>: Let $f$ : $Ω → \R$  be a continuously differentiable function. 在定义域上连续可微</p>
+\end{aligned}\right.</script><h4 id="No-constraints"><a href="#No-constraints" class="headerlink" title="No constraints"></a>No constraints</h4><p><strong>Assume</strong>: Let $f$ : $Ω → \mathbb{R}$  be a continuously differentiable function. 在定义域上连续可微</p>
 <p>【局部最小值】的【充要条件】(Necessary and sufficient conditions): </p>
 <p>$x^*$ is a local minimum of $f(x)$ 当且仅当</p>
 <ol>
@@ -255,7 +255,7 @@ s.t.\left\{\begin{aligned}
 ∇_x f(x^∗) = 0</script></li>
 <li><p>$f$ 的 Hessian 矩阵在 $x^<em>$ 处是半正定的 (positive semi-definite)：保证$f$ 在 $x^</em>$ 处是“波谷”</p>
 <script type="math/tex; mode=display">
-v^t (∇^2f(x^*)) v ≥ 0, ∀v ∈ \R^n
+v^t (∇^2f(x^*)) v ≥ 0, ∀v ∈ \mathbb{R}^n
 \\
 \\
  \nabla_{xx}^2 f(x) =
@@ -274,7 +274,7 @@ v^t (∇^2f(x^*)) v ≥ 0, ∀v ∈ \R^n
 ∇_x f(x^∗) = 0</script></li>
 <li><p>$f$ 的 Hessian 矩阵在 $x^<em>$ 处是半正定的 (positive semi-definite)：保证$f$ 在 $x^</em>$ 处是“波谷”</p>
 <script type="math/tex; mode=display">
-v^t (∇^2f(x^*)) v \le 0, ∀v ∈ \R^n \\
+v^t (∇^2f(x^*)) v \le 0, ∀v ∈ \mathbb{R}^n \\
 \\
 \\
 \nabla^2 f(x) =
@@ -288,7 +288,7 @@ v^t (∇^2f(x^*)) v \le 0, ∀v ∈ \R^n \\
 </ol>
 <h4 id="Equality-Constrainsts"><a href="#Equality-Constrainsts" class="headerlink" title="Equality Constrainsts"></a>Equality Constrainsts</h4><p>问题提出：</p>
 <script type="math/tex; mode=display">
-\min_{x∈\R^2} \;f(x) \\
+\min_{x∈\mathbb{R}^2} \;f(x) \\
 s.t. \quad h_i (x) = 0, \; ∀i\in \{1,2,...,l\}</script><p>举例：</p>
 <script type="math/tex; mode=display">
 f(x) = x_1 + x_2 \\s.t.\; h(x) = x^2_1 + x^2_2 − 2</script><ol>
@@ -322,7 +322,7 @@ f(x) = x_1 + x_2 \\s.t.\; h(x) = x^2_1 + x^2_2 − 2</script><ol>
 <ol>
 <li><p>我们重新构造这个优化问题 $(\mathcal{P})$，并推广到多等式约束：</p>
 <script type="math/tex; mode=display">
-\min_{x∈\R^2} \;f(x) \\
+\min_{x∈\mathbb{R}^2} \;f(x) \\
 s.t. \quad h_i (x) = 0, \; ∀i\in \{1,2,...,l\}</script><p>我们定义拉格朗日函数 $\mathcal{L}$：</p>
 <script type="math/tex; mode=display">
 \mathcal{L} (x, \mu) = f(x) + \sum_{i=1}^l \mu_i h_i(x)</script><p>当 $x^<em>$ 是局部最小值时，存在唯一的 $\mu ^</em>$ 满足约束：</p>
@@ -335,7 +335,7 @@ s.t. \quad h_i (x) = 0, \; ∀i\in \{1,2,...,l\}</script><p>我们定义拉格�
 </ol>
 <h4 id="Inequality-Constraints"><a href="#Inequality-Constraints" class="headerlink" title="Inequality Constraints"></a>Inequality Constraints</h4><p>问题提出：</p>
 <script type="math/tex; mode=display">
-\min_{x∈\R^2} \;f(x) \\
+\min_{x∈\mathbb{R}^2} \;f(x) \\
 s.t. \quad g_j (x) \le 0, \; ∀j\in \{1,2,...,m\}</script><h5 id="Case-1-可退化到无约束"><a href="#Case-1-可退化到无约束" class="headerlink" title="Case 1 : 可退化到无约束"></a>Case 1 : 可退化到无约束</h5><p>举例：</p>
 <script type="math/tex; mode=display">
 f(x) = x_1^2 + x_2^2 \\s.t.\; h(x) = x^2_1 + x^2_2 − 1</script><p><img src="/2022/04/21/KKT/2022-04-23 22.33.13.png" alt="2022-04-23 22.33.13" style="zoom:40%;"></p>
@@ -370,19 +370,19 @@ f(x) = (x_1 - 1.1)^2 + (x_2 - 1.1)^2 \\s.t.\; h(x) = x^2_1 + x^2_2 − 1</script
 </li>
 </ol>
 <h5 id="总结两种情况"><a href="#总结两种情况" class="headerlink" title="总结两种情况"></a>总结两种情况</h5><script type="math/tex; mode=display">
-\min_{x∈\R^2} \;f(x) \\
-s.t. \quad g_j (x) \le 0, \; ∀j\in \{1,2,...,m\}</script><h6 id="Case-1-无约束时的局部极小值的可行域【中】"><a href="#Case-1-无约束时的局部极小值的可行域【中】" class="headerlink" title="Case 1 : 无约束时的局部极小值的可行域【中】"></a>Case 1 : 无约束时的局部极小值的可行域【中】</h6><ol>
+\min_{x∈\mathbb{R}^2} \;f(x) \\
+s.t. \quad g_j (x) \le 0, \; ∀j\in \{1,2,...,m\}</script><h6 id="Case-1-无约束时的局部极小值在可行域【中】"><a href="#Case-1-无约束时的局部极小值在可行域【中】" class="headerlink" title="Case 1 : 无约束时的局部极小值在可行域【中】"></a>Case 1 : 无约束时的局部极小值在可行域【中】</h6><ol>
 <li>$g(x^*) &lt; 0 \qquad \Leftarrow \qquad 在可行域里$</li>
 <li>$\nabla_x f(x^<em>) = \nabla_x f(x^</em>) + \lambda_{(=0)} \nabla_x g(x^*) = 0 \qquad \Leftarrow \qquad \mathcal{KKT} 条件1$</li>
 <li>$\nabla_{xx}^2 f(x^*) \succeq 0 \qquad \Leftarrow \qquad Hessian 矩阵是半正定的$</li>
 </ol>
-<h6 id="Case-2-无约束时的局部极小值的可行域【外】"><a href="#Case-2-无约束时的局部极小值的可行域【外】" class="headerlink" title="Case 2 : 无约束时的局部极小值的可行域【外】"></a>Case 2 : 无约束时的局部极小值的可行域【外】</h6><ol>
+<h6 id="Case-2-无约束时的局部极小值在可行域【外】"><a href="#Case-2-无约束时的局部极小值在可行域【外】" class="headerlink" title="Case 2 : 无约束时的局部极小值在可行域【外】"></a>Case 2 : 无约束时的局部极小值在可行域【外】</h6><ol>
 <li>$g(x^*) = 0 \qquad \Leftarrow \qquad \mathcal{KKT} 条件3$</li>
 <li>$- \nabla_x f(x^<em>) + \lambda \nabla_x g(x^</em>) = 0, \; \lambda &gt; 0 \qquad \Leftarrow \qquad \mathcal{KKT} 条件1$</li>
 <li>$\nabla_{xx}^2 f(x^*) \succeq 0 \qquad \Leftarrow \qquad Hessian 矩阵是半正定的$</li>
 </ol>
 <p>$\mathcal{KKT}$ 条件4 ：$x^*$ 是可行点</p>
-<h5 id="多等式和多不等式的-mathcal-KKT-条件"><a href="#多等式和多不等式的-mathcal-KKT-条件" class="headerlink" title="多等式和多不等式的 $\mathcal{KKT}$ 条件"></a>多等式和多不等式的 $\mathcal{KKT}$ 条件</h5><p>给定一个函数 $f$，不等式约束 $g_1, . . . , g_m$ 和等式约束 $h_1,…, h_l$ 都在在定义域 $Ω ⊂ \R^n$ 上的优化问题：</p>
+<h5 id="多等式和多不等式的-mathcal-KKT-条件"><a href="#多等式和多不等式的-mathcal-KKT-条件" class="headerlink" title="多等式和多不等式的 $\mathcal{KKT}$ 条件"></a>多等式和多不等式的 $\mathcal{KKT}$ 条件</h5><p>给定一个函数 $f$，不等式约束 $g_1, . . . , g_m$ 和等式约束 $h_1,…, h_l$ 都在在定义域 $Ω ⊂ \mathbb{R}^n$ 上的优化问题：</p>
 <script type="math/tex; mode=display">
 (\mathcal{P}):\; \min_{x\in Ω} f(x) \\
 s.t. \quad 
@@ -417,7 +417,7 @@ s.t. \quad
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://dave0126.github.io/2022/04/21/KKT/" title="KKT">https://dave0126.github.io/2022/04/21/KKT/</a>
+    <a href="https://dave0126.github.io/2022/04/21/KKT/" title="拉格朗日乘数与KKT几何关联推导">https://dave0126.github.io/2022/04/21/KKT/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -503,7 +503,7 @@ s.t. \quad
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lagrange-Multipliers-amp-mathcal-KKT-%E5%87%A0%E4%BD%95%E5%85%B3%E8%81%94%E6%8E%A8%E5%AF%BC"><span class="nav-text">Lagrange Multipliers &amp; $\mathcal{KKT}$ 几何关联推导</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E7%9A%84"><span class="nav-text">目的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F%E6%8F%8F%E8%BF%B0"><span class="nav-text">公式描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#No-constraints"><span class="nav-text">No constraints</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Equality-Constrainsts"><span class="nav-text">Equality Constrainsts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Inequality-Constraints"><span class="nav-text">Inequality Constraints</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Case-1-%E5%8F%AF%E9%80%80%E5%8C%96%E5%88%B0%E6%97%A0%E7%BA%A6%E6%9D%9F"><span class="nav-text">Case 1 : 可退化到无约束</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Case-2-%E4%B8%8D%E7%AD%89%E5%BC%8F%E7%BA%A6%E6%9D%9F"><span class="nav-text">Case 2 : 不等式约束</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%E4%B8%A4%E7%A7%8D%E6%83%85%E5%86%B5"><span class="nav-text">总结两种情况</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Case-1-%E6%97%A0%E7%BA%A6%E6%9D%9F%E6%97%B6%E7%9A%84%E5%B1%80%E9%83%A8%E6%9E%81%E5%B0%8F%E5%80%BC%E7%9A%84%E5%8F%AF%E8%A1%8C%E5%9F%9F%E3%80%90%E4%B8%AD%E3%80%91"><span class="nav-text">Case 1 : 无约束时的局部极小值的可行域【中】</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Case-2-%E6%97%A0%E7%BA%A6%E6%9D%9F%E6%97%B6%E7%9A%84%E5%B1%80%E9%83%A8%E6%9E%81%E5%B0%8F%E5%80%BC%E7%9A%84%E5%8F%AF%E8%A1%8C%E5%9F%9F%E3%80%90%E5%A4%96%E3%80%91"><span class="nav-text">Case 2 : 无约束时的局部极小值的可行域【外】</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%9A%E7%AD%89%E5%BC%8F%E5%92%8C%E5%A4%9A%E4%B8%8D%E7%AD%89%E5%BC%8F%E7%9A%84-mathcal-KKT-%E6%9D%A1%E4%BB%B6"><span class="nav-text">多等式和多不等式的 $\mathcal{KKT}$ 条件</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lagrange-Multipliers-amp-mathcal-KKT-%E5%87%A0%E4%BD%95%E5%85%B3%E8%81%94%E6%8E%A8%E5%AF%BC"><span class="nav-text">Lagrange Multipliers &amp; $\mathcal{KKT}$ 几何关联推导</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E7%9A%84"><span class="nav-text">目的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F%E6%8F%8F%E8%BF%B0"><span class="nav-text">公式描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#No-constraints"><span class="nav-text">No constraints</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Equality-Constrainsts"><span class="nav-text">Equality Constrainsts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Inequality-Constraints"><span class="nav-text">Inequality Constraints</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Case-1-%E5%8F%AF%E9%80%80%E5%8C%96%E5%88%B0%E6%97%A0%E7%BA%A6%E6%9D%9F"><span class="nav-text">Case 1 : 可退化到无约束</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Case-2-%E4%B8%8D%E7%AD%89%E5%BC%8F%E7%BA%A6%E6%9D%9F"><span class="nav-text">Case 2 : 不等式约束</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%E4%B8%A4%E7%A7%8D%E6%83%85%E5%86%B5"><span class="nav-text">总结两种情况</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Case-1-%E6%97%A0%E7%BA%A6%E6%9D%9F%E6%97%B6%E7%9A%84%E5%B1%80%E9%83%A8%E6%9E%81%E5%B0%8F%E5%80%BC%E5%9C%A8%E5%8F%AF%E8%A1%8C%E5%9F%9F%E3%80%90%E4%B8%AD%E3%80%91"><span class="nav-text">Case 1 : 无约束时的局部极小值在可行域【中】</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Case-2-%E6%97%A0%E7%BA%A6%E6%9D%9F%E6%97%B6%E7%9A%84%E5%B1%80%E9%83%A8%E6%9E%81%E5%B0%8F%E5%80%BC%E5%9C%A8%E5%8F%AF%E8%A1%8C%E5%9F%9F%E3%80%90%E5%A4%96%E3%80%91"><span class="nav-text">Case 2 : 无约束时的局部极小值在可行域【外】</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%9A%E7%AD%89%E5%BC%8F%E5%92%8C%E5%A4%9A%E4%B8%8D%E7%AD%89%E5%BC%8F%E7%9A%84-mathcal-KKT-%E6%9D%A1%E4%BB%B6"><span class="nav-text">多等式和多不等式的 $\mathcal{KKT}$ 条件</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -567,13 +567,13 @@ s.t. \quad
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">162k</span>
+    <span title="站点总字数">165k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:27</span>
+    <span title="站点阅读时长">2:30</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>

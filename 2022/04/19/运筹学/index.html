@@ -30,10 +30,12 @@
 <meta property="og:image" content="https://dave0126.github.io/2022/04/19/%E8%BF%90%E7%AD%B9%E5%AD%A6/2022-04-20%2009.38.37.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/04/19/%E8%BF%90%E7%AD%B9%E5%AD%A6/2022-04-20%2011.46.29.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/04/19/%E8%BF%90%E7%AD%B9%E5%AD%A6/2022-04-21%2012.10.57.png">
+<meta property="og:image" content="https://dave0126.github.io/2022/04/19/%E8%BF%90%E7%AD%B9%E5%AD%A6/IMG_42512D145660-1.jpeg">
 <meta property="article:published_time" content="2022-04-19T20:02:52.000Z">
-<meta property="article:modified_time" content="2022-04-21T19:40:14.589Z">
+<meta property="article:modified_time" content="2022-04-27T19:41:31.396Z">
 <meta property="article:author" content="Guohao">
 <meta property="article:tag" content="课程笔记">
+<meta property="article:tag" content="最优化">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://dave0126.github.io/2022/04/19/%E8%BF%90%E7%AD%B9%E5%AD%A6/2022-04-20%2009.38.37.png">
 
@@ -198,7 +200,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-21 21:40:14" itemprop="dateModified" datetime="2022-04-21T21:40:14+02:00">2022-04-21</time>
+                <time title="修改时间：2022-04-27 21:41:31" itemprop="dateModified" datetime="2022-04-27T21:41:31+02:00">2022-04-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1183,7 +1185,7 @@ X^{(0)} = (x_3 = 8, x_4 = 16, x_5 = 12, x_1 =0 , x_2 =0) \quad \stackrel{整理}
 <li><p>用 $x_a$ 上面的数字替代 $x_b$ 前面的数字，用 $x_a$ 替代 $x_b$，清空 $\sigma_j$ 行与 $\theta_i$ 列：</p>
 <p>|   \   |   $c_j:$    |   2   |   3   |   0   |   0   |   0   |  \   | \          |<br>| :—-: | :————-: | :—-: | :—-: | :—-: | :—-: | :—-: | :—: | ————— |<br>| $c_B$ |    $X_B$    | $x_1$ | $x_2$ | $x_3$ | $x_4$ | $x_5$ | $b$  | $\theta_i$ |<br>|   0   |    $x_3$    |   1   |   2   |   1   |   0   |   0   |  8   |            |<br>|   0   |    $x_4$    |   4   |   0   |   0   |   1   |   0   |  16  |            |<br>|   3   |    $x_2$    |   0   |   4   |   0   |   0   |   1   |  12  |            |<br>|   \   | $\sigma_i:$ |       |       |       |       |       |  \   | \          |</p>
 </li>
-<li><p>对 $x_1,x_2…x_n$ 与 $b$ 列组成的矩阵进行运算，将 $m$ 变成 $1$，同列其他元素变成 $0$，形成一个新的矩阵，将该矩阵中的数字填入表格中对应的位置形成新的单纯形表并进行步骤 3：</p>
+<li><p>对 $x_1,x_2…x_n$ 与 $b$ 列组成的矩阵进行运算，<u>将 $m$ 变成 $1$，同列其他元素变成 $0$，形成一个新的矩阵</u>，将该矩阵中的数字填入表格中对应的位置形成新的单纯形表并进行步骤 3：</p>
 <script type="math/tex; mode=display">
 M = (x_1,x_2…x_n|b) =(A|b) =\begin{pmatrix}
 1 & 2 & 1 & 0 & 0 & 8\\
@@ -1367,7 +1369,89 @@ x_1 \le 4 \qquad ⑤
  \end&#123;aligned&#125;\right.
  $$
  ​    运用单纯形法，我们可以得出 $B_1$ 问题的最优解 $&#123;X_B&#125;_&#123;22&#125;^*无可行解$
-</code></pre>
+</code></pre><h3 id="第三部分：动态规划"><a href="#第三部分：动态规划" class="headerlink" title="第三部分：动态规划"></a>第三部分：动态规划</h3><p>我们有如下问题，给定一个线路网络，两点之间连线上的数字表示两点间的距离（或费用），试求一段由 A 到 E 的管线铺路，使总距离为最短（或总费用最小）。</p>
+<p><img src="/2022/04/19/%E8%BF%90%E7%AD%B9%E5%AD%A6/IMG_42512D145660-1.jpeg" alt="IMG_42512D145660-1" style="zoom:50%;"></p>
+<p>其实从A到E并不是一次性的决策，$A \to B, \quad B \to C, \quad C\to D, \quad D \to E$。</p>
+<p>由此我们可见，将问题分成若干相互联系的阶段，在每个阶段都需要做出决策，使全过程达到整体最优，这类问题我们称为多阶段决策问题（资源分配、生产存储）。最大特点就是可以把问题拆分成很多阶段。</p>
+<h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><ul>
+<li><p>阶段：将问题划分成若干个相互联系的阶段。$k$ 表示为阶段变量。</p>
+<blockquote>
+<p>上图有四个阶段，分别是：$A \to B, \quad B \to C, \quad C\to D, \quad D \to E$</p>
+</blockquote>
+</li>
+<li><p>状态：每个阶段开始时所处的自然状态。$s_k$ 表示为状态变量。</p>
+<blockquote>
+<p>上图有10个状态，分别是：$A,\qquad B_1,B_2,B_3 \qquad C_1,C_2 \qquad D_1,D_2,D_3 \qquad E$</p>
+</blockquote>
+</li>
+<li><p>决策：当过程处于某一阶段的某一状态时作出的<u>决定</u>，从而确定下一阶段的状态。$x_k$ 表示为决策变量。</p>
+<ul>
+<li>允许决策集合：决策变量的取值范围。$D_k(s_k)$ 表示第k阶段从状态$s_k$ 出发的允许决策集合。$x_k \in D_k(s_k)$</li>
+</ul>
+</li>
+<li><p>策略：按顺序排列的决策集合。</p>
+</li>
+<li><p>状态转移方程：确定过程由一个状态到另一个状态的演变过程。$S_{k+1} = T_k(S_k,x_k)$。</p>
+</li>
+<li><p>指标函数：衡量所实现过程优劣的数值指标</p>
+<ul>
+<li>阶段指标函数 $v_k(S_k,x_k)$ ：从k阶段状态 $s_k$ 出发，选择决策 $x_k$ 所产生的第k阶段指标</li>
+<li>过程指标函数 $V_k(S_k,x_k,x_{k+1},…,x_n)$：从k阶段状态 $S_k$ 出发，选择决策 $x_k,x_{k+1},…,x_n$ 所产生的过程指标<ul>
+<li>$V_k(s_k,x_k,x_{k+1},…,x_n) = V[v_k(s_k,x_k),V_{k+1}(S_{k+1},x_{x+1},…,x_n)]$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>最优值函数 $f_x(S_k)= \text{min/max}_{x_k\in D_k(S_k)} \quad V_k(s_k,x_k,x_{k+1},…,x_n)$</p>
+</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">连和形式</th>
+<th style="text-align:center">连乘形式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">指标函数</td>
+<td style="text-align:center">$V_k(S_k,x_k,x_{k+1},…,x_n) = \sum _{j=k}^{n-1}v_j(s_j,x_j)+V_n$</td>
+<td style="text-align:center">$V_k(S_k,x_k,x_{k+1},…,x_n) = \prod _{j=k}^{n-1}v_j(s_j,x_j)+V_n$</td>
+</tr>
+<tr>
+<td style="text-align:center">最优值函数</td>
+<td style="text-align:center">$f_x(S_k)= \text{min/max}_{x_k\in D_k(S_k)} \quad V_k(s_k,x_k,x_{k+1},…,x_n)$</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">动态规划模型</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h4><ol>
+<li>最优性原理：一个最优策略的子策略也是最优的。</li>
+</ol>
+<blockquote>
+<p>例如：已知最优策略为 $A \to B_1 \to C_1 \to D_1 \to E$，则 $C \to E$ 的最优策略为  $C_1 \to D_1 \to E$ 。</p>
+</blockquote>
+<ol>
+<li>无后效性原理：如果某阶段的状态给定之后，在此<u>阶段以后过程</u>的发展<u>不受这个阶段以前各个状态</u>的影响</li>
+</ol>
+<blockquote>
+<p>我们以上图为例：</p>
+<p>阶段 $k$：$k=1,2,3,4$</p>
+<p>状态变量 $S_k$：$S_1=\{A\} \quad S_1=\{A\} \quad S_2=\{B_1,B_2,B_3\} \quad S_3=\{C_1,C_2\} \quad S_4=\{D_1,D_2,D_3\} \quad S_5=\{E\}$</p>
+<p>决策变量 $x_k$ ：$S_k$ 状态时选择到达下一阶段的点</p>
+<p>允许决策集合：$x_k \in D_k(S_k)$</p>
+<p>状态指标函数 $v_k(S_k,x_k)$：状态点 $S_k$ 到决策点 $x_k$ 间的<u>最短距离</u></p>
+<p>最优指标函数 $f_k(S_k)$：k阶段状态为 $S_k$ 时到终点 $E$ 间的<u>最短距离</u></p>
+<p>递推方程：$\left\{\begin{aligned}<br>f_x(S_k)= \text{min}_{x_k\in D_k(S_k)} \quad \{v_k(s_k,x_k)+f_{k+1}(S_{k+1})\}, k=1,2,3,4 \\<br>f_{5}(S_{5})=0 \\<br>\end{aligned}\right.$</p>
+</blockquote>
+
     </div>
 
     
@@ -1394,6 +1478,7 @@ x_1 \le 4 \qquad ⑤
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" rel="tag"># 课程笔记</a>
+              <a href="/tags/%E6%9C%80%E4%BC%98%E5%8C%96/" rel="tag"># 最优化</a>
           </div>
 
         
@@ -1406,8 +1491,8 @@ x_1 \le 4 \qquad ⑤
       <i class="fa fa-chevron-left"></i> 事务 Transaction 简介
     </a></div>
       <div class="post-nav-item">
-    <a href="/2022/04/21/KKT/" rel="next" title="KKT">
-      KKT <i class="fa fa-chevron-right"></i>
+    <a href="/2022/04/21/KKT/" rel="next" title="拉格朗日乘数与KKT几何关联推导">
+      拉格朗日乘数与KKT几何关联推导 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -1467,7 +1552,7 @@ x_1 \le 4 \qquad ⑤
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E8%BF%90%E7%AD%B9%E5%AD%A6"><span class="nav-text">基础运筹学</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%E5%BD%95%E4%B8%80%EF%BC%9AKKT-%E5%92%8C-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90"><span class="nav-text">附录一：KKT 和 拉格朗日乘子</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%EF%BC%9A-KKT-%EF%BC%8C%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90-%E5%92%8C-%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92"><span class="nav-text">关系：$KKT$ ，拉格朗日乘子 和 线性规划</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90"><span class="nav-text">拉格朗日乘子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#KKT"><span class="nav-text">KKT</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BE%8B%E9%A2%98"><span class="nav-text">例题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%E5%BD%95%E4%BA%8C%EF%BC%9A%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E5%9B%9E%E9%A1%BE"><span class="nav-text">附录二：线性代数回顾</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E8%AE%BA"><span class="nav-text">方法论</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%9A%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92"><span class="nav-text">第一部分：线性规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92%E9%97%AE%E9%A2%98%E5%8F%8A%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B"><span class="nav-text">1.1 线性规划问题及数学模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-1-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8F%90%E5%87%BA"><span class="nav-text">1.1.1 问题的提出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-2-%E5%9B%BE%E8%A7%A3%E6%B3%95"><span class="nav-text">1.1.2 图解法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-3-%E5%8C%96%E6%A0%87%E5%87%86%E5%9E%8B"><span class="nav-text">1.1.3 化标准型</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%80%E8%88%AC%E5%BD%A2%E5%BC%8F%E5%8C%96%E6%88%90%E6%A0%87%E5%87%86%E5%9E%8B"><span class="nav-text">一般形式化成标准型</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-4-%E8%A7%A3%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-text">1.1.4 解的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8F%AF%E8%A1%8C%E8%A7%A3-%E5%92%8C-%E6%9C%80%E4%BC%98%E8%A7%A3"><span class="nav-text">可行解 和 最优解</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%9F%BA%E8%A7%A3-%E5%92%8C-%E5%9F%BA%E5%8F%AF%E8%A1%8C%E8%A7%A3"><span class="nav-text">基解 和 基可行解</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%9B%9B%E4%B8%AA%E8%A7%A3%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-text">四个解的关系</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-%E5%8D%95%E7%BA%AF%E5%BD%A2%E6%B3%95"><span class="nav-text">1.2 单纯形法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%95%E7%BA%AF%E5%BD%A2%E6%B3%95%E7%9A%84%E6%80%9D%E6%83%B3"><span class="nav-text">单纯形法的思想</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%95%E7%BA%AF%E5%BD%A2%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E6%AD%A5%E9%AA%A4"><span class="nav-text">单纯形法的计算步骤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%95%E7%BA%AF%E5%BD%A2%E8%A1%A8"><span class="nav-text">单纯形表</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%9A%E6%95%B4%E6%95%B0%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92"><span class="nav-text">第二部分：整数线性规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AB-0-1-%E5%8F%98%E9%87%8F%E7%9A%84%E5%BB%BA%E6%A8%A1"><span class="nav-text">含 0-1 变量的建模</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AB%E6%9C%89%E7%9B%B8%E4%BA%92%E6%8E%92%E6%96%A5%E7%9A%84%E7%BA%A6%E6%9D%9F%E6%9D%A1%E4%BB%B6%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">含有相互排斥的约束条件的问题</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%94%AF%E5%AE%9A%E7%95%8C%E6%B3%95"><span class="nav-text">分支定界法</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E8%BF%90%E7%AD%B9%E5%AD%A6"><span class="nav-text">基础运筹学</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%E5%BD%95%E4%B8%80%EF%BC%9AKKT-%E5%92%8C-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90"><span class="nav-text">附录一：KKT 和 拉格朗日乘子</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%EF%BC%9A-KKT-%EF%BC%8C%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90-%E5%92%8C-%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92"><span class="nav-text">关系：$KKT$ ，拉格朗日乘子 和 线性规划</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90"><span class="nav-text">拉格朗日乘子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#KKT"><span class="nav-text">KKT</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BE%8B%E9%A2%98"><span class="nav-text">例题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%E5%BD%95%E4%BA%8C%EF%BC%9A%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E5%9B%9E%E9%A1%BE"><span class="nav-text">附录二：线性代数回顾</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E8%AE%BA"><span class="nav-text">方法论</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%9A%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92"><span class="nav-text">第一部分：线性规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92%E9%97%AE%E9%A2%98%E5%8F%8A%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B"><span class="nav-text">1.1 线性规划问题及数学模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-1-%E9%97%AE%E9%A2%98%E7%9A%84%E6%8F%90%E5%87%BA"><span class="nav-text">1.1.1 问题的提出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-2-%E5%9B%BE%E8%A7%A3%E6%B3%95"><span class="nav-text">1.1.2 图解法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-3-%E5%8C%96%E6%A0%87%E5%87%86%E5%9E%8B"><span class="nav-text">1.1.3 化标准型</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%80%E8%88%AC%E5%BD%A2%E5%BC%8F%E5%8C%96%E6%88%90%E6%A0%87%E5%87%86%E5%9E%8B"><span class="nav-text">一般形式化成标准型</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-4-%E8%A7%A3%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-text">1.1.4 解的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8F%AF%E8%A1%8C%E8%A7%A3-%E5%92%8C-%E6%9C%80%E4%BC%98%E8%A7%A3"><span class="nav-text">可行解 和 最优解</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%9F%BA%E8%A7%A3-%E5%92%8C-%E5%9F%BA%E5%8F%AF%E8%A1%8C%E8%A7%A3"><span class="nav-text">基解 和 基可行解</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%9B%9B%E4%B8%AA%E8%A7%A3%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-text">四个解的关系</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-%E5%8D%95%E7%BA%AF%E5%BD%A2%E6%B3%95"><span class="nav-text">1.2 单纯形法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%95%E7%BA%AF%E5%BD%A2%E6%B3%95%E7%9A%84%E6%80%9D%E6%83%B3"><span class="nav-text">单纯形法的思想</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%95%E7%BA%AF%E5%BD%A2%E6%B3%95%E7%9A%84%E8%AE%A1%E7%AE%97%E6%AD%A5%E9%AA%A4"><span class="nav-text">单纯形法的计算步骤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%95%E7%BA%AF%E5%BD%A2%E8%A1%A8"><span class="nav-text">单纯形表</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%9A%E6%95%B4%E6%95%B0%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92"><span class="nav-text">第二部分：整数线性规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AB-0-1-%E5%8F%98%E9%87%8F%E7%9A%84%E5%BB%BA%E6%A8%A1"><span class="nav-text">含 0-1 变量的建模</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AB%E6%9C%89%E7%9B%B8%E4%BA%92%E6%8E%92%E6%96%A5%E7%9A%84%E7%BA%A6%E6%9D%9F%E6%9D%A1%E4%BB%B6%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">含有相互排斥的约束条件的问题</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%94%AF%E5%AE%9A%E7%95%8C%E6%B3%95"><span class="nav-text">分支定界法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%EF%BC%9A%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="nav-text">第三部分：动态规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="nav-text">基本原理</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -1531,13 +1616,13 @@ x_1 \le 4 \qquad ⑤
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">162k</span>
+    <span title="站点总字数">165k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:27</span>
+    <span title="站点阅读时长">2:30</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
