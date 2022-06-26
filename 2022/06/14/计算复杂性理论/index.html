@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"dave0126.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Calculabilité et Complexité (计算复杂性理论)概述本文章是根据法国国立高等电力技术、电子学、计算机、水力学与电信学校 (E.N.S.E.E.I.H.T.) 第八学期课程“Calculabilité et Complexité”总结而来的课程笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。 参考：  《计算复杂性理论》- 陈健二（广州大学）">
+  <meta name="description" content="Calculabilité et Complexité (计算复杂性理论)概述本文章是根据法国国立高等电力技术、电子学、计算机、水力学与电信学校 (E.N.S.E.E.I.H.T.) 第八学期课程“Calculabilité et Complexité”总结而来的课程笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。 参考：  《计算复杂性理论》- 陈健二教授（广州大学）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计算复杂性理论">
 <meta property="og:url" content="https://dave0126.github.io/2022/06/14/%E8%AE%A1%E7%AE%97%E5%A4%8D%E6%9D%82%E6%80%A7%E7%90%86%E8%AE%BA/index.html">
 <meta property="og:site_name" content="Lost N Found">
-<meta property="og:description" content="Calculabilité et Complexité (计算复杂性理论)概述本文章是根据法国国立高等电力技术、电子学、计算机、水力学与电信学校 (E.N.S.E.E.I.H.T.) 第八学期课程“Calculabilité et Complexité”总结而来的课程笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。 参考：  《计算复杂性理论》- 陈健二（广州大学）">
+<meta property="og:description" content="Calculabilité et Complexité (计算复杂性理论)概述本文章是根据法国国立高等电力技术、电子学、计算机、水力学与电信学校 (E.N.S.E.E.I.H.T.) 第八学期课程“Calculabilité et Complexité”总结而来的课程笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。 参考：  《计算复杂性理论》- 陈健二教授（广州大学）">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://dave0126.github.io/2022/06/14/%E8%AE%A1%E7%AE%97%E5%A4%8D%E6%9D%82%E6%80%A7%E7%90%86%E8%AE%BA/image-20220614215904021.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/06/14/%E8%AE%A1%E7%AE%97%E5%A4%8D%E6%9D%82%E6%80%A7%E7%90%86%E8%AE%BA/image-20220614222852897.png">
@@ -36,8 +36,9 @@
 <meta property="og:image" content="https://dave0126.github.io/2022/06/14/%E8%AE%A1%E7%AE%97%E5%A4%8D%E6%9D%82%E6%80%A7%E7%90%86%E8%AE%BA/image-20220624235014413.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/06/14/%E8%AE%A1%E7%AE%97%E5%A4%8D%E6%9D%82%E6%80%A7%E7%90%86%E8%AE%BA/image-20220625002222487.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/06/14/%E8%AE%A1%E7%AE%97%E5%A4%8D%E6%9D%82%E6%80%A7%E7%90%86%E8%AE%BA/image-20220625144629790.png">
+<meta property="og:image" content="https://dave0126.github.io/2022/06/14/%E8%AE%A1%E7%AE%97%E5%A4%8D%E6%9D%82%E6%80%A7%E7%90%86%E8%AE%BA/image-20220626084222978.png">
 <meta property="article:published_time" content="2022-06-14T18:49:07.000Z">
-<meta property="article:modified_time" content="2022-06-25T15:16:19.874Z">
+<meta property="article:modified_time" content="2022-06-26T15:32:00.708Z">
 <meta property="article:author" content="Guohao">
 <meta property="article:tag" content="课程笔记">
 <meta name="twitter:card" content="summary">
@@ -204,7 +205,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-06-25 17:16:19" itemprop="dateModified" datetime="2022-06-25T17:16:19+02:00">2022-06-25</time>
+                <time title="修改时间：2022-06-26 17:32:00" itemprop="dateModified" datetime="2022-06-26T17:32:00+02:00">2022-06-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -222,14 +223,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>10k</span>
+              <span>12k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
+              <span>11 分钟</span>
             </span>
 
         </div>
@@ -244,7 +245,7 @@
         <h2 id="Calculabilite-et-Complexite-计算复杂性理论"><a href="#Calculabilite-et-Complexite-计算复杂性理论" class="headerlink" title="Calculabilité et Complexité (计算复杂性理论)"></a>Calculabilité et Complexité (计算复杂性理论)</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>本文章是根据法国国立高等电力技术、电子学、计算机、水力学与电信学校 (E.N.S.E.E.I.H.T.) 第八学期课程“Calculabilité et Complexité”总结而来的课程笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。</p>
 <p>参考：</p>
 <ul>
-<li>《计算复杂性理论》- 陈健二（广州大学）</li>
+<li>《计算复杂性理论》- 陈健二教授（广州大学）</li>
 </ul>
 <span id="more"></span>
 <hr>
@@ -398,19 +399,34 @@ Q_{Accpet-All}(\mathcal{M}) \le Q_{Prog-Equ}(\mathcal{M}, \mathcal{M_0})</script
 </blockquote>
 <p>如果在计算机上做某一件事所花费的时间是 $t(n)$、所占空间是 $O(s(n))$，那么在单纸带图灵机上所花费的时间是多项式时间 $t^{O(1)}(n)$、所占空间是 $O(s(n))$，并不会相差太多。</p>
 <h4 id="时空间复杂性"><a href="#时空间复杂性" class="headerlink" title="时空间复杂性"></a>时空间复杂性</h4><p>复杂性理论所研究的资源中最常见的是时间（要通过多少步演算才能解决问题）和空间（在解决问题时需要多少内存）。</p>
+<h4 id="时间复杂度-TIME-t-n-："><a href="#时间复杂度-TIME-t-n-：" class="headerlink" title="时间复杂度 $TIME(t(n))$ ："></a>时间复杂度 $TIME(t(n))$ ：</h4><p>是指在计算机科学与工程领域完成一个算法所需要的时间，是衡量一个算法优劣的重要参数。时间复杂度越小，说明该算法效率越高，则该算法越有价值。</p>
+<h6 id="确定的时间复杂度-DT-IME"><a href="#确定的时间复杂度-DT-IME" class="headerlink" title="确定的时间复杂度 $DT_{IME}$"></a>确定的时间复杂度 $DT_{IME}$</h6><p>对于一个【确定性】的图灵机，我们可以给出其常见的几种 【(确定的)时间复杂度 $DT_{IME}$】：</p>
 <ul>
-<li><p>时间复杂度 $TIME(t(n))$ ：</p>
-<p>是指在计算机科学与工程领域完成一个算法所需要的时间，是衡量一个算法优劣的重要参数。时间复杂度越小，说明该算法效率越高，则该算法越有价值。</p>
-</li>
-<li><p>空间复杂度 $SPACE(s(n))$ ：</p>
-<p>是指计算机科学领域完成一个算法所需要占用的存储空间，一般是输入参数的函数。它是算法优劣的重要度量指标，一般来说，空间复杂度越小，算法越好。我们假设有一个图灵机来解决某一类语言的某一问题，设有X个字（word）属于这个问题，把X放入这个图灵机的输入端，这个图灵机为解决此问题所需要的工作带格子数总和称为空间。</p>
-</li>
+<li>$\mathcal{P}$ 问题类的 (确定的) 时间复杂度 $DT_{IME}$：</li>
 </ul>
 <blockquote>
 <p><strong>Definition</strong></p>
 <script type="math/tex; mode=display">
-\mathcal{P} = \bigcup_{k \ge1} TIME(n^k)</script><p>即 $\mathcal{P}$ 问题的时间复杂度是<u>多项式时间复杂度</u>，$\mathcal{P}$ 问题可在多项式时间解决（在很快的时间内解决），$\mathcal{P}$ 问题是易解 (feasible) 问题</p>
+\mathcal{P} \triangleq \bigcup_{k \ge1} DT_{IME}(n^k)</script><p>即 $\mathcal{P}$ 问题的时间复杂度是<u>【确定性】图灵机</u>的<u>多项式时间复杂度</u>，$\mathcal{P}$ 问题可在多项式时间解决（在很快的时间内解决），$\mathcal{P}$ 问题是易解 (feasible) 问题</p>
+</blockquote>
+<ul>
+<li>$ET_{IME}$ 指数时间</li>
+</ul>
+<script type="math/tex; mode=display">
+ET_{IME} \triangleq \bigcup_{k \ge1} DT_{IME}(2^{kn})</script><ul>
+<li>$EXPT_{IME}$ 指数时间</li>
+</ul>
+<script type="math/tex; mode=display">
+EXPT_{IME} \triangleq \bigcup_{k \ge1} DT_{IME}(2^{n^k})</script><blockquote>
+<p><strong>结论</strong></p>
+<script type="math/tex; mode=display">
+\mathcal{P} \subsetneq ET_{IME} \subsetneq EXPT_{IME}</script><ul>
+<li>$\mathcal{P}$ <u>包含在但不等于</u> $ET_{IME}$ <u>包含在但不等于</u> $EXPT_{IME}$</li>
+</ul>
+</blockquote>
+<h6 id="非确定的时间复杂度-NT-IME"><a href="#非确定的时间复杂度-NT-IME" class="headerlink" title="非确定的时间复杂度 $NT_{IME}$"></a>非确定的时间复杂度 $NT_{IME}$</h6><p>将在 <a href="####非确定性 (Non-determinism">非确定性</a>) 章节讨论。</p>
 <p>对于一个决策性问题 $\mathcal{L}$，我们有如下要求：</p>
+<blockquote>
 <ol>
 <li>写一个可以解决问题 $\mathcal{L}$ 的程序</li>
 <li>证明这个程序是最优的（目前学界并没有数学上严格的证明）</li>
@@ -455,7 +471,33 @@ Q_{Accpet-All}(\mathcal{M}) \le Q_{Prog-Equ}(\mathcal{M}, \mathcal{M_0})</script
 <p>而在考虑时间因素下（有效时间*），一个“有神秘能力的”计算机能做的事 <u>有时可以</u> 在一个“没有神秘能力的”计算机上解决 (UNKNOWN)。</p>
 </blockquote>
 <p>【*有效时间】是多项式时间，即算法的运行时间是 $O(n^c)$，其中 $c$ 是常数。</p>
-<h4 id="P-NP-问题"><a href="#P-NP-问题" class="headerlink" title="$P = NP\;?$ 问题"></a>$P = NP\;?$ 问题</h4><blockquote>
+<h5 id="非确定的时间复杂度-NT-IME-1"><a href="#非确定的时间复杂度-NT-IME-1" class="headerlink" title="非确定的时间复杂度 $NT_{IME}$"></a>非确定的时间复杂度 $NT_{IME}$</h5><ul>
+<li>$\mathcal{NP}$ 问题类时间复杂度</li>
+</ul>
+<script type="math/tex; mode=display">
+\mathcal{NP} \triangleq \bigcup_{k \ge1} NT_{IME}(n^k)</script><blockquote>
+<p>即 $\mathcal{NP}$ 问题的时间复杂度是<u>【非确定性】图灵机</u>的<u>多项式时间复杂度</u>。</p>
+</blockquote>
+<ul>
+<li>$NEXPT_{IME}$ 指数时间</li>
+</ul>
+<script type="math/tex; mode=display">
+NEXPT_{IME} \triangleq \bigcup_{k \ge1} NT_{IME}(2^{kn})</script><blockquote>
+<p><strong>结论</strong></p>
+<ul>
+<li><script type="math/tex; mode=display">
+\mathcal{P} \; \subseteq \; \mathcal{NP} \; \subseteq \; EXPT_{IME} \; \subseteq \; NEXPT_{IME}</script></li>
+<li><script type="math/tex; mode=display">
+\mathcal{P} \; \subsetneq \; EXPT_{IME} \qquad \mathcal{NP} \; \subsetneq \; NEXPT_{IME}</script></li>
+<li><script type="math/tex; mode=display">
+\mathcal{P} \overset{\underset{\mathrm{?}}{}}{=} \mathcal{NP}</script></li>
+<li><script type="math/tex; mode=display">
+\mathcal{NP} \overset{\underset{\mathrm{?}}{}}{=} EXPT_{IME}</script></li>
+<li><script type="math/tex; mode=display">
+EXPT_{IME} \overset{\underset{\mathrm{?}}{}}{=} NEXPT_{IME}</script></li>
+</ul>
+</blockquote>
+<h4 id="mathcal-P-overset-underset-mathrm-mathcal-NP-问题"><a href="#mathcal-P-overset-underset-mathrm-mathcal-NP-问题" class="headerlink" title="$\mathcal{P} \overset{\underset{\mathrm{?}}{}}{=} \mathcal{NP}$ 问题"></a>$\mathcal{P} \overset{\underset{\mathrm{?}}{}}{=} \mathcal{NP}$ 问题</h4><blockquote>
 <p>在有效时间下，一个“有神秘能力的”计算机能做的事是否可以在一个“没有神秘能力的”计算机上解决？</p>
 </blockquote>
 <p><em>等价于</em></p>
@@ -465,10 +507,10 @@ Q_{Accpet-All}(\mathcal{M}) \le Q_{Prog-Equ}(\mathcal{M}, \mathcal{M_0})</script
 <p><em>等价于</em></p>
 <blockquote>
 <script type="math/tex; mode=display">
-P \overset{\underset{\mathrm{?}}{}}{=} NP</script></blockquote>
+\mathcal{P} \overset{\underset{\mathrm{?}}{}}{=} \mathcal{NP}</script></blockquote>
 <ul>
 <li>$P$：Polynomial Time 可解</li>
-<li>$NP$：Non-determinism Problem</li>
+<li>$NP$：Non-determinism Polynomial</li>
 </ul>
 <h5 id="mathcal-P-问题与-mathcal-NP-问题"><a href="#mathcal-P-问题与-mathcal-NP-问题" class="headerlink" title="$\mathcal{P}$ 问题与 $\mathcal{NP}$ 问题"></a>$\mathcal{P}$ 问题与 $\mathcal{NP}$ 问题</h5><blockquote>
 <ul>
@@ -493,7 +535,7 @@ P \overset{\underset{\mathrm{?}}{}}{=} NP</script></blockquote>
 <li><p>所有属于 $\mathcal{P}$ 的问题都是属于 $\mathcal{NP}$ 的</p>
 </li>
 <li><script type="math/tex; mode=display">
-P \subseteq NP \qquad \text{①}</script></li>
+\mathcal{P} \subseteq \mathcal{NP} \qquad \text{①}</script></li>
 </ul>
 <p>反言之，如果：</p>
 <ul>
@@ -504,11 +546,11 @@ P \subseteq NP \qquad \text{①}</script></li>
 <li><p>所有属于 $\mathcal{NP}$ 的问题都是属于 $\mathcal{P}$ 的</p>
 </li>
 <li><script type="math/tex; mode=display">
-NP \subseteq P \qquad \text{②}</script></li>
+\mathcal{NP} \subseteq \mathcal{P} \qquad \text{②}</script></li>
 </ul>
 <p>如果满足以上两点，我们可以推出：</p>
 <script type="math/tex; mode=display">
-{① + ②} \quad \Rightarrow \quad P=NP \quad \text{无人可知是否成立}</script><h6 id="如果-P-NP-成立"><a href="#如果-P-NP-成立" class="headerlink" title="如果 $P = NP$ 成立"></a>如果 $P = NP$ 成立</h6><ul>
+{① + ②} \quad \Rightarrow \quad \mathcal{P} = \mathcal{NP} \quad \text{无人可知是否成立}</script><h6 id="如果-mathcal-P-mathcal-NP-成立"><a href="#如果-mathcal-P-mathcal-NP-成立" class="headerlink" title="如果 $\mathcal{P} = \mathcal{NP}$ 成立"></a>如果 $\mathcal{P} = \mathcal{NP}$ 成立</h6><ul>
 <li>优点：很多工程上很重要的优化问题都可以用计算机解决</li>
 <li>缺点：所有的密码系统都会被破解</li>
 </ul>
@@ -556,12 +598,53 @@ F =
 </li>
 </ol>
 <p>因此，如果一个独立集问题属于 $\mathcal{P}$ 问题类，那么它也是SAT问题。</p>
-<h4 id="NP-完全-compelet-问题"><a href="#NP-完全-compelet-问题" class="headerlink" title="NP-完全 (compelet) 问题"></a>NP-完全 (compelet) 问题</h4><h5 id="多项式时间规约-Polynomial-time-Reduction"><a href="#多项式时间规约-Polynomial-time-Reduction" class="headerlink" title="多项式时间规约 (Polynomial-time Reduction)"></a>多项式时间规约 (Polynomial-time Reduction)</h5><blockquote>
+<h4 id="NP-完全-complete-问题"><a href="#NP-完全-complete-问题" class="headerlink" title="NP-完全 (complete) 问题"></a>NP-完全 (complete) 问题</h4><h5 id="多项式时间规约-Polynomial-time-Reduction"><a href="#多项式时间规约-Polynomial-time-Reduction" class="headerlink" title="多项式时间规约 (Polynomial-time Reduction)"></a>多项式时间规约 (Polynomial-time Reduction)</h5><blockquote>
 <p><strong>Definition</strong></p>
-<p>我们有两个决策性问题 $Q_1$ 和 $Q_2$，如果存在一个确定性 (det.) 的多项式时间 (poly-time) 算法，使得任何一个问题 $Q_1$ 的实例 $x_1$ 都可以转换成问题 $Q_2$ 的实例 $x_2$ ，以至于 $x_1$ 是问题 $Q_1$ 的“yes”实例，当且仅当 $x_2$ 是问题 $Q_2$ 的“yes”实例。那么我们称，</p>
-<p>一个决策性问题 $Q_1$ 【多项式时间规约】到另一个决策性问题 $Q_2$，记作 $Q_1 \le^{p}_{m} Q_2$</p>
-<p>⚠️注意：这里的“实例 $x$”可以理解为关于问题 $Q$ 的一组“解”。 </p>
+<p>我们有两个决策性问题 $Q_1$ 和 $Q_2$，如果存在一个确定性 (det.) 的多项式时间 (poly-time) 算法 $\mathcal{R}$，使得任何一个问题 $Q_1$ 的实例 $x_1$ 都可以转换成问题 $Q_2$ 的实例 $x_2$ ，以至于 $x_1$ 是问题 $Q_1$ 的“yes”实例，当且仅当 $x_2$ 是问题 $Q_2$ 的“yes”实例。那么我们称，</p>
+<p>一个决策性问题 $Q_1$ 【多项式时间规约】到另一个决策性问题 $Q_2$，记作 $Q_1 \le^{p}_{m} Q_2$，即 $Q_1$ 不比 $Q_2$ 难，$Q_2$ 不比 $Q_1$ 容易。</p>
+<script type="math/tex; mode=display">
+x_1:Q_1的实例 \quad \xrightarrow[poly-time]{\mathcal{R}} \quad x_2:Q_2的实例</script><p>⚠️注意：这里的“实例 $x$”可以理解为关于问题 $Q$ 的一组“解”。 </p>
 </blockquote>
+<p><img src="/2022/06/14/%E8%AE%A1%E7%AE%97%E5%A4%8D%E6%9D%82%E6%80%A7%E7%90%86%E8%AE%BA/image-20220626084222978.png" alt="image-20220626084222978" style="zoom:45%;"></p>
+<p><strong>性质</strong></p>
+<ul>
+<li>如果 $Q_1 \le^{p}_{m} Q_2$，且 $Q_2$ 属于 $\mathcal{P}$ 问题类，那么 $Q_1$ 也属于 $\mathcal{P}$ 问题类。</li>
+<li>如果 $Q_1 \le^{p}_{m} Q_2$，且 $Q_2$ <u>不</u>属于 $\mathcal{P}$ 问题类，那么 $Q_1$ 也<u>不</u>属于 $\mathcal{P}$ 问题类。</li>
+<li>规约具有传递性： $Q_1 \le^{p}_{m} Q_2$， $Q_2 \le^{p}_{m} Q_3$，则 $Q_1 \le^{p}_{m} Q_3$，</li>
+</ul>
+<h5 id="mathcal-NP-hard"><a href="#mathcal-NP-hard" class="headerlink" title="$\mathcal{NP}-hard$"></a>$\mathcal{NP}-hard$</h5><blockquote>
+<p>对于所有属于 $\mathcal{NP}$ 问题类的问题 $Q’$，如果存在一个问题 $Q$ 满足 $Q’ \le^{p}_{m} Q$，那么问题 $Q$ 不比所有的 $\mathcal{NP}$ 问题简单。我们将问题 $Q$ 称作 $\mathcal{NP}-hard$ 问题类。</p>
+</blockquote>
+<h5 id="mathcal-NP-完全-complete"><a href="#mathcal-NP-完全-complete" class="headerlink" title="$\mathcal{NP}-完全\;complete$"></a>$\mathcal{NP}-完全\;complete$</h5><blockquote>
+<p>如果问题 $Q$ 也属于 $\mathcal{NP}$ 问题类，且满足 $Q’ \le^{p}_{m} Q$，那么问题 $Q$ 就是最难的 $\mathcal{NP}$ 问题。我们将问题 $Q$ 称作 $\mathcal{NP}-完全$ 问题类。即满足以下两个条件：</p>
+<ol>
+<li>问题 $Q$ 属于 $\mathcal{NP}$ 问题类</li>
+<li>$所有\mathcal{NP}问题 \le^{p}_{m} Q$，即 $Q$ 是 $\mathcal{NP}-hard$ 问题</li>
+</ol>
+</blockquote>
+<h6 id="推论"><a href="#推论" class="headerlink" title="推论"></a>推论</h6><blockquote>
+<ul>
+<li>如果任意一个 $\mathcal{NP}-hard$ 问题都属于 $\mathcal{P}$ 问题，那么 $\mathcal{P} = \mathcal{NP}$ </li>
+<li>如果 $\mathcal{P} \ne \mathcal{NP}$，那么没有一个 $\mathcal{NP}-hard$ 问题可以被【确定的多项式时间算法】解决（学界普遍相信）</li>
+<li>如果 $Q_1 \le^{p}_{m} Q_2$ 且 $Q_1$ 是 $\mathcal{NP}-hard$ 问题，那么 $Q_2$ 也是 $\mathcal{NP}-hard$ 问题</li>
+</ul>
+</blockquote>
+<p>例，给出一个“天然的” $\mathcal{NP}-完全$ 问题：</p>
+<blockquote>
+<p><strong>Cook Theorem.</strong></p>
+<p>SAT (可满足) 问题是 $\mathcal{NP}-完全$ 问题。</p>
+<p>证明思路：</p>
+<ol>
+<li>证明问题 $Q$ 是 $\mathcal{NP}-hard$ 问题<ul>
+<li>找到一个已知的 $\mathcal{NP}-完全$ 问题 $Q_1$</li>
+<li>证明 $Q_1 \le^{p}_{m} Q$ </li>
+</ul>
+</li>
+<li>证明问题 $Q$ 属于 $\mathcal{NP}$ 问题</li>
+</ol>
+</blockquote>
+<p><u>可满足问题</u> (SAT)、<u>独立集问题</u> (Independent Set)、<u>顶点覆盖问题</u> (Vertex-Cover)、<u>子集求和问题</u> (Subset Sum)、<u>分区问题</u> (Partition) 都是 $\mathcal{NP}-完全$ 问题。</p>
+<h4 id="空间复杂度-SPACE-s-n-："><a href="#空间复杂度-SPACE-s-n-：" class="headerlink" title="空间复杂度 $SPACE(s(n))$ ："></a>空间复杂度 $SPACE(s(n))$ ：</h4><p>是指计算机科学领域完成一个算法所需要占用的存储空间，一般是输入参数的函数。它是算法优劣的重要度量指标，一般来说，空间复杂度越小，算法越好。我们假设有一个图灵机来解决某一类语言的某一问题，设有 $x$ 个字（word）属于这个问题，把X放入这个图灵机的输入端，这个图灵机为解决此问题所需要的工作带格子数总和称为空间。</p>
 
     </div>
 
@@ -662,7 +745,7 @@ F =
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Calculabilite-et-Complexite-%E8%AE%A1%E7%AE%97%E5%A4%8D%E6%9D%82%E6%80%A7%E7%90%86%E8%AE%BA"><span class="nav-text">Calculabilité et Complexité (计算复杂性理论)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E7%81%B5%E6%9C%BA"><span class="nav-text">图灵机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E7%BA%B8%E5%B8%A6%E5%9B%BE%E7%81%B5%E6%9C%BA"><span class="nav-text">多纸带图灵机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Church-%E5%85%AC%E7%90%86"><span class="nav-text">Church 公理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%AE%A1%E7%AE%97%E6%80%A7%E7%90%86%E8%AE%BA"><span class="nav-text">可计算性理论</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%81%9C%E6%9C%BA%E9%97%AE%E9%A2%98-Halting-Problem"><span class="nav-text">停机问题 (Halting Problem)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%81%E6%98%8E1"><span class="nav-text">证明1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%81%E6%98%8E2"><span class="nav-text">证明2</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E6%8E%A5%E5%8F%97%E9%97%AE%E9%A2%98-Accept-All-Problem"><span class="nav-text">全接受问题 (Accept-All Problem)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AD%89%E4%BB%B7%E7%A8%8B%E5%BA%8F%E9%97%AE%E9%A2%98-Program-Equivalence-Problem"><span class="nav-text">等价程序问题 (Program-Equivalence Problem)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E7%90%86%E8%AE%BA"><span class="nav-text">复杂度理论</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A8%E5%B9%BFChurch-%E5%85%AC%E7%90%86"><span class="nav-text">推广Church 公理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%B6%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E6%80%A7"><span class="nav-text">时空间复杂性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%9E%E7%A1%AE%E5%AE%9A%E6%80%A7-Non-determinism"><span class="nav-text">非确定性 (Non-determinism)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P-NP-%E9%97%AE%E9%A2%98"><span class="nav-text">$P &#x3D; NP\;?$ 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#mathcal-P-%E9%97%AE%E9%A2%98%E4%B8%8E-mathcal-NP-%E9%97%AE%E9%A2%98"><span class="nav-text">$\mathcal{P}$ 问题与 $\mathcal{NP}$ 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C-P-NP-%E6%88%90%E7%AB%8B"><span class="nav-text">如果 $P &#x3D; NP$ 成立</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B4%A7%E9%83%8E%E6%90%AC%E8%BF%90-Traveling-Salesman-%E9%97%AE%E9%A2%98"><span class="nav-text">货郎搬运 (Traveling Salesman)问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E6%BB%A1%E8%B6%B3%E6%80%A7-SAT-%E9%97%AE%E9%A2%98"><span class="nav-text">可满足性 (SAT) 问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E9%97%AE%E9%A2%98-Scheduling"><span class="nav-text">调度问题 (Scheduling)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%8B%AC%E7%AB%8B%E9%9B%86%E9%97%AE%E9%A2%98-Independent-Set"><span class="nav-text">独立集问题 (Independent Set)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E3%80%90%E8%BD%AC%E6%8D%A2%E3%80%91SAT-%E9%97%AE%E9%A2%98-Leftrightarrow-%E7%8B%AC%E7%AB%8B%E9%9B%86%E9%97%AE%E9%A2%98"><span class="nav-text">【转换】SAT 问题 $\Leftrightarrow$ 独立集问题</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8F%AF%E6%BB%A1%E8%B6%B3%E6%80%A7-SAT-%E9%97%AE%E9%A2%98-1"><span class="nav-text">可满足性 (SAT) 问题</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%8B%AC%E7%AB%8B%E9%9B%86%E9%97%AE%E9%A2%98-Independent-Set-1"><span class="nav-text">独立集问题 (Independent Set)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%BD%AC%E6%8D%A2%E8%BF%87%E7%A8%8B"><span class="nav-text">转换过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NP-%E5%AE%8C%E5%85%A8-compelet-%E9%97%AE%E9%A2%98"><span class="nav-text">NP-完全 (compelet) 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%9A%E9%A1%B9%E5%BC%8F%E6%97%B6%E9%97%B4%E8%A7%84%E7%BA%A6-Polynomial-time-Reduction"><span class="nav-text">多项式时间规约 (Polynomial-time Reduction)</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Calculabilite-et-Complexite-%E8%AE%A1%E7%AE%97%E5%A4%8D%E6%9D%82%E6%80%A7%E7%90%86%E8%AE%BA"><span class="nav-text">Calculabilité et Complexité (计算复杂性理论)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E7%81%B5%E6%9C%BA"><span class="nav-text">图灵机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E7%BA%B8%E5%B8%A6%E5%9B%BE%E7%81%B5%E6%9C%BA"><span class="nav-text">多纸带图灵机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Church-%E5%85%AC%E7%90%86"><span class="nav-text">Church 公理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%AE%A1%E7%AE%97%E6%80%A7%E7%90%86%E8%AE%BA"><span class="nav-text">可计算性理论</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%81%9C%E6%9C%BA%E9%97%AE%E9%A2%98-Halting-Problem"><span class="nav-text">停机问题 (Halting Problem)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%81%E6%98%8E1"><span class="nav-text">证明1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%81%E6%98%8E2"><span class="nav-text">证明2</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E6%8E%A5%E5%8F%97%E9%97%AE%E9%A2%98-Accept-All-Problem"><span class="nav-text">全接受问题 (Accept-All Problem)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AD%89%E4%BB%B7%E7%A8%8B%E5%BA%8F%E9%97%AE%E9%A2%98-Program-Equivalence-Problem"><span class="nav-text">等价程序问题 (Program-Equivalence Problem)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E7%90%86%E8%AE%BA"><span class="nav-text">复杂度理论</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A8%E5%B9%BFChurch-%E5%85%AC%E7%90%86"><span class="nav-text">推广Church 公理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%B6%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E6%80%A7"><span class="nav-text">时空间复杂性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-TIME-t-n-%EF%BC%9A"><span class="nav-text">时间复杂度 $TIME(t(n))$ ：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-DT-IME"><span class="nav-text">确定的时间复杂度 $DT_{IME}$</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%9D%9E%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-NT-IME"><span class="nav-text">非确定的时间复杂度 $NT_{IME}$</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%9E%E7%A1%AE%E5%AE%9A%E6%80%A7-Non-determinism"><span class="nav-text">非确定性 (Non-determinism)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9D%9E%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-NT-IME-1"><span class="nav-text">非确定的时间复杂度 $NT_{IME}$</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mathcal-P-overset-underset-mathrm-mathcal-NP-%E9%97%AE%E9%A2%98"><span class="nav-text">$\mathcal{P} \overset{\underset{\mathrm{?}}{}}{&#x3D;} \mathcal{NP}$ 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#mathcal-P-%E9%97%AE%E9%A2%98%E4%B8%8E-mathcal-NP-%E9%97%AE%E9%A2%98"><span class="nav-text">$\mathcal{P}$ 问题与 $\mathcal{NP}$ 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C-mathcal-P-mathcal-NP-%E6%88%90%E7%AB%8B"><span class="nav-text">如果 $\mathcal{P} &#x3D; \mathcal{NP}$ 成立</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B4%A7%E9%83%8E%E6%90%AC%E8%BF%90-Traveling-Salesman-%E9%97%AE%E9%A2%98"><span class="nav-text">货郎搬运 (Traveling Salesman)问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E6%BB%A1%E8%B6%B3%E6%80%A7-SAT-%E9%97%AE%E9%A2%98"><span class="nav-text">可满足性 (SAT) 问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E9%97%AE%E9%A2%98-Scheduling"><span class="nav-text">调度问题 (Scheduling)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%8B%AC%E7%AB%8B%E9%9B%86%E9%97%AE%E9%A2%98-Independent-Set"><span class="nav-text">独立集问题 (Independent Set)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E3%80%90%E8%BD%AC%E6%8D%A2%E3%80%91SAT-%E9%97%AE%E9%A2%98-Leftrightarrow-%E7%8B%AC%E7%AB%8B%E9%9B%86%E9%97%AE%E9%A2%98"><span class="nav-text">【转换】SAT 问题 $\Leftrightarrow$ 独立集问题</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8F%AF%E6%BB%A1%E8%B6%B3%E6%80%A7-SAT-%E9%97%AE%E9%A2%98-1"><span class="nav-text">可满足性 (SAT) 问题</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%8B%AC%E7%AB%8B%E9%9B%86%E9%97%AE%E9%A2%98-Independent-Set-1"><span class="nav-text">独立集问题 (Independent Set)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%BD%AC%E6%8D%A2%E8%BF%87%E7%A8%8B"><span class="nav-text">转换过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NP-%E5%AE%8C%E5%85%A8-complete-%E9%97%AE%E9%A2%98"><span class="nav-text">NP-完全 (complete) 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%9A%E9%A1%B9%E5%BC%8F%E6%97%B6%E9%97%B4%E8%A7%84%E7%BA%A6-Polynomial-time-Reduction"><span class="nav-text">多项式时间规约 (Polynomial-time Reduction)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mathcal-NP-hard"><span class="nav-text">$\mathcal{NP}-hard$</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mathcal-NP-%E5%AE%8C%E5%85%A8-complete"><span class="nav-text">$\mathcal{NP}-完全\;complete$</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%8E%A8%E8%AE%BA"><span class="nav-text">推论</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-SPACE-s-n-%EF%BC%9A"><span class="nav-text">空间复杂度 $SPACE(s(n))$ ：</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -726,13 +809,13 @@ F =
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">246k</span>
+    <span title="站点总字数">249k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">3:44</span>
+    <span title="站点阅读时长">3:46</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
