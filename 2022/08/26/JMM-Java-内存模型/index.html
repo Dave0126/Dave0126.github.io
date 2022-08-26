@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://dave0126.github.io/2022/08/26/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/image-20220826143700494.png">
 <meta property="og:image" content="https://dave0126.github.io/2022/08/26/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/image-20220826144401033.png">
 <meta property="article:published_time" content="2022-08-26T08:28:21.000Z">
-<meta property="article:modified_time" content="2022-08-26T16:29:33.388Z">
+<meta property="article:modified_time" content="2022-08-26T16:58:51.510Z">
 <meta property="article:author" content="Guohao">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="JMM">
@@ -196,7 +196,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-08-26 10:28:21 / 修改时间：18:29:33" itemprop="dateCreated datePublished" datetime="2022-08-26T10:28:21+02:00">2022-08-26</time>
+              <time title="创建时间：2022-08-26 10:28:21 / 修改时间：18:58:51" itemprop="dateCreated datePublished" datetime="2022-08-26T10:28:21+02:00">2022-08-26</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -408,7 +408,7 @@ G --> A</pre>
 <li><code>volatile</code> 只能保证<strong><em><u>可见性</u></em></strong>和<strong><em><u>有序性</u></em></strong>，并不能保证原子性</li>
 <li><code>synchronized</code> 可以保证以上三种性质。</li>
 </ul>
-<h4 id="double-checked-locking-问题"><a href="#double-checked-locking-问题" class="headerlink" title="double-checked locking 问题"></a><code>double-checked locking</code> 问题</h4><p>以我们在<a href>设计模中篇</a>中提到的单例模式为例：</p>
+<h4 id="double-checked-locking-问题"><a href="#double-checked-locking-问题" class="headerlink" title="double-checked locking 问题"></a><code>double-checked locking</code> 问题</h4><p>以我们在<a href="https://dave0126.github.io/2022/06/16/Java的23种设计模式/#单例模式">设计模式篇</a>中提到的单例模式为例：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">INSTANCE</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (INSTANCE == <span class="literal">null</span>) &#123;</span><br><span class="line">      INSTANCE = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> INSTANCE;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们可以看到，由于 <code>synchronized</code> 是重量级锁，每次调用 <code>getInstance()</code> 方法获得实例对象时都会执行同步代码块、加锁、释放锁……这样效率不高。但是单例模式在创建时，只有第一次应该保护如下的代码块</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span>(Singleton.class) &#123;</span><br><span class="line"> <span class="keyword">if</span> (INSTANCE == <span class="literal">null</span>) &#123;</span><br><span class="line">   INSTANCE = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line"> &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
