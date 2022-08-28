@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dave0126.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="内容检索  数据结构和算法概述 算法分析 排序算法 线性表(#) 符号表(#) 树(#) 堆(#) 优先队列(#) 并查集(#) 图(#)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构及常见算法- 复习总结">
+<meta property="og:url" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Lost N Found">
+<meta property="og:description" content="内容检索  数据结构和算法概述 算法分析 排序算法 线性表(#) 符号表(#) 树(#) 堆(#) 优先队列(#) 并查集(#) 图(#)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828093321336.png">
+<meta property="og:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828093430990.png">
+<meta property="og:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828093555849.png">
+<meta property="og:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828093628509.png">
+<meta property="og:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828093840520.png">
+<meta property="og:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828094416257.png">
+<meta property="og:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828102017852.png">
+<meta property="og:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828112100412.png">
+<meta property="og:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/20191120141001101.gif">
+<meta property="og:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/12585785-b67fc46afdc20cc1.gif">
+<meta property="og:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/849589-20171015225645277-1151100000.gif">
+<meta property="og:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/100-1705399.png">
+<meta property="og:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828185746123.png">
+<meta property="og:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828202350528.png">
+<meta property="article:published_time" content="2021-10-28T07:17:15.000Z">
+<meta property="article:modified_time" content="2022-08-28T18:34:14.822Z">
+<meta property="article:author" content="Guohao">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828093321336.png">
+
+<link rel="canonical" href="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数据结构及常见算法- 复习总结 | Lost N Found</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Lost N Found" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Lost N Found</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/Dave0126" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guohao">
+      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lost N Found">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据结构及常见算法- 复习总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-10-28 09:17:15" itemprop="dateCreated datePublished" datetime="2021-10-28T09:17:15+02:00">2021-10-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-28 20:34:14" itemprop="dateModified" datetime="2022-08-28T20:34:14+02:00">2022-08-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>内容检索</p>
+<ol>
+<li><a href="#0-数据结构与算法设计">数据结构和算法概述</a></li>
+<li><a href="#1-算法分析">算法分析</a></li>
+<li><a href="#2-排序算法">排序算法</a></li>
+<li>线性表(#)</li>
+<li>符号表(#)</li>
+<li>树(#)</li>
+<li>堆(#)</li>
+<li>优先队列(#)</li>
+<li>并查集(#)</li>
+<li>图(#)</li>
+</ol>
+<span id="more"></span>
+<h2 id="0-数据结构与算法设计"><a href="#0-数据结构与算法设计" class="headerlink" title="0 数据结构与算法设计"></a>0 数据结构与算法设计</h2><p>数据结构是一门研究非数值计算的程序设计问题的操作对象，以及它们之间的关系和操作问题的学科。即<u>数据结构就是把数据元素按照一定的关系组织起来的集合，用来组织和存储数据。</u></p>
+<h3 id="0-1-数据结构分类"><a href="#0-1-数据结构分类" class="headerlink" title="0.1 数据结构分类"></a>0.1 数据结构分类</h3><p>传统上，我们可以把数据结构分为<strong><em><u>逻辑结构</u></em></strong>和<strong><em><u>物理结构</u></em></strong>两大类。</p>
+<h5 id="逻辑结构分类"><a href="#逻辑结构分类" class="headerlink" title="逻辑结构分类:"></a>逻辑结构分类:</h5><p>逻辑结构是从具体问题中抽象出来的模型，是抽象意义上的结构，按照对象中数据元素之间的相互关系分类，也是我们后面课题中需要关注和讨论的问题。</p>
+<h6 id="a-【集合结构】："><a href="#a-【集合结构】：" class="headerlink" title="(a) 【集合结构】："></a>(a) 【集合结构】：</h6><p>集合结构中数据元素除了属于同一个集合外，他们之间没有任何其他的关系。</p>
+<p><img src="/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828093321336.png" alt="image-20220828093321336" style="zoom:40%;"></p>
+<h6 id="b-【线性结构】："><a href="#b-【线性结构】：" class="headerlink" title="(b)【线性结构】："></a>(b)【线性结构】：</h6><p>线性结构中的数据元素之间存在一对一的关系</p>
+<p><img src="/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828093430990.png" alt="image-20220828093430990" style="zoom:40%;"></p>
+<h6 id="c-【树形结构】："><a href="#c-【树形结构】：" class="headerlink" title="(c)【树形结构】："></a>(c)【树形结构】：</h6><p>树形结构中的数据元素之间存在一对多的层次关系</p>
+<p><img src="/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828093555849.png" alt="image-20220828093555849" style="zoom:40%;"></p>
+<h6 id="d-【图形结构】："><a href="#d-【图形结构】：" class="headerlink" title="(d)【图形结构】："></a>(d)【图形结构】：</h6><p>图形结构的数据元素是多对多的关系</p>
+<p><img src="/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828093628509.png" alt="image-20220828093628509" style="zoom:40%;"></p>
+<h5 id="物理结构分类"><a href="#物理结构分类" class="headerlink" title="物理结构分类:"></a>物理结构分类:</h5><p>逻辑结构在计算机中真正的表示方式(又称为映像)称为物理结构，也可以叫做存储结构。常见的物理结构有<strong><em><u>顺序存储结构</u></em></strong>、<strong><em><u>链式存储结构</u></em></strong>。</p>
+<h6 id="a-【顺序存储结构】："><a href="#a-【顺序存储结构】：" class="headerlink" title="(a)【顺序存储结构】："></a>(a)【顺序存储结构】：</h6><p>把数据元素放到地址连续的存储单元里面，其数据间的逻辑关系和物理关系是一致的 ，比如我们常用的数组就是顺序存储结构。</p>
+<p><img src="/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828093840520.png" alt="image-20220828093840520" style="zoom:50%;"></p>
+<ul>
+<li>优点：得益于它的数据元素放到地址连续的存储单元里，所以<strong><em><u>查找</u></em></strong>和<strong><em><u>更新</u></em></strong>速度快</li>
+<li>缺点：如果向这种结构中间<strong><em><u>插入</u></em></strong>或<strong><em><u>删除</u></em></strong>某个元素，需要移动该元素后面的所有元素。</li>
+</ul>
+<h6 id="b-【链式存储结构】："><a href="#b-【链式存储结构】：" class="headerlink" title="(b)【链式存储结构】："></a>(b)【链式存储结构】：</h6><p>把数据元素存放在任意的存储单元里面，这组存储单元可以是连续的也可以是不连续的。此时，数据元素之间并不能反映元素间的逻辑关系，因此在链式存储结构中引进了一个<strong><em><u>指针</u></em></strong>存放数据元素的地址，这样通过地址就可以找到相关联数据元素的位置。</p>
+<p><img src="/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828094416257.png" alt="image-20220828094416257" style="zoom:40%;"></p>
+<h3 id="0-2-算法"><a href="#0-2-算法" class="headerlink" title="0.2 算法"></a>0.2 算法</h3><p>算法是指<u>解题方案的准确而完整的描述</u>，是一系列解决问题的清晰指令，算法代表着用系统的方法解决问题的策略机制。也就是说，能够对一定规范的输入，在有限时间内获得所要求的输出。</p>
+<p>在程序中，我们也可以用不同的算法解决相同的问题，而不同的算法的成本也是不相同的。</p>
+<blockquote>
+<p>总体上，一个优秀的算法追求以下两个目标:</p>
+<ol>
+<li>花最少的时间完成需求; </li>
+<li>占用最少的内存空间完成需求;</li>
+</ol>
+</blockquote>
+<p>【例1】计算 1 到 100 的和。 </p>
+<p>第一种解法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123; </span><br><span class="line">  <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">  <span class="type">int</span> n=<span class="number">100</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">    sum += i;</span><br><span class="line">  &#125;</span><br><span class="line">  System.out.println(<span class="string">&quot;sum=&quot;</span> + sum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第二种解法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">  <span class="type">int</span> n=<span class="number">100</span>;</span><br><span class="line">  sum = (n+<span class="number">1</span>)*n/<span class="number">2</span>;</span><br><span class="line">  System.out.println(<span class="string">&quot;sum=&quot;</span>+sum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很明显，第二种算法完成需求，花费的时间更少一些。</p>
+<p>【例2】计算 10 的阶乘</p>
+<p>第一种解法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="comment">//测试，计算10的阶乘</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">result</span> <span class="operator">=</span> fun1(<span class="number">10</span>);</span><br><span class="line">    System.out.println(result);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//计算n的阶乘</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> <span class="title function_">fun1</span><span class="params">(<span class="type">long</span> n)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n==<span class="number">1</span>)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> n*fun1(n-<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第二种解法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="comment">//测试，计算10的阶乘</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">result</span> <span class="operator">=</span> fun2(<span class="number">10</span>);</span><br><span class="line">    System.out.println(result);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//计算n的阶乘</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> <span class="title function_">fun2</span><span class="params">(<span class="type">long</span> n)</span>&#123;</span><br><span class="line">    <span class="type">int</span> result=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">long</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">      result*=i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第一种解法，使用递归完成需求，<code>fun1</code>方法会执行 10 次，并且第一次执行未完毕，调用第二次执行，第二次执行未完毕，调用第三次执行…… 最终，最多的时候，需要在栈内存同时开辟 10 块内存分别执行 10 个 <code>fun1</code> 方法。</p>
+<p>第二种解法，使用 <code>for</code> 循环完成需求，<code>fun2</code> 方法只会执行一次，最终，只需要在栈内存开辟一块内存执行 <code>fun2</code> 方法 即可。</p>
+<p>很明显，第二种算法完成需求，占用的内存空间更小。</p>
+<h2 id="1-算法分析"><a href="#1-算法分析" class="headerlink" title="1 算法分析"></a>1 算法分析</h2><p>前面我们已经介绍了，研究算法的最终目的就是如何花更少的时间，如何占用更少的内存去完成相同的需求，并且也通过案例演示了不同算法之间时间耗费和空间耗费上的差异，但我们并不能将时间占用和空间占用量化，因此，接下来我们要学习有关算法时间耗费和算法空间耗费的描述和分析。</p>
+<p>有关算法时间耗费分析，我们称之为算法的时间复杂度分析，有关算法的空间耗费分析，我们称之为算法的空间复杂度分析。</p>
+<h4 id="时间复杂度分析"><a href="#时间复杂度分析" class="headerlink" title="时间复杂度分析"></a>时间复杂度分析</h4><p>我们要计算算法时间耗费情况，首先我们得度量算法的执行时间，那么如何度量呢?</p>
+<h5 id="【事后分析估算方法】"><a href="#【事后分析估算方法】" class="headerlink" title="【事后分析估算方法】"></a>【事后分析估算方法】</h5><p>比较容易想到的方法就是我们把算法执行若干次，然后用计时器计时。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="type">long</span> <span class="variable">strat</span> <span class="operator">=</span> System.currentTomeMillis();</span><br><span class="line">  <span class="comment">// TODO 待测试程序</span></span><br><span class="line">  <span class="type">long</span> <span class="variable">end</span> <span class="operator">=</span> System.currentTomeMillis();</span><br><span class="line">  <span class="type">long</span> <span class="variable">excuteTime</span> <span class="operator">=</span> end - start;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种统计方法主要是通过设计好的测试程序和测试数据，利用计算机计时器对不同的算法编制的程序的运行时间进行比较，从而确定算法效率的高低。</p>
+<p>但是这种方法有很大的缺陷：必须依据算法实现编制好的测试程序，通常要花费大量时间和精力，测试完了如果发现测试的是非常糟糕的算法，那么之前所做的事情就全部白费了，并且<u>不同的测试环境（硬件环境）</u>的差别 导致测试的结果差异也很大。</p>
+<h5 id="【事前分析估算方法】"><a href="#【事前分析估算方法】" class="headerlink" title="【事前分析估算方法】"></a>【事前分析估算方法】</h5><p>在计算机程序编写前，依据统计方法对算法进行估算，经过总结，我们发现一个高级语言编写的程序程序在计算机上运行所消耗的时间取决于下列因素:</p>
+<ol>
+<li>算法采用的策略和方案；</li>
+<li>编译产生的代码质量；</li>
+<li>问题的输入规模(所谓的问题输入规模就是输入量的多少)；</li>
+<li>机器执行指令的速度。</li>
+</ol>
+<p>由此可见，抛开这些与计算机硬件、软件有关的因素，一个程序的运行时间依赖于<strong><em><u>算法的好坏</u></em></strong>和<strong><em><u>问题的输入规模</u></em></strong>。如果算法固定，那么该算法的执行时间就只和问题的输入规模有关系了。</p>
+<p>我么再次以之前的求和案例为例，进行分析。</p>
+<p>第一种解法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123; </span><br><span class="line">  <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 执行1次</span></span><br><span class="line">  <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">100</span>; <span class="comment">// 执行1次</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= n; i++) &#123;  <span class="comment">// 执行 n+1 次</span></span><br><span class="line">    sum += i; <span class="comment">// 执行n次</span></span><br><span class="line">  &#125;</span><br><span class="line">  System.out.println(<span class="string">&quot;sum=&quot;</span> + sum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第二种解法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 执行1次</span></span><br><span class="line">  <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">100</span>; <span class="comment">// 执行1次</span></span><br><span class="line">  sum = (n+<span class="number">1</span>)*n/<span class="number">2</span>; <span class="comment">// 执行1次</span></span><br><span class="line">  System.out.println(<span class="string">&quot;sum=&quot;</span>+sum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此，当输入规模为 n 时，</p>
+<ul>
+<li>第一种算法执行了$1+1+(n+1)+n=2n+3$ 次；</li>
+<li>第二种算法执行了 $1+1+1=3$ 次</li>
+</ul>
+<p>如果我们把第一种算法的循环体看做是一个整体，<u>忽略结束条件的判断</u>，那么其实这两个算法运行时间的差距就是 $n$ 和 $1$ 的差距。</p>
+<p>为什么循环判断在【算法1】里执行了 n+1 次，看起来是个不小的数量，但是却可以忽略呢？</p>
+<p>我们研究算法复杂度，侧重的是当输入规模不断增大时，算法的增长量的一个抽象（规律），而不是精确地知道需要执行多少次，最重要的就是把<strong><em><u>核心操作的次数</u></em></strong>和输入规模关联起来。</p>
+<p><img src="/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828102017852.png" alt="image-20220828102017852" style="zoom:40%;"></p>
+<p>关于输入规模 $n$ 的多项式中，随着算法输入规模的增长，<strong><em><u>常数项</u></em></strong>和<strong><em><u>最高次幂的常数系数</u></em></strong>可以被<strong><em><u>忽略</u></em></strong>，我们只关心<strong><em><u>最高次幂</u></em></strong>。</p>
+<blockquote>
+<p>算法函数中最高次幂越小，算法效率越高。</p>
+</blockquote>
+<h4 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h4><h5 id="大-O-记法"><a href="#大-O-记法" class="headerlink" title="大 O 记法"></a>大 O 记法</h5><p> 在进行算法分析时，语句总的执行次数 $T(n)$ 是关于问题规模 $n$ 的函数，进而分析 $T(n)$ 随着 $n$ 的变化情况并确定 $T(n)$ 的<strong><em><u>量级</u></em></strong>。算法的<u>时间复杂度</u>，就是算法的<u>时间量度</u>，记作：</p>
+<script type="math/tex; mode=display">
+T(n)=O(f(n))</script><p>它表示随着问题规模 $n$ 的增大，算法执行时间的增长率和 $f(n)$ 的增长率相同，称作算法的渐近时间复杂度，简称时间复杂度，其中 $f(n)$ 是问题规模 $n$ 的某个函数。</p>
+<p>在这里，我们需要明确一个事情：$执行次数=执行时间$ 用大写 $O()$ 来体现算法时间复杂度的记法，我们称之为大O记法。</p>
+<p>一般情况下，随着输入规模 $n$ 的增大，$T(n)$ 增长最慢的算法为最优算法。 </p>
+<blockquote>
+<p>有一个存储了n个随机数字的数组，请从中查找出指定的数字。</p>
+</blockquote>
+<p>【最好情况】查找的第一个数字就是期望的数字，那么算法的时间复杂度为 $O(1)$</p>
+<p>【最坏情况】 查找的最后一个数字，才是期望的数字，那么算法的时间复杂度为 $O(n)$</p>
+<p>【平均情况】 任何数字查找的平均成本是 $O(n/2)$</p>
+<p>最坏情况是一种保证，在应用中，这是一种最基本的保障，即使在最坏情况下，也能够正常提供服务，所以，除非特别指定，我们提到的<u>运行时间都指的是最坏情况下的运行时间</u>。</p>
+<h5 id="常数阶-O-1"><a href="#常数阶-O-1" class="headerlink" title="常数阶 $O(1)$"></a>常数阶 $O(1)$</h5><p>一般不涉及循环操作的都是常数阶，因为它不会随着 n 的增长而增加操作次数。例如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line">  <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> n + <span class="number">2</span>;</span><br><span class="line">  System.out.println(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码，不管输入规模 n 是多少，都执行 2 次，根据大O推导法则，常数用 1 来替换，所以上述代码的时间复杂度为 $O(1)$</p>
+<h5 id="线性阶-O-n"><a href="#线性阶-O-n" class="headerlink" title="线性阶 $O(n)$"></a>线性阶 $O(n)$</h5><p>一般含有非嵌套循环涉及线性阶（单层 <code>for</code> 循环），线性阶就是随着输入规模的扩大，对应计算次数呈直线增长，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123; </span><br><span class="line"> <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">   System.out.println(i); </span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面这段代码，它的循环的时间复杂度为 $O(n)$，因为循环体中的代码需要执行 n 次。</p>
+<h5 id="平方阶-O-n-2"><a href="#平方阶-O-n-2" class="headerlink" title="平方阶 $O(n^2)$"></a>平方阶 $O(n^2)$</h5><p> 一般嵌套循环（双层 <code>for</code> 循环）属于这种时间复杂度</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  </span><br><span class="line"> <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;=n ; i++) &#123;</span><br><span class="line">   <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt;=n ; j++) &#123;</span><br><span class="line">     System.out.println(i + <span class="string">&quot;\t&quot;</span> + j);</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面这段代码，$n=100$，也就是说，外层循环每执行一次，内层循环就执行 100 次，那总共程序想要从这两个循环 中出来，就需要执行 $100 \times100$ 次，也就是 n 的平方次，所以这段代码的时间复杂度是 $O(n^2)$.</p>
+<h5 id="立方阶-O-n-3"><a href="#立方阶-O-n-3" class="headerlink" title="立方阶 $O(n^3)$"></a>立方阶 $O(n^3)$</h5><p>一般三层嵌套循环属于这种时间复杂度</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;=n ; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i; j &lt;=n ; j++) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> i; m &lt;=n ; j++) &#123;</span><br><span class="line">        System.out.println(i,j,m);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面这段代码，$n=100$，也就是说，外层循环每执行一次，中间循环循环就执行 100 次，中间循环每执行一次，最内层循环需要执行 100 次，那总共程序想要从这三个循环中出来，就需要执行 $100\times 100\times 100$次，也就是 $n^3$，所以这段代码的时间复杂度是 $O(n^3)$</p>
+<h5 id="对数阶-O-log-n"><a href="#对数阶-O-log-n" class="headerlink" title="对数阶 $O(log \;n)$"></a>对数阶 $O(log \;n)$</h5><p>如下列程序所示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  <span class="type">int</span> i=<span class="number">1</span>,</span><br><span class="line">  n=<span class="number">100</span>; </span><br><span class="line">  <span class="keyword">while</span>(i&lt;n)&#123;</span><br><span class="line">    i = i*<span class="number">2</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>由于每次 $i\times 2$ 之后，就距离 n 更近一步，假设有 x 个 2 相乘后大于 n，则会退出循环。由于是 $2^x=n$，得到 $x=log(2)n$，而我们在分析算法时间复杂时只关注增长率，从而可以忽略底数，所以这个循环的时间复杂度为 $O(log \;n)$。</p>
+<p>下面是对常见时间复杂度的一个总结：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">增长的数量级</th>
+<th style="text-align:center">说明</th>
+<th style="text-align:center">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">常数级别</td>
+<td style="text-align:center">$O(1)$</td>
+<td style="text-align:center">普通语句</td>
+<td style="text-align:center">将两个数相加</td>
+</tr>
+<tr>
+<td style="text-align:center">对数级别</td>
+<td style="text-align:center">$O(log \; n)$</td>
+<td style="text-align:center">二分策略</td>
+<td style="text-align:center">二分查找</td>
+</tr>
+<tr>
+<td style="text-align:center">线性级别</td>
+<td style="text-align:center">$O(n)$</td>
+<td style="text-align:center">单层循环</td>
+<td style="text-align:center">找出最大元素</td>
+</tr>
+<tr>
+<td style="text-align:center">线性对数级别</td>
+<td style="text-align:center">$O(nlog\;n)$</td>
+<td style="text-align:center">分治思想</td>
+<td style="text-align:center">归并排序</td>
+</tr>
+<tr>
+<td style="text-align:center">平方级别</td>
+<td style="text-align:center">$O(n^2)$</td>
+<td style="text-align:center">双层循环</td>
+<td style="text-align:center">检查所有元素对</td>
+</tr>
+<tr>
+<td style="text-align:center">立方级别</td>
+<td style="text-align:center">$O(n^3)$</td>
+<td style="text-align:center">三层循环</td>
+<td style="text-align:center">检查所有三元组</td>
+</tr>
+<tr>
+<td style="text-align:center">指数级别</td>
+<td style="text-align:center">$O(2^n)$</td>
+<td style="text-align:center">穷举查找</td>
+<td style="text-align:center">检查所有子集</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>他们的复杂程度从低到高依次为：</p>
+<script type="math/tex; mode=display">
+O(1)<O(log\;n)<O(n)<O(nlog\;n)<O(n^2)<O(n^3)</script><p>我们的算法，尽可能的追求的是$O(1)$，$O(log \; n)$，$O(n)$，$O(nlog\;n)$ 这几种时间复杂度，而如果发现算法的时间复杂度为平方阶、 立方阶或者更复杂的，那我们可以分为这种算法是不可取的，需要优化。</p>
+<h4 id="函数调用的时间复杂度分析"><a href="#函数调用的时间复杂度分析" class="headerlink" title="函数调用的时间复杂度分析"></a>函数调用的时间复杂度分析</h4><p>之前，我们分析的都是单个函数内，算法代码的时间复杂度，接下来我们分析函数调用过程中时间复杂度。</p>
+<p>【案例一】</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  <span class="type">int</span> n=<span class="number">100</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    show(i);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">(<span class="type">int</span> i)</span> &#123;</span><br><span class="line">  System.out.println(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>main</code> 方法中，有一个 <code>for</code> 循环，循环体调用了 <code>show</code> 方法，由于 <code>show</code> 方法内部只执行了一行代码，所以 <code>show</code> 方法的时间复杂度为 $O(1)$，那 <code>main</code> 方法的时间复杂度就是 $O(n)$</p>
+<p>【案例二】</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  <span class="type">int</span> n=<span class="number">100</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    show(i);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">(<span class="type">int</span> i)</span> &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">    System.out.println(i);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>main</code> 方法中，有一个 <code>for</code> 循环，循环体调用了 <code>show</code> 方法，由于 <code>show</code> 方法内部也有一个 <code>for</code> 循环，所以 <code>show</code> 方法的时间复杂度为 $O(n)$，那 <code>main</code> 方法的时间复杂度就是 $O(n^2)$</p>
+<p>【案例三】</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123; <span class="comment">// O(2n^2)</span></span><br><span class="line">  <span class="type">int</span> n=<span class="number">100</span>;</span><br><span class="line">  show(n); <span class="comment">// O(n)</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123; <span class="comment">// O(n)</span></span><br><span class="line">    show(i); <span class="comment">// O(n^2)</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">      System.out.println(j); <span class="comment">// O(n^2)</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">show</span><span class="params">(<span class="type">int</span> i)</span> &#123; <span class="comment">// O(n)</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; i; i++) &#123;</span><br><span class="line">    System.out.println(i); </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 <code>show</code>方法中，有一个 <code>for</code> 循环，所以show方法的时间复杂度为 $O(n)$</li>
+<li>在 <code>main</code>方法中，<code>show(n)</code> 这行代码内部执行的次数为 n，第一个 <code>for</code> 循环内调用了 <code>show</code> 方法，所以其执行次数为 $n^2$<ul>
+<li>第二个嵌套 <code>for</code> 循环内只执行了一行代码， 所以其执行次数为 $n^2$</li>
+<li>那么 <code>main</code> 方法总执行次数为 $n+n^2+n^2=2n^2+n$。</li>
+</ul>
+</li>
+<li>根据大 O 推导规则，去掉 n 保留最高阶项，并去掉最高阶项的常数因子2，所以最终 <code>main</code> 方法的时间复杂度为 $O(n^2)$</li>
+</ul>
+<h4 id="空间复杂度分析"><a href="#空间复杂度分析" class="headerlink" title="空间复杂度分析"></a>空间复杂度分析</h4><h5 id="Java-中常见内存占用"><a href="#Java-中常见内存占用" class="headerlink" title="Java 中常见内存占用"></a>Java 中常见内存占用</h5><ul>
+<li>基本数据类型内存占用情况</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">数据类型</th>
+<th style="text-align:center">内存占用字节数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>byte</code></td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>short</code></td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>int</code></td>
+<td style="text-align:center">4</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>long</code></td>
+<td style="text-align:center">8</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>float</code></td>
+<td style="text-align:center">4</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>double</code></td>
+<td style="text-align:center">8</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>boolean</code></td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>char</code></td>
+<td style="text-align:center">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>计算机访问内存的方式都是一次一个字节</li>
+</ul>
+<p><img src="/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828112100412.png" alt="image-20220828112100412" style="zoom:50%;"></p>
+<ul>
+<li><p>一个引用（机器地址）需要 <strong><em><u>8 个字节</u></em></strong>表示：</p>
+<p>例如: <code>Date date = new Date()</code>，则 <code>date</code> 这个变量需要占用 8个字节来表示</p>
+</li>
+<li><p>创建一个对象，比如 <code>new Date()</code>，除了 <code>Date</code>对象内部存储的数据（例如年月日等信息）占用的内存，该对象本身也有内存开销，<u>每个对象的自身开销是 <strong><em>16 个字节</em></strong>，用来保存对象的头信息</u>。</p>
+</li>
+<li>一般内存的使用，如果不够 8 个字节，都会被<strong><u><em>自动填充为 8 字节</em></u></strong></li>
+<li><strong><em><u>Java 中数组</u></em></strong> 被限定为对象，他们一般都会因为记录长度而需要额外的内存，一个原始数据类型的数组一般需要 <strong><em><u>24字节</u></em></strong>的头信息(16个自己的对象开销，<strong><u><em>4字节用于保存长度以及4个填充字节</em></u></strong>)再加上保存值所需的内存。</li>
+</ul>
+<h4 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h4><p>了解了 Java 的内存最基本的机制，就能够有效帮助我们估计大量程序的内存使用情况。</p>
+<p>算法的空间复杂度计算公式记作</p>
+<script type="math/tex; mode=display">
+S(n)=O(f(n))</script><p>其中 $n$ 为输入规模，$f(n)$ 为语句关于 $n$ 所占存储空间的函数。 </p>
+<blockquote>
+<p>【案例一】：对指定的数组元素进行反转，并返回反转的内容。</p>
+</blockquote>
+<p>算法一：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>[] reverseList1(<span class="type">int</span>[] arr)&#123;</span><br><span class="line">  <span class="type">int</span> n=arr.length; <span class="comment">// 申请4个字节</span></span><br><span class="line">  <span class="type">int</span> temp; <span class="comment">// 申请4个字节</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> start=<span class="number">0</span>,end=n-<span class="number">1</span>; start&lt;=end; start++,end--)&#123;</span><br><span class="line">    temp=arr[start];</span><br><span class="line">    arr[start]=arr[end];</span><br><span class="line">    arr[end]=temp;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>不管传入的数组大小为多少，始终额外申请 $4+4=8$ 个字节;</li>
+</ul>
+<p>算法二：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>[] reverse2(<span class="type">int</span>[] arr)&#123;</span><br><span class="line">  <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> arr.length; <span class="comment">// 申请4个字节</span></span><br><span class="line">  <span class="type">int</span>[] temp = <span class="keyword">new</span> <span class="title class_">int</span>[n]; <span class="comment">// 申请n*4个字节+数组自身头信息开销24个字节</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> n-<span class="number">1</span>; i &gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">    temp[n-<span class="number">1</span>-i]=arr[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>$4+4n+24=4n+28$</li>
+</ul>
+<p>根据大 O 推导法则，</p>
+<ul>
+<li>算法一的空间复杂度为 $O(1)$；</li>
+<li>算法二的空间复杂度为 $O(n)$</li>
+</ul>
+<p>所以从空间占用的角度讲，算法一要优于算法二。</p>
+<h2 id="2-排序算法"><a href="#2-排序算法" class="headerlink" title="2 排序算法"></a>2 排序算法</h2><h4 id="冒泡排序-Bubble-Sort"><a href="#冒泡排序-Bubble-Sort" class="headerlink" title="冒泡排序 Bubble Sort"></a>冒泡排序 Bubble Sort</h4><p>冒泡排序(Bubble Sort)，是一种计算机科学领域的较简单的排序算法。 </p>
+<p>排序前：<code>&#123;3,43,38,5,47,15,36,26,27,2,44,4,50,19,38&#125;</code></p>
+<p>排序后：<code>&#123;2,3,4,5,15,19,26,27,36,38,44,46,47,48,50&#125;</code></p>
+<p>【排序原理】</p>
+<ol>
+<li>比较相邻的元素。如果前一个元素比后一个元素大，就交换这两个元素的位置。</li>
+<li>对每一对相邻元素做同样的工作，从开始第一对元素到结尾的最后一对元素。最终最后位置的元素就是最大值。</li>
+</ol>
+<p>【动画演示】</p>
+<p><img src="/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/20191120141001101.gif" alt="20191120141001101" style="zoom:80%;"></p>
+<p>【代码示例】</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] bubbleSort(<span class="type">int</span>[] arr) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; arr.length-i-<span class="number">1</span>; j++) &#123;   <span class="comment">// 因为操作 arr[j] 与 arr[j+1] 比较，这里的边界是 arr.length-i-1</span></span><br><span class="line">      <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123; <span class="comment">// 比较 与 交换数值</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> arr[j];</span><br><span class="line">        arr[j] = arr[j + <span class="number">1</span>];</span><br><span class="line">        arr[j + <span class="number">1</span>] = temp;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>【复杂度分析】</p>
+<p>冒泡排序使用了双层 <code>for</code> 循环，其中内层循环的循环体是真正完成排序的代码。所以， 我们分析冒泡排序的时间复杂度，主要分析一下内层循环体的执行次数即可。</p>
+<p>在最坏情况下，也就是假如要排序的元素为 <code>&#123;50,48,47,46,44,38,36,27,26,19,15,5,4,3,2&#125;</code> 逆序，那么：</p>
+<p>元素比较的次数为：$(n-1)+(n-2)+(n-3)+…+2+1=((n-1)+1)*(n-1)/2=n^2/2-n/2$</p>
+<p>元素交换的次数为：$(n-1)+(n-2)+(n-3)+…+2+1=((n-1)+1)*(n-1)/2=n^2/2-n/2$</p>
+<p>总执行次数为：$(n^2/2-n/2)+(n^2/2-n/2)=n^2-n$</p>
+<p>按照大 O 推导法则，保留函数中的最高阶项。那么最终<strong><em><u>冒泡排序的时间复杂度</u></em></strong> 为：</p>
+<script type="math/tex; mode=display">
+O(n^2)</script><h4 id="选择排序-Selection-Sort"><a href="#选择排序-Selection-Sort" class="headerlink" title="选择排序 Selection Sort"></a>选择排序 Selection Sort</h4><p>选择排序是一种更加简单直观的排序方法。</p>
+<p>排序前：<code>&#123;3,43,38,5,47,15,36,26,27,2,44,4,50,19,38&#125;</code></p>
+<p>排序后：<code>&#123;2,3,4,5,15,19,26,27,36,38,44,46,47,48,50&#125;</code></p>
+<p>【排序原理】</p>
+<ol>
+<li>首先在未排序序列中找到最小（大）元素，存放到排序序列的起始（末尾）位置；</li>
+<li>然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾（起始）；</li>
+<li>以此类推，直到所有元素均排序完毕。（拿出最大或最小，然后在剩余中再拿最大或最小）</li>
+</ol>
+<p>【动画演示】</p>
+<p><img src="/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/12585785-b67fc46afdc20cc1.gif" alt="12585785-b67fc46afdc20cc1" style="zoom:80%;"></p>
+<p>【代码示例】</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] selectionSort(<span class="type">int</span>[] arr) &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">length</span> <span class="operator">=</span> arr.length;</span><br><span class="line">    <span class="type">int</span> minIndex, temp;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">iny</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">        minIndex = i;	<span class="comment">// 假设本轮循环的初始索引是最小数的索引</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + <span class="number">1</span>; j &lt; length; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[j] &lt; arr[minIndex]) &#123;     <span class="comment">// 寻找最小的数</span></span><br><span class="line">                minIndex = j;                 <span class="comment">// 将最小数的索引保存</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      	<span class="comment">// 将【最小数的索引】与【本轮循环的初始索引】交换</span></span><br><span class="line">        temp = arr[i];</span><br><span class="line">        arr[i] = arr[minIndex];</span><br><span class="line">        arr[minIndex] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>【复杂度分析】</p>
+<p>选择排序使用了双层 <code>for</code> 循环，其中外层循环完成了数据交换，内层循环完成了数据比较。所以我们分别统计数据交换次数和数据比较次数：</p>
+<p>元素比较的次数为：$(n-1)+(n-2)+(n-3)+…+2+1=((n-1)+1)*(n-1)/2=n^2/2-n/2$</p>
+<p>元素交换的次数为：$n-1$</p>
+<p>总执行次数为：$(n^2/2-n/2)+(n-1)=n^2/2+n/2-1$</p>
+<p>按照大 O 推导法则，保留函数中的最高阶项。那么最终<strong><em><u>选择排序的时间复杂度</u></em></strong> 为：</p>
+<script type="math/tex; mode=display">
+O(n^2)</script><h4 id="插入排序-Insertion-sort"><a href="#插入排序-Insertion-sort" class="headerlink" title="插入排序 Insertion sort"></a>插入排序 Insertion sort</h4><p>插入排序(Insertion sort)是一种简单直观且稳定的排序算法。它的工作原理是<strong><em><u>通过构建有序序列</u></em></strong>，对于未排序数据，在已排序序列中<strong><em><u>从后向前</u></em></strong>扫描，找到相应位置并<strong><em><u>插入</u></em></strong>。</p>
+<p>排序前：<code>&#123;3,43,38,5,47,15,36,26,27,2,44,4,50,19,38&#125;</code></p>
+<p>排序后：<code>&#123;2,3,4,5,15,19,26,27,36,38,44,46,47,48,50&#125;</code></p>
+<p>【排序原理】</p>
+<blockquote>
+<p>插入排序把所有的元素分为两组，【已经排序】的和【未排序】的</p>
+</blockquote>
+<ol>
+<li>从第一个元素开始，该元素可以认为已经被排序；</li>
+<li>取出下一个元素，在已经排序的元素序列中<strong><em><u>从后向前</u></em></strong>扫描；</li>
+<li>如果该元素（已排序）大于新元素，将该元素移到下一位置；</li>
+<li>重复步骤3，直到找到已排序的元素小于或者等于新元素的位置；</li>
+<li>将新元素插入到该位置后；</li>
+<li>重复步骤2~5。</li>
+</ol>
+<p>【动画演示】</p>
+<p><img src="/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/849589-20171015225645277-1151100000.gif" alt="849589-20171015225645277-1151100000" style="zoom:80%;"></p>
+<p>【代码示例】</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">insertionSort</span><span class="params">(<span class="type">int</span>[] arr)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">length</span> <span class="operator">=</span> arr.length;</span><br><span class="line">    <span class="type">int</span> preIndex, current;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; length; i++) &#123;</span><br><span class="line">        preIndex = i - <span class="number">1</span>;</span><br><span class="line">        current = arr[i];</span><br><span class="line">        <span class="keyword">while</span> (preIndex &gt;= <span class="number">0</span> &amp;&amp; arr[preIndex] &gt; current) &#123;</span><br><span class="line">            arr[preIndex + <span class="number">1</span>] = arr[preIndex];</span><br><span class="line">            preIndex--;</span><br><span class="line">        &#125;</span><br><span class="line">        arr[preIndex + <span class="number">1</span>] = current;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>【复杂度分析】</p>
+<p>插入排序使用了双层循环，其中内层循环的循环体是真正完成排序的代码。所以，我们分析插入排序的时间复杂度，主要分析一下内层循环体的执行次数即可。</p>
+<p>在最坏情况下，也就是假如要排序的元素为 <code>&#123;50,48,47,46,44,38,36,27,26,19,15,5,4,3,2&#125;</code> 逆序，那么：</p>
+<p>元素比较的次数为：$(n-1)+(n-2)+(n-3)+…+2+1=((n-1)+1)*(n-1)/2=n^2/2-n/2$</p>
+<p>元素交换的次数为：$(n-1)+(n-2)+(n-3)+…+2+1=((n-1)+1)*(n-1)/2=n^2/2-n/2$</p>
+<p>总执行次数为：$(n^2/2-n/2)+(n^2/2-n/2)=n^2-n$</p>
+<p>按照大 O 推导法则，保留函数中的最高阶项。那么最终<strong><em><u>插入排序的时间复杂度</u></em></strong> 为：</p>
+<script type="math/tex; mode=display">
+O(n^2)</script><h4 id="希尔排序-Shell-Sort"><a href="#希尔排序-Shell-Sort" class="headerlink" title="希尔排序 Shell Sort"></a>希尔排序 Shell Sort</h4><p>之前我们学习的冒泡排序，选择排序还有插入排序，他们在最坏情况下的时间复杂度都是 $O(n^2)$，而平方阶通过我们之前学习算法分析我们知道，随着输入规模的增大，时间成本将急剧上升。所以这些基本排序方法不能处理更大规模的问题，接下来我们学习一些高级的排序算法，争取降低算法的时间复杂度最高阶幂。</p>
+<p>希尔排序 (Shell Sort) 是插入排序的一种，又称“缩小增量排序”，是<strong><em><u>插入排序的更高效的改进版本</u></em></strong>。</p>
+<p>排序前：<code>&#123;9,1,2,5,7,4,8,6,3,5&#125;</code></p>
+<p>排序后：<code>&#123;1,2,3,4,5,5,6,7,8,9&#125;</code></p>
+<p>【排序原理】</p>
+<ol>
+<li>选定一个增长量 <code>gap</code>，按照增长量 <code>gap</code> 作为数据分组的依据，对数据进行分组；</li>
+<li>对分好组的每一组数据完成插入排序；</li>
+<li>减小增长量，最小减为 1，重复第 2 步操作。</li>
+</ol>
+<p>【增长量 <code>gap</code>】的值采用以下规则：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始gap等于数组长度的一半</span></span><br><span class="line"><span class="comment">// 每次迭代后gap的大小都是原来的1/2</span></span><br><span class="line"><span class="comment">// 直到gap=1</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> gap=array.length; gap&gt;<span class="number">0</span> ; gap=gap/<span class="number">2</span>) &#123;</span><br><span class="line">  <span class="comment">// <span class="doctag">TODO:</span> 内层的插入排序</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>【算法图解】</p>
+<p><img src="/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/100-1705399.png" alt="100" style="zoom:40%;"></p>
+<p>【代码示例】</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] shellSort(<span class="type">int</span>[] arr) &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">length</span> <span class="operator">=</span> arr.length;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">gap</span> <span class="operator">=</span> length/<span class="number">2</span>; gap &gt; <span class="number">0</span>; gap = gap/<span class="number">2</span>) &#123;</span><br><span class="line">        <span class="comment">// 注意：这里和图片展示的不一样，实际操作是多个分组交替执行</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> gap; i &lt; length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i; <span class="comment">// j与有序数组的末尾索引有关</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">current</span> <span class="operator">=</span> arr[i];</span><br><span class="line">            <span class="keyword">while</span>(j - gap &gt;= <span class="number">0</span> &amp;&amp; current &lt; arr[j - gap]) &#123;</span><br><span class="line">                 arr[j] = arr[j - gap];</span><br><span class="line">                 j = j - gap;</span><br><span class="line">            &#125;</span><br><span class="line">            arr[j] = current;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>【复杂度分析】</p>
+<p><strong>希尔排序</strong>是在<strong>插入排序</strong>的基础上进行的一中改进的算法。</p>
+<p><strong>希尔排序是将一个原序列分成几个子序列</strong>，<strong>对于每个子序列来所都进行一次插入排序</strong>，<strong>而依据不同的子序列划分大小</strong>，<strong>最后子序列为1时</strong>，此时插入排序跟原来的插入排序就是一模一样的了，只不过现在的队列比原来的要有序的多。</p>
+<p>所以希尔排序就是将原序列进行了一些整理，将其变得有序一些，而我们都知道，对于插入排序这个 $O(n^2)$ 级别的算法来说，越是有序的序列，它所需要的时间越少，甚至在某些情况下可以逼近 $O(n)$，这就是希尔排序对于插入排序的改良。所以<strong><em><u>希尔排序的时间复杂度</u></em></strong> 为：</p>
+<script type="math/tex; mode=display">
+O(n) < O(f(n)) < O(n^2), \text{平均为 }O(n^{1.25})</script><h4 id="归并排序-Merge-Sort"><a href="#归并排序-Merge-Sort" class="headerlink" title="归并排序 Merge Sort"></a>归并排序 Merge Sort</h4><p>归并排序是建立在归并操作上的一种有效的排序算法，该算法是采用<strong><em><u>分治法</u></em></strong>的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为二路归并。</p>
+<p>排序前：<code>&#123;8,4,5,7,1,3,6,2&#125;</code></p>
+<p>排序后：<code>&#123;1,2,3,4,5,6,7,8&#125;</code></p>
+<p>【排序原理】</p>
+<ol>
+<li><strong><em><u>「分」</u></em></strong>尽可能的一组数据拆分成两个元素相等的子组，并对每一个子组继续拆分，直到拆分后的每个子组的元素个数是 1为止；</li>
+<li><strong><em><u>「治」</u></em></strong>将相邻的两个子组进行<strong><em><u>排序并合并</u></em></strong>成一个有序的大组；</li>
+<li>不断的重复步骤 2，直到最终只有一个组为止。</li>
+</ol>
+<p>【算法图解】</p>
+<p><img src="/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828185746123.png" alt="image-20220828185746123" style="zoom:50%;"></p>
+<p>【代码示例】</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">mergeSort</span><span class="params">(<span class="type">int</span>[] array)</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> (array == <span class="literal">null</span> || array.length &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">  sort(array, <span class="number">0</span>, array.length - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">sort</span><span class="params">(<span class="type">int</span>[] array, <span class="type">int</span> left, <span class="type">int</span> right)</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> (left &gt;= right) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left)/<span class="number">2</span>);</span><br><span class="line">	sort(array, left, mid);	<span class="comment">// 对左侧子序列进行递归排序</span></span><br><span class="line">	sort(array, mid + <span class="number">1</span>, right);	<span class="comment">// 对右侧子序列进行递归排序</span></span><br><span class="line">	merge(array, left, mid, right);	<span class="comment">// 合并</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] array, <span class="type">int</span> left, <span class="type">int</span> mid, <span class="type">int</span> right)</span> &#123;</span><br><span class="line">	<span class="type">int</span>[] temp = <span class="keyword">new</span> <span class="title class_">int</span>[right - left + <span class="number">1</span>];</span><br><span class="line">  <span class="comment">// 【归并的关键】就在于以下三个指针的操作</span></span><br><span class="line">	<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;	<span class="comment">// 指针：指向temp[]第一个元素</span></span><br><span class="line">	<span class="type">int</span> <span class="variable">p1</span> <span class="operator">=</span> left; <span class="comment">// 指针：指向左子组第一个元素</span></span><br><span class="line">	<span class="type">int</span> <span class="variable">p2</span> <span class="operator">=</span> mid + <span class="number">1</span>;	<span class="comment">// 指针：指向右子组第一个元素</span></span><br><span class="line">  </span><br><span class="line">	<span class="comment">// 1.比较左右两部分的元素，哪个小，把那个元素填入temp[]中</span></span><br><span class="line">	<span class="keyword">while</span> (p1 &lt;= mid &amp;&amp; p2 &lt;= right) &#123;</span><br><span class="line">		temp[i++] = (array[p1] &lt; array[p2]) ? array[p1++] : array[p2++];</span><br><span class="line">	&#125;</span><br><span class="line">  </span><br><span class="line">	<span class="comment">// 2.上面的循环退出后，把剩余的元素依次填入到temp中。以下两个while只有一个会执行</span></span><br><span class="line">	<span class="keyword">while</span> (p1 &lt;= mid) &#123;</span><br><span class="line">		temp[i++] = array[p1++]; <span class="comment">// 如果p1的指针没有到mid，将剩余的元素放入temp[]</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span> (p2 &lt;= right) &#123;</span><br><span class="line">		temp[i++] = array[p2++]; <span class="comment">// 如果p2的指针没有到rigth，将剩余的元素放入temp[]</span></span><br><span class="line">	&#125;</span><br><span class="line">  </span><br><span class="line">	<span class="comment">// 3.把最终的排序的结果复制给原数组</span></span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; temp.length; i++) &#123;</span><br><span class="line">		array[left + i] = temp[i];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>【复杂度分析】</p>
+<p>归并排序是分治思想的最典型的例子。</p>
+<p><img src="/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/image-20220828202350528.png" alt="image-20220828202350528" style="zoom:50%;"></p>
+<p>树状图来描述归并，如果一个数组有 8 个元素，那么它将每次除以 2 找最小的子数组，共拆分 $log(8)$ 次，值为 3，所以树共有 3 层。那么自顶向下第 $k$ 层有 $2^k$ 个子数组，每个数组的长度为 $2^{(3-k)}$，归并最多需要 $2^{(3-k)}$ 次比较。因此每层的比较次数为 $2^k \times 2^{(3-k)}=2^3$，那么 3 层总共为 $3\times 2^3$。</p>
+<p>假设元素的个数为 $n$，那么使用归并排序拆分的次数为 $log_2(n)$，所以共 $log_2(n)$层，那么使用 $log_2(n)$ 替换上面 $3\times 2^3$中的 3 这个层数，最终得出的归并排序的时间复杂度为：$log_2(n)<em> 2^{log_2(n)}=log_2(n)</em>n$。根据大 O 推导法则，忽略底数，最终<strong><em><u>归并排序的时间复杂度</u></em></strong>为</p>
+<script type="math/tex; mode=display">
+O(nlog\;n);</script><p>【归并排序的缺点】</p>
+<p>需要申请额外的数组空间 <code>temp[]</code>，导致空间复杂度提升，是典型的<strong><em><u>以空间换时间</u></em></strong>的操作。</p>
+<blockquote>
+<p>希尔排序和归并排序在处理大批量数据时差别不是很大。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Guohao
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://dave0126.github.io/2021/10/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93/" title="数据结构及常见算法- 复习总结">https://dave0126.github.io/2021/10/28/数据结构及常见算法-复习总结/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/16/%E5%9B%BE%E8%AE%BA-Graphe/" rel="next" title="图论 复习笔记">
+      图论 复习笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1"><span class="nav-text">0 数据结构与算法设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0-1-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%88%86%E7%B1%BB"><span class="nav-text">0.1 数据结构分类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E7%BB%93%E6%9E%84%E5%88%86%E7%B1%BB"><span class="nav-text">逻辑结构分类:</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#a-%E3%80%90%E9%9B%86%E5%90%88%E7%BB%93%E6%9E%84%E3%80%91%EF%BC%9A"><span class="nav-text">(a) 【集合结构】：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#b-%E3%80%90%E7%BA%BF%E6%80%A7%E7%BB%93%E6%9E%84%E3%80%91%EF%BC%9A"><span class="nav-text">(b)【线性结构】：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#c-%E3%80%90%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84%E3%80%91%EF%BC%9A"><span class="nav-text">(c)【树形结构】：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#d-%E3%80%90%E5%9B%BE%E5%BD%A2%E7%BB%93%E6%9E%84%E3%80%91%EF%BC%9A"><span class="nav-text">(d)【图形结构】：</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E7%BB%93%E6%9E%84%E5%88%86%E7%B1%BB"><span class="nav-text">物理结构分类:</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#a-%E3%80%90%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E3%80%91%EF%BC%9A"><span class="nav-text">(a)【顺序存储结构】：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#b-%E3%80%90%E9%93%BE%E5%BC%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E3%80%91%EF%BC%9A"><span class="nav-text">(b)【链式存储结构】：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0-2-%E7%AE%97%E6%B3%95"><span class="nav-text">0.2 算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-text">1 算法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="nav-text">时间复杂度分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E3%80%90%E4%BA%8B%E5%90%8E%E5%88%86%E6%9E%90%E4%BC%B0%E7%AE%97%E6%96%B9%E6%B3%95%E3%80%91"><span class="nav-text">【事后分析估算方法】</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E3%80%90%E4%BA%8B%E5%89%8D%E5%88%86%E6%9E%90%E4%BC%B0%E7%AE%97%E6%96%B9%E6%B3%95%E3%80%91"><span class="nav-text">【事前分析估算方法】</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-text">时间复杂度</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%A7-O-%E8%AE%B0%E6%B3%95"><span class="nav-text">大 O 记法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%B8%E6%95%B0%E9%98%B6-O-1"><span class="nav-text">常数阶 $O(1)$</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E9%98%B6-O-n"><span class="nav-text">线性阶 $O(n)$</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%B3%E6%96%B9%E9%98%B6-O-n-2"><span class="nav-text">平方阶 $O(n^2)$</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AB%8B%E6%96%B9%E9%98%B6-O-n-3"><span class="nav-text">立方阶 $O(n^3)$</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%B9%E6%95%B0%E9%98%B6-O-log-n"><span class="nav-text">对数阶 $O(log \;n)$</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="nav-text">函数调用的时间复杂度分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="nav-text">空间复杂度分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Java-%E4%B8%AD%E5%B8%B8%E8%A7%81%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8"><span class="nav-text">Java 中常见内存占用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-text">空间复杂度</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="nav-text">2 排序算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F-Bubble-Sort"><span class="nav-text">冒泡排序 Bubble Sort</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F-Selection-Sort"><span class="nav-text">选择排序 Selection Sort</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F-Insertion-sort"><span class="nav-text">插入排序 Insertion sort</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F-Shell-Sort"><span class="nav-text">希尔排序 Shell Sort</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F-Merge-Sort"><span class="nav-text">归并排序 Merge Sort</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Guohao</p>
+  <div class="site-description" itemprop="description">间歇性踌躇满志, 持续性划水摸鱼</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Guohao</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">325k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">4:55</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : '[object Object]',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
