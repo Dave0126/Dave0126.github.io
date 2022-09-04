@@ -1092,7 +1092,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-05 21:00:50" itemprop="dateModified" datetime="2022-07-05T21:00:50+02:00">2022-07-05</time>
+                <time title="修改时间：2022-09-04 10:19:33" itemprop="dateModified" datetime="2022-09-04T10:19:33+02:00">2022-09-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1110,7 +1110,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>6.3k</span>
+              <span>6.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1129,192 +1129,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="Lagrange-Multipliers-amp-mathcal-KKT-几何关联推导"><a href="#Lagrange-Multipliers-amp-mathcal-KKT-几何关联推导" class="headerlink" title="Lagrange Multipliers &amp; $\mathcal{KKT}$ 几何关联推导"></a>Lagrange Multipliers &amp; $\mathcal{KKT}$ 几何关联推导</h3><h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><p>我们想要找到一个满足一些约束的函数的最大值或最小值</p>
-<h4 id="公式描述"><a href="#公式描述" class="headerlink" title="公式描述"></a>公式描述</h4><p>给定一个函数 $f$，不等式约束 $g_1, . . . , g_m$ 和等式约束 $h_1,…, h_l$ 都在在定义域 $Ω ⊂ \mathbb{R}^n$ 上的优化问题：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-& \min_{x∈Ω} \;f(x) \\
-s.t.& \left\{\begin{aligned}
-∀i \quad g_i(x) ≤ 0 \\
-∀j \quad h_j (x) = 0 
-\end{aligned}\right.
-\end{aligned}</script><h4 id="No-constraints"><a href="#No-constraints" class="headerlink" title="No constraints"></a>No constraints</h4><p><strong>Assume</strong>: Let $f$ : $Ω → \mathbb{R}$  be a continuously differentiable function. 在定义域上连续可微</p>
-<p>【局部最小值】的【充要条件】(Necessary and sufficient conditions): </p>
-<p>$x^{\ast}$ is a local minimum of $f(x)$ 当且仅当</p>
+          <h3 id="Lagrange-Multipliers-amp-mathcal-KKT-几何关联推导"><a href="#Lagrange-Multipliers-amp-mathcal-KKT-几何关联推导" class="headerlink" title="Lagrange Multipliers &amp; $\mathcal{KKT}$ 几何关联推导"></a>Lagrange Multipliers &amp; $\mathcal{KKT}$ 几何关联推导</h3><p>本文章是根据<a target="_blank" rel="noopener" href="https://www.csc.kth.se/utbildning/kth/kurser/DD3364/Lectures/KKT.pdf">瑞典皇家理工学院课件</a>总结归纳而成。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。</p>
+<p>参考资料：</p>
 <ol>
-<li><p>$f$ 在 $x^{\ast}$ 处是零梯度 (zero gradient)：</p>
-<script type="math/tex; mode=display">
-∇_x f(x^{\ast}) = 0</script></li>
-<li><p>$f$ 的 Hessian 矩阵在 $x^{\ast}$ 处是半正定的 (positive semi-definite)：保证$f$ 在 $x^{\ast}$ 处是“波谷”</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-& v^t (∇^2f(x^{\ast})) v ≥ 0, ∀v ∈ \mathbb{R}^n
-\\
-\\
-&\nabla_{xx}^2 f(x) =
-\begin{bmatrix}
-\frac{\partial^2 f(x)}{\partial x_1 ^2} & \frac{\partial^2 f(x)}{\partial x_1 \partial x_2} & \cdots & \frac{\partial^2 f(x)}{\partial x_1 \partial x_n}      \\
-\frac{\partial^2 f(x)}{\partial x_2 \partial x_1} & \frac{\partial^2 f(x)}{\partial x_2 ^2} & \cdots & \frac{\partial^2 f(x)}{\partial x_2 \partial x_n}      \\
-\vdots & \vdots & \ddots & \vdots \\
-\frac{\partial^2 f(x)}{\partial x_n \partial x_1} & \frac{\partial^2 f(x)}{\partial x_n  \partial x_2} & \cdots & \frac{\partial^2 f(x)}{\partial x_n ^2}      \\
-\end{bmatrix}
-\leftarrow Hessian \; Matrix
-\end{aligned}</script></li>
+<li><a target="_blank" rel="noopener" href="https://www.csc.kth.se/utbildning/kth/kurser/DD3364/Lectures/KKT.pdf">KTH Royal Institute of Technology : Lagrange Multipliers and the Karush-Kuhn-Tucker conditions</a></li>
 </ol>
-<p>【局部最大值】的【充要条件】(Necessary and sufficient conditions): $x^{\ast}$ is a local minimum of $f(x)$ 当且仅当</p>
-<ol>
-<li><p>$f$ 在 $x^{\ast}$ 处是零梯度 (zero gradient)：</p>
-<script type="math/tex; mode=display">
-∇_x f(x^{\ast}) = 0</script></li>
-<li><p>$f$ 的 Hessian 矩阵在 $x^{\ast}$ 处是半正定的 (positive semi-definite)：保证$f$ 在 $x^{\ast}$ 处是“波谷”</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-& v^t (∇^2f(x^*)) v \le 0, ∀v ∈ \mathbb{R}^n \\
-\\
-\\
-& \nabla^2 f(x) =
-\begin{bmatrix}
-\frac{\partial^2 f(x)}{\partial x_1 ^2} & \frac{\partial^2 f(x)}{\partial x_1 \partial x_2} & \cdots & \frac{\partial^2 f(x)}{\partial x_1 \partial x_n}      \\
-\frac{\partial^2 f(x)}{\partial x_2 \partial x_1} & \frac{\partial^2 f(x)}{\partial x_2 ^2} & \cdots & \frac{\partial^2 f(x)}{\partial x_2 \partial x_n}      \\
-\vdots & \vdots & \ddots & \vdots \\
-\frac{\partial^2 f(x)}{\partial x_n \partial x_1} & \frac{\partial^2 f(x)}{\partial x_n  \partial x_2} & \cdots & \frac{\partial^2 f(x)}{\partial x_n ^2}      \\
-\end{bmatrix}
-\leftarrow Hessian \; Matrix
-\end{aligned}</script></li>
-</ol>
-<h4 id="Equality-Constrainsts"><a href="#Equality-Constrainsts" class="headerlink" title="Equality Constrainsts"></a>Equality Constrainsts</h4><p>问题提出：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-& \min_{x∈\mathbb{R}^2} \;f(x) \\
-s.t. \quad & h_i (x) = 0, \; ∀i\in \{1,2,...,l\}
-\end{aligned}</script><p>举例：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-& f(x) = x_1 + x_2 \\
-s.t.\quad & h(x) = x^2_1 + x^2_2 − 2
-\end{aligned}</script><ol>
-<li><p>可行点 (feasible point) $x_F \in$ 可行域 (feasible region) 满足约束 $h(x) = x^2_1 + x^2_2 − 2 = 0$，图形上的表示就是在 $x^2_1 + x^2_2 − 2$ 的圆上</p>
-</li>
-<li><p>目标函数 $f(x) = x_1 + x_2$ 的梯度方向 $\nabla_x f(x) = [1,1]^T$，所以它的负梯度方向为 $- \nabla_x f(x) = [-1,-1]^T$</p>
-</li>
-<li><p>我们找到一个点 $x_i$ 满足约束：其中 $\alpha$ 为步长，$\delta x_i$ 为 $x_i$ 点的运动方向</p>
-<ul>
-<li>$h(x_F + \alpha \delta x_i) = 0$（确保在圆上）</li>
-<li>$f(x_F + \alpha \delta x) &lt; f(x_F)$（确保移动后的函数值 &lt; 移动前）</li>
-</ul>
-<p><img src="/2022/04/21/KKT/2022-04-23 20.51.01.png" alt="2022-04-23 20.51.01" style="zoom:35%;"></p>
-</li>
-<li><p>一个点 $x_i$ 要沿着 $f(x)$ 的最速下降 (the steepest descent) 方向，即负梯度方向为 $- \nabla_x f(x) = [-1,-1]^T$ ；但是 $x_i$ 还要满足等式约束，所以我们要确保 $\delta x_i$ 与 负梯度方向 $- \nabla_x f(x)$ 的夹角为锐角，即内积 $\delta x_i \cdot (- \nabla_x f(x_F)) &gt; 0$</p>
-<p><img src="/2022/04/21/KKT/2022-04-23 21.12.41.png" alt="2022-04-23 21.12.41" style="zoom:35%;"></p>
-<ul>
-<li>至此，我们就找到了满足约的点 $x_i$ 移动的方向，即与目标函数 $f(x)$ 负梯度方向的夹角为锐角的约束函数 $h(x)$ 的切线方向。那么，什么时候停止移动呢？</li>
-</ul>
-</li>
-<li><p>从图像中我们可以看到，当目标函数 $f(x)$ 与约束函数 $h(x)$ 相切的时候，我们可以取到局部极值点 (临界点 critical point)，即 目标函数 $f(x)$ 的梯度方向与约束函数 $h(x)$ 的梯度方向共线：</p>
-<script type="math/tex; mode=display">
-\nabla_x f(x_F) = \mu \nabla_x h(x_F)
-\quad \Rightarrow \quad
-\nabla_x f(x_F) + \mu \nabla_x h(x_F) = 0 \quad ①</script><p>这个条件【确保局部极值】</p>
-<p><img src="/2022/04/21/KKT/2022-04-23 21.30.49.png" alt="2022-04-23 21.30.49" style="zoom:35%;"></p>
-<p>而此时， $x_i$ 移动的方向 $\delta x_i$ 始终与约束函数 $g(x)$ 梯度方向 $\nabla_x h(x)$ 正交，即</p>
-<script type="math/tex; mode=display">
-\delta x_i \cdot \mu \nabla_x h(x_F) = \delta x_i \cdot (- \nabla_x h(x_F))</script></li>
-</ol>
-<p>   我们重新构造这个优化问题 $(\mathcal{P})$，并推广到多等式约束：</p>
-<script type="math/tex; mode=display">
-   \begin{aligned}
-   & \min_{x∈\mathbb{R}^2} \;f(x) \\
-   s.t. \quad & h_i (x) = 0, \; ∀i\in \{1,2,...,l\}
-   \end{aligned}</script><p>   我们定义拉格朗日函数 $\mathcal{L}$：</p>
-<script type="math/tex; mode=display">
-   \mathcal{L} (x, \mu) = f(x) + \sum_{i=1}^l \mu_i h_i(x)</script><p>   当 $x^{\ast}$ 是局部最小值时，存在唯一的 $\mu^{\ast}$ 满足约束：</p>
-<ul>
-<li>$\nabla_{x} \mathcal{L} (x^{\ast},\mu^{\ast})= 0 \qquad \Leftarrow \qquad \nabla_x f(x_F) + \mu \nabla_x h(x_F) = 0 \quad ①$ </li>
-<li>$\begin{aligned} \nabla_{\mu} \mathcal{L} (x^{\ast},\mu ^{\ast})= 0 \qquad \Leftarrow \qquad \frac {\partial \mathcal{L} (x,\mu_i)}{\partial \mu_i} = h_i(x) = 0\end{aligned} \quad \text{满足约束条件}$ </li>
-<li>$\nabla_{xx}^2 \mathcal{L}(x^{\ast}, \mu^{\ast}) \succeq 0\qquad \Leftarrow \qquad \text{Hessain matrix 半正定：满足局部极小}$</li>
-</ul>
-<h4 id="Inequality-Constraints"><a href="#Inequality-Constraints" class="headerlink" title="Inequality Constraints"></a>Inequality Constraints</h4><p>问题提出：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-& \min_{x∈\mathbb{R}^2} \;f(x) \\
-s.t. \quad & g_j (x) \le 0, \; ∀j\in \{1,2,...,m\}
-\end{aligned}</script><h5 id="Case-1-可退化到无约束"><a href="#Case-1-可退化到无约束" class="headerlink" title="Case 1 : 可退化到无约束"></a>Case 1 : 可退化到无约束</h5><p>举例：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-& f(x) = x_1^2 + x_2^2 \\
-s.t.\quad & h(x) = x^2_1 + x^2_2 − 1
-\end{aligned}</script><p><img src="/2022/04/21/KKT/2022-04-23 22.33.13.png" alt="2022-04-23 22.33.13" style="zoom:40%;"></p>
-<ol>
-<li>可以从图像中看出，当 $f(x)$ 不加约束条件时的最优点为 $(0,0)$</li>
-<li>可行点 (feasible point) $x_F \in$ 可行域 (feasible region) 满足约束 $h(x) = x^2_1 + x^2_2 − 1 = 0$，图形上的表示就是在 $x^2_1 + x^2_2 − 1$ 的圆上</li>
-<li>当 $f(x)$ 加入约束条件时的最优点还是 $(0,0)$</li>
-<li>说明有无约束条件对这个问题的求解并没有影响</li>
-<li>此时我们就可以将这个约束优化问题退化成无约束问题：<ul>
-<li>$f(x)$ 在 $x^{\ast}$ 处是零梯度 (zero gradient)：$∇_x f(x^∗) = 0$</li>
-<li>$f$ 的 Hessian 矩阵在 $x^{\ast}$ 处是半正定的 (positive definite) ：$\nabla_{xx}^2 f(x^{\ast}) \succeq 0$</li>
-</ul>
-</li>
-</ol>
-<h5 id="Case-2-不等式约束"><a href="#Case-2-不等式约束" class="headerlink" title="Case 2 : 不等式约束"></a>Case 2 : 不等式约束</h5><p>我们更改上一例题的条件：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-& f(x) = (x_1 - 1.1)^2 + (x_2 - 1.1)^2 \\
-s.t.\quad & h(x) = x^2_1 + x^2_2 − 1
-\end{aligned}</script><p><img src="/2022/04/21/KKT/2022-04-23 22.49.34.png" alt="2022-04-23 22.49.34" style="zoom:40%;"></p>
-<ol>
-<li><p>可以从图像中看出，当 $f(x)$ 不加约束条件时的最优点为 $(1.1,-1.1)$</p>
-</li>
-<li><p>可行点 (feasible point) $x_F \in$ 可行域 (feasible region) 满足约束 $h(x) = x^2_1 + x^2_2 − 1 = 0$，图形上的表示就是在 $x^2_1 + x^2_2 − 1$ 的圆上</p>
-</li>
-<li><p>当 $f(x)$ 加入约束条件时的最优点并不在原来的 $(1.1,-1.1)$ 点</p>
-</li>
-<li><p>在这种情况下，极值在约束面上，即 $g(x^{\ast}) = 0$，此时就与<strong>等式约束条件</strong>一致了</p>
-</li>
-<li><p>所以参考等式约束问题，最优值出现在目标函数 $f(x)$ 的梯度方向与约束函数 $h(x)$ 的梯度方向共线：</p>
-<script type="math/tex; mode=display">
--\nabla_x f(x) = \lambda \nabla_x g(x), \lambda > 0
-\quad \Rightarrow \quad
-\nabla_x f(x) + \lambda \nabla_x g(x) = 0 \quad ②</script><p><img src="/2022/04/21/KKT/2022-04-23 22.57.55.png" alt="2022-04-23 22.57.55" style="zoom:40%;"></p>
-</li>
-</ol>
-<h5 id="总结两种情况"><a href="#总结两种情况" class="headerlink" title="总结两种情况"></a>总结两种情况</h5><script type="math/tex; mode=display">
-\begin{aligned}
-& \min_{x∈\mathbb{R}^2} \;f(x) \\
-s.t. \quad & g_j (x) \le 0, \; ∀j\in \{1,2,...,m\}
-\end{aligned}</script><h6 id="Case-1-无约束时的局部极小值在可行域【中】"><a href="#Case-1-无约束时的局部极小值在可行域【中】" class="headerlink" title="Case 1 : 无约束时的局部极小值在可行域【中】"></a>Case 1 : 无约束时的局部极小值在可行域【中】</h6><ol>
-<li>$g(x^{\ast}) &lt; 0 \qquad \Leftarrow \qquad 在可行域里$</li>
-<li>$\nabla_x f(x^{\ast}) = \nabla_x f(x^{\ast}) + \lambda_{(=0)} \nabla_x g(x^{\ast}) = 0 \qquad \Leftarrow \qquad \mathcal{KKT} 条件1$</li>
-<li>$\nabla_{xx}^2 f(x^{\ast}) \succeq 0 \qquad \Leftarrow \qquad Hessian 矩阵是半正定的$</li>
-</ol>
-<h6 id="Case-2-无约束时的局部极小值在可行域【外】"><a href="#Case-2-无约束时的局部极小值在可行域【外】" class="headerlink" title="Case 2 : 无约束时的局部极小值在可行域【外】"></a>Case 2 : 无约束时的局部极小值在可行域【外】</h6><ol>
-<li>$g(x^{\ast}) = 0 \qquad \Leftarrow \qquad \mathcal{KKT} 条件3$</li>
-<li>$- \nabla_x f(x^{\ast}) + \lambda \nabla_x g(x^{\ast}) = 0, \; \lambda &gt; 0 \qquad \Leftarrow \qquad \mathcal{KKT} 条件1$</li>
-<li>$\nabla_{xx}^2 f(x^{\ast}) \succeq 0 \qquad \Leftarrow \qquad Hessian 矩阵是半正定的$</li>
-</ol>
-<p>$\mathcal{KKT}$ 条件4 ：$x^{\ast}$ 是可行点</p>
-<h5 id="多等式和多不等式的-mathcal-KKT-条件"><a href="#多等式和多不等式的-mathcal-KKT-条件" class="headerlink" title="多等式和多不等式的 $\mathcal{KKT}$ 条件"></a>多等式和多不等式的 $\mathcal{KKT}$ 条件</h5><p>给定一个函数 $f$，不等式约束 $g_1, . . . , g_m$ 和等式约束 $h_1,…, h_l$ 都在在定义域 $Ω ⊂ \mathbb{R}^n$ 上的优化问题：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-& (\mathcal{P}):\; \min_{x\in Ω} f(x) \\
-s.t. \quad 
-& \left\{\begin{aligned}
-& h_i(x)=0, \;\forall i \in \{1,2,...,l\} \\ 
-& g_j(x) \le 0 , \; \forall j \in \{1,2,...,m\} 
-\end{aligned}\right.
-\end{aligned}</script><p>我们定义拉格朗日函数 $\mathcal{L}$：</p>
-<script type="math/tex; mode=display">
-\mathcal{L}(x, \lambda, \mu) = f(x) + \sum_{i=1}^l \mu_i h_i(x) + \sum_{j=1}^m \lambda_j g_j(x))</script><p>当 $x^{\ast}$ 是局部最小值时，存在唯一的 $\mu ^{\ast}$ 满足约束：</p>
-<ul>
-<li><p>$\nabla_{x} \mathcal{L} (x^{\ast},\mu ^{\ast}, \lambda^{\ast})= 0 \qquad \Leftarrow \qquad \nabla_x f(x^{\ast}) + \sum_{i=1}^l \mu_i \nabla_x h_i(x^{\ast}) + \sum_{j=1}^m \lambda_j \nabla_x g_j(x^{\ast}) = 0$ </p>
-</li>
-<li><p>$\lambda^{\ast}_j \ge 0 \text{ for } j=1,…,m$</p>
-</li>
-<li>$\lambda^{\ast}_j g_j(x^{\ast}) = 0 \text{ for } j=1,…,m$</li>
-<li>$g_j(x^{\ast}) \le 0 \text{ for } j=1,…,m$</li>
-<li>$g_i(x^{\ast}) = 0 \text{ for } i=1,…,l$</li>
-<li>$\nabla_{xx}^2 \mathcal{L}(x^{\ast}, \lambda^{\ast}) \succ 0\qquad \Leftarrow \qquad \text{Hessain matrix 正定：满足局部极小}$</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/21/KKT/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1454,7 +1281,7 @@ s.t. \quad
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">5:16</span>
+    <span title="站点阅读时长">5:17</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
