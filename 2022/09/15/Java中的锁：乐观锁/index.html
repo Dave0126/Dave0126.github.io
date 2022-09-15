@@ -28,7 +28,7 @@
 <meta property="og:description" content="Java中的锁：乐观锁写在前面： 我们在学习 Java 并发编程 时已经知道， synchronized 的本质是对 ObjectMonitor 对象的操作。在本章中我们会讲解一种相对于 Monitor（悲观锁）来实现线程安全的模式（乐观锁）。但碍于学识浅薄，文章中难免会出现错误，恳请各位读者加以指正。 我们主要通过以下几个方面来系统的介绍“乐观锁”的实现原理：  CAS 与 violate 原子">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-15T08:15:51.000Z">
-<meta property="article:modified_time" content="2022-09-15T13:40:25.303Z">
+<meta property="article:modified_time" content="2022-09-15T15:08:11.628Z">
 <meta property="article:author" content="Guohao">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="锁">
@@ -189,7 +189,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-09-15 10:15:51 / 修改时间：15:40:25" itemprop="dateCreated datePublished" datetime="2022-09-15T10:15:51+02:00">2022-09-15</time>
+              <time title="创建时间：2022-09-15 10:15:51 / 修改时间：17:08:11" itemprop="dateCreated datePublished" datetime="2022-09-15T10:15:51+02:00">2022-09-15</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -207,14 +207,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.4k</span>
+              <span>5.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>5 分钟</span>
             </span>
 
         </div>
@@ -231,8 +231,8 @@
 <p>我们主要通过以下几个方面来系统的介绍“乐观锁”的实现原理：</p>
 <ol>
 <li><a href="#1-CAS-与-volatile"><code>CAS</code> 与 <code>violate</code></a></li>
-<li>原子整数 <code>AtomicInteger</code></li>
-<li>原子引用 <code>AtomicReference</code></li>
+<li><a href="#2-原子整数-AtomicInteger">原子整数 <code>AtomicInteger</code></a></li>
+<li><a href="#3-原子引用-AtomicReference">原子引用 <code>AtomicReference</code></a></li>
 <li>原子累加器</li>
 <li><code>Unsafe</code> 类</li>
 </ol>
@@ -304,7 +304,7 @@
 <p>所以我们可以使用之前学过的 <strong><em><u><code>violatile</code></u></em></strong> 关键字来确保变量的<strong><em><u>可见性</u></em></strong>（详见 <a href="https://dave0126.github.io/2022/08/26/JMM-Java-内存模型/#JMM-Java-内存模型">Java 内存模型 - JMM</a>）</p>
 <p><code>violatile</code> 可以用来修饰成员变量和静态成员变量，他可以<strong><em><u>避免</u></em></strong>线程从自己的<strong><em><u>工作内存</u></em></strong>中查找变量的值，必须要<strong><em><u>主存中获取值</u></em></strong>。线程操作使用 <code>violatile</code> 关键字修饰的变量都是直接操作主存。即一个线程对 <code>violatile</code> 变量的操作，对另一个线程是<strong><em><u>可见的</u></em></strong>。</p>
 <p><code>CAS</code> 必须借助 <code>volatile</code> 才能读取到共享变量的最新值，我们可通过分析 <code>AtomicInteger</code> 的源码可以看到：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AtomicInteger</span> <span class="keyword">extends</span> <span class="title class_">Number</span> <span class="keyword">implements</span> <span class="title class_">java</span>.io.Serializable &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="type">int</span> value;</span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">AtomicInteger</span><span class="params">(<span class="type">int</span> initialValue)</span> &#123;</span><br><span class="line">        value = initialValue;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">compareAndSet</span><span class="params">(<span class="type">int</span> expect, <span class="type">int</span> update)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> unsafe.compareAndSwapInt(<span class="built_in">this</span>, valueOffset, expect, update);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AtomicInteger</span> <span class="keyword">extends</span> <span class="title class_">Number</span> <span class="keyword">implements</span> <span class="title class_">java</span>.io.Serializable &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="type">int</span> value;</span><br><span class="line">  <span class="keyword">public</span> AtomicInteger &#123; value = <span class="number">0</span>; &#125;		<span class="comment">// 默认构造</span></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">AtomicInteger</span><span class="params">(<span class="type">int</span> initialValue)</span> &#123;</span><br><span class="line">        value = initialValue;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">compareAndSet</span><span class="params">(<span class="type">int</span> expect, <span class="type">int</span> update)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> unsafe.compareAndSwapInt(<span class="built_in">this</span>, valueOffset, expect, update);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="为什么乐观锁的效率高呢？"><a href="#为什么乐观锁的效率高呢？" class="headerlink" title="为什么乐观锁的效率高呢？"></a>为什么乐观锁的效率高呢？</h4><p>这里的运行效率是在<strong><em><u>多核心 CPU</u></em></strong> 的条件下讨论的，因为单核心 CPU 下没有意义，均为串行。</p>
 <ul>
 <li>乐观锁的情况下，即使 <code>CAS</code> 操作失败，线程仍然会<strong><em><u>不停的重试</u></em></strong>，而<strong><em><u>不是被阻塞</u></em></strong>，从而<strong><em><u>不会发生上下文转换</u></em></strong>；<code>RUNNABLE</code></li>
@@ -352,7 +352,122 @@
 <li><code>synchronized</code> 是基于悲观锁的思想：最悲观的估计，提防其它线程来修改共享变量，上了锁后其他线程都不能修改。只有释放锁，其他线程才有机会。</li>
 <li>但如果竞争激烈，可以想到重试必然频繁发生，反而效率会受影响（CPU 占用率高）。</li>
 </ul>
-<h3 id="2-原子整数-AtomicInteger"><a href="#2-原子整数-AtomicInteger" class="headerlink" title="2 原子整数 AtomicInteger"></a>2 原子整数 AtomicInteger</h3>
+<p>下面我们将介绍一些使用了 <code>CAS</code> 方法的工具类。</p>
+<h3 id="2-原子整数-AtomicInteger"><a href="#2-原子整数-AtomicInteger" class="headerlink" title="2 原子整数 AtomicInteger"></a>2 原子整数 AtomicInteger</h3><p><code>java.util.concurrent</code> 包提供了 <code>AtomicInteger</code>、<code>AtomicBoolean</code> 和 <code>AtomicLong</code> 等原子性的基本数据类型。其底层都是依靠 <code>CAS</code> 实现。这些原子数据类功能类似，这里我们以 <code>AtomicInteger</code> 为例，进行研究。</p>
+<h4 id="AtomicInteger-方法摘要"><a href="#AtomicInteger-方法摘要" class="headerlink" title="AtomicInteger 方法摘要"></a><code>AtomicInteger</code> 方法摘要</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>返回值类型</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get()</code></td>
+<td><code>int</code></td>
+<td>获取当前值。</td>
+</tr>
+<tr>
+<td><code>set(int newValue)</code></td>
+<td><code>void</code></td>
+<td>设置为给定值 <code>newValue</code>。</td>
+</tr>
+<tr>
+<td><code>lazySet(int newValue)</code></td>
+<td><code>void</code></td>
+<td>最后设置为给定值 <code>newValue</code>。</td>
+</tr>
+<tr>
+<td><code>getAndSet(int newValue)</code></td>
+<td><code>int</code></td>
+<td>以原子方式设置为给定值，并返回旧值。</td>
+</tr>
+<tr>
+<td><code>intValue()</code></td>
+<td><code>int</code></td>
+<td>以 <code>int</code> 形式返回指定的数值。</td>
+</tr>
+<tr>
+<td><code>doubleValue()</code></td>
+<td><code>double</code></td>
+<td>以 <code>double</code> 形式返回指定的数值。</td>
+</tr>
+<tr>
+<td><code>floatValue()</code></td>
+<td><code>float</code></td>
+<td>以 <code>float</code> 形式返回指定的数值。</td>
+</tr>
+<tr>
+<td><code>longValue()</code></td>
+<td><code>long</code></td>
+<td>以 <code>long</code> 形式返回指定的数值。</td>
+</tr>
+<tr>
+<td><code>toString()</code></td>
+<td><code>String</code></td>
+<td>返回当前值的字符串表示形式。</td>
+</tr>
+<tr>
+<td><code>compareAndSet(int expect, int update)</code></td>
+<td><code>boolean</code></td>
+<td>如果当前值 <code>==</code> 预期值，则以原子方式将该值设置为给定的更新值。</td>
+</tr>
+<tr>
+<td><code>weakCompareAndSet(int expect, int update)</code></td>
+<td><code>boolean</code></td>
+<td>如果当前值 <code>==</code> 预期值，则以原子方式将该设置为给定的更新值。</td>
+</tr>
+<tr>
+<td><code>incrementAndGet()</code></td>
+<td><code>int</code></td>
+<td>以原子方式将当前值加 1。等同于 <code>++i</code>，先自增再赋值</td>
+</tr>
+<tr>
+<td><code>getAndIncrement()</code></td>
+<td><code>int</code></td>
+<td>以原子方式将当前值加 1。等同于 <code>i++</code>，先赋值再自增</td>
+</tr>
+<tr>
+<td><code>decrementAndGet()</code></td>
+<td><code>int</code></td>
+<td>以原子方式将当前值减 1。等同于 <code>--i</code>，先自减再赋值</td>
+</tr>
+<tr>
+<td><code>getAndDecrement()</code></td>
+<td><code>int</code></td>
+<td>以原子方式将当前值减 1。等同于 <code>i--</code>，先赋值再自减</td>
+</tr>
+<tr>
+<td><code>addAndGet(int delta)</code></td>
+<td><code>int</code></td>
+<td>以原子方式将给定值与当前值相加。先加 <code>delta</code> 再赋值</td>
+</tr>
+<tr>
+<td><code>getAndAdd(int delta)</code></td>
+<td><code>int</code></td>
+<td>以原子方式将给定值与当前值相加。先赋值再加 <code>delta</code></td>
+</tr>
+<tr>
+<td><code>updateAndGet(IntUnaryOperator updateFunction)</code></td>
+<td><code>int</code></td>
+<td>以原子方式将给定值按照 <code>updateFunction</code> 函数进行运算。先运算再赋值。（用法详见下文）</td>
+</tr>
+<tr>
+<td><code>getAndUpdate(IntUnaryOperator updateFunction)</code></td>
+<td><code>int</code></td>
+<td>以原子方式将给定值按照 <code>updateFunction</code> 函数进行运算。先赋值再运算。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>我们在上述方法中发现存在这样一个方法：<code>getAndUpdate(IntUnaryOperator updateFunction)</code>，那么这个方法表示什么含义呢？我们观察一下它的源码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">getAndUpdate</span><span class="params">(IntUnaryOperator updateFunction)</span> &#123;</span><br><span class="line">    <span class="type">int</span> prev, next;         <span class="comment">// 局部变量来存储更新前后的值</span></span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        prev = get();       <span class="comment">// 更新前的值</span></span><br><span class="line">        next = updateFunction.applyAsInt(prev); </span><br><span class="line">                            <span class="comment">// updateFunction操作后的值</span></span><br><span class="line">                            <span class="comment">// 那么这里的IntUnaryOperator updateFunction 又是什么呢？</span></span><br><span class="line">                            <span class="comment">// 我们为了能够把运算规则也能通过参数传递到另一个函数中，</span></span><br><span class="line">                            <span class="comment">// 所以我们把IntUnaryOperator.applyAsInt(prev)接口作为参数</span></span><br><span class="line">                            <span class="comment">// 返回操作后结果</span></span><br><span class="line">    &#125; <span class="keyword">while</span> (!compareAndSet(prev, next));   <span class="comment">// CAS操作</span></span><br><span class="line">    <span class="keyword">return</span> prev;</span><br><span class="line">    <span class="comment">// return next;  ---&gt; getAndUpdate(IntUnaryOperator updateFunction)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">IntUnaryOperator</span> &#123;</span><br><span class="line">    <span class="comment">// 我们看到，这是个interface，而且使用 @FunctionalInterface 注解</span></span><br><span class="line">    <span class="comment">// 所以可以使用lambda函数表达式来实现接口</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 默认情况</span></span><br><span class="line">    <span class="keyword">default</span> IntUnaryOperator <span class="title function_">compose</span><span class="params">(IntUnaryOperator before)</span> &#123;</span><br><span class="line">        Objects.requireNonNull(before);</span><br><span class="line">        <span class="keyword">return</span> (<span class="type">int</span> v) -&gt; applyAsInt(before.applyAsInt(v));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>理解了上述内容后，我们测试一下该方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AtomicIntegerTest</span> &#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testGetAndUpdate</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="type">AtomicInteger</span> <span class="variable">i</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AtomicInteger</span>(<span class="number">10</span>);</span><br><span class="line">      <span class="comment">//            读取到      设置值</span></span><br><span class="line">      i.getAndUpdate(value -&gt; value*<span class="number">10</span>);</span><br><span class="line">      System.out.println(i.get());</span><br><span class="line">      <span class="comment">// 输出为 10</span></span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testUpdateAndGet</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="type">AtomicInteger</span> <span class="variable">i</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AtomicInteger</span>(<span class="number">10</span>);</span><br><span class="line">      <span class="comment">//            读取到      设置值</span></span><br><span class="line">      i.updateAndGet(value -&gt; value*<span class="number">10</span>);        <span class="comment">// 输入value，返回value*10</span></span><br><span class="line">      System.out.println(i.get());</span><br><span class="line">      <span class="comment">// 输出为 100</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-原子引用-AtomicReference"><a href="#3-原子引用-AtomicReference" class="headerlink" title="3 原子引用 AtomicReference"></a>3 原子引用 AtomicReference</h3>
     </div>
 
     
@@ -450,7 +565,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9A%E4%B9%90%E8%A7%82%E9%94%81"><span class="nav-text">Java中的锁：乐观锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0-%E5%BC%95%E5%87%BA%E9%97%AE%E9%A2%98"><span class="nav-text">0 引出问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-CAS-%E4%B8%8E-volatile"><span class="nav-text">1 CAS 与 volatile</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CAS-%E5%88%86%E6%9E%90"><span class="nav-text">CAS 分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#violatile-%E7%9A%84%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="nav-text">violatile 的可见性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B9%90%E8%A7%82%E9%94%81%E7%9A%84%E6%95%88%E7%8E%87%E9%AB%98%E5%91%A2%EF%BC%9F"><span class="nav-text">为什么乐观锁的效率高呢？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CAS-%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-text">CAS 的特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%8E%9F%E5%AD%90%E6%95%B4%E6%95%B0-AtomicInteger"><span class="nav-text">2 原子整数 AtomicInteger</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9A%E4%B9%90%E8%A7%82%E9%94%81"><span class="nav-text">Java中的锁：乐观锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0-%E5%BC%95%E5%87%BA%E9%97%AE%E9%A2%98"><span class="nav-text">0 引出问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-CAS-%E4%B8%8E-volatile"><span class="nav-text">1 CAS 与 volatile</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CAS-%E5%88%86%E6%9E%90"><span class="nav-text">CAS 分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#violatile-%E7%9A%84%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="nav-text">violatile 的可见性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B9%90%E8%A7%82%E9%94%81%E7%9A%84%E6%95%88%E7%8E%87%E9%AB%98%E5%91%A2%EF%BC%9F"><span class="nav-text">为什么乐观锁的效率高呢？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CAS-%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-text">CAS 的特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%8E%9F%E5%AD%90%E6%95%B4%E6%95%B0-AtomicInteger"><span class="nav-text">2 原子整数 AtomicInteger</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AtomicInteger-%E6%96%B9%E6%B3%95%E6%91%98%E8%A6%81"><span class="nav-text">AtomicInteger 方法摘要</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%8E%9F%E5%AD%90%E5%BC%95%E7%94%A8-AtomicReference"><span class="nav-text">3 原子引用 AtomicReference</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -514,13 +629,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">381k</span>
+    <span title="站点总字数">384k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">5:47</span>
+    <span title="站点阅读时长">5:49</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
