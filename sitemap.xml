@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://dave0126.github.io/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-1/</loc>
+    
+    <lastmod>2022-10-06</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://dave0126.github.io/2022/03/22/JVM-1/</loc>
     
     <lastmod>2022-10-06</lastmod>
@@ -12,15 +21,6 @@
   
   <url>
     <loc>https://dave0126.github.io/2022/09/25/MySQL-%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/</loc>
-    
-    <lastmod>2022-10-06</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://dave0126.github.io/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-1/</loc>
     
     <lastmod>2022-10-06</lastmod>
     
