@@ -744,6 +744,7 @@ O(n)</script>
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -822,6 +823,17 @@ O(n)</script>
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Dave0126" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Dave0126" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:dave980126@outlook.com" title="E-Mail → mailto:dave980126@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
 
 
 
@@ -985,6 +997,26 @@ if (document.querySelectorAll('pre.mermaid').length) {
     
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'ea138c6f176d57705144',
+      clientSecret: 'c999d74b366c68c80bc3b704c716a8ff8d67af6d',
+      repo        : 'Dave0126.github.io',
+      owner       : 'Dave0126',
+      admin       : ['Dave0126'],
+      id          : 'c6927af02b1fbeb2b5712fb561e0a584',
+        language: 'en | es-ES | fr | ru | zh-CN | zh-TW',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
