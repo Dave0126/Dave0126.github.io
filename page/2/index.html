@@ -193,7 +193,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-27 22:54:51" itemprop="dateModified" datetime="2022-10-27T22:54:51+02:00">2022-10-27</time>
+                <time title="修改时间：2022-11-05 20:21:56" itemprop="dateModified" datetime="2022-11-05T20:21:56+01:00">2022-11-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -230,7 +230,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Spring-简介"><a href="#Spring-简介" class="headerlink" title="Spring 简介"></a>Spring 简介</h2><p>Spring 是<u>分层的</u> Java SE/EE 应用轻量级全栈开源框架，以 <u>IoC</u>（反转控制）和<u>AOP</u>（面向切面编程）为内核。</p>
+          <h2 id="零、Spring-简介"><a href="#零、Spring-简介" class="headerlink" title="零、Spring 简介"></a>零、Spring 简介</h2><p>Spring 是<u>分层的</u> Java SE/EE 应用轻量级全栈开源框架，以 <u>IoC</u>（反转控制）和<u>AOP</u>（面向切面编程）为内核。</p>
 <p>提供了<u>展现层</u> Spring MVC和<u>持久层</u> Spring JDBCTemplate 以及<u>业务层</u>事务管理等众多的企业级应用技术，还能整合开源世界众多著名的第三方框架和类库，逐渐成为使用最多的Java EE 企业应用开源框架。</p>
           <!--noindex-->
             <div class="post-button">
@@ -578,7 +578,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-06-24 21:11:36" itemprop="dateModified" datetime="2022-06-24T21:11:36+02:00">2022-06-24</time>
+                <time title="修改时间：2022-11-05 20:25:13" itemprop="dateModified" datetime="2022-11-05T20:25:13+01:00">2022-11-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -615,46 +615,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
-<h3 id="1-修改-idea-vmoptions-后无法打开的问题"><a href="#1-修改-idea-vmoptions-后无法打开的问题" class="headerlink" title="1. 修改 idea.vmoptions 后无法打开的问题"></a>1. 修改 <code>idea.vmoptions</code> 后无法打开的问题</h3><p>本文仅适用于以下系统环境：</p>
-<blockquote>
+          <p>内容索引：</p>
 <ol>
-<li><code>M1 Arm64bits: MacOS v12.3</code></li>
-<li><code>IntelliJ IDEA v2021.3.3</code></li>
+<li><a href="http://dave0126.github.io/2022/05/02/idea常见问题/#1-修改-idea-vmoptions-后无法打开的问题">修改 idea.vmoptions 后无法打开的问题</a></li>
 </ol>
-</blockquote>
-<p>在官方描述 <a target="_blank" rel="noopener" href="https://intellij-support.jetbrains.com/hc/en-us/articles/206544869-Configuring-JVM-options-and-platform-properties">Configuring JVM options and platform properties</a> 中</p>
-<blockquote>
-<p>“Please note that custom <strong><code>.vmoptions</code> file created using ‘Edit Custom VM Options’ action has the priority over the original file in the bin directory</strong>.”</p>
-<p>使用“Edit Custom VM Options”操作创建的自定义 <code>.vmoptions</code> 文件<u>优先于</u> bin 目录中的原始文件</p>
-</blockquote>
-<p>也就是说 <code>idea.vmoptions</code> 文件有两份：</p>
-<blockquote>
-<ol>
-<li><code>/Applications/IntelliJ\ IDEA.app/Contents/bin/idea.vmoptions</code> </li>
-<li><code>.vmoptions</code> 的副本。注意，config目录中的.vmoptions文件执行 <u>优先级高于</u> IDEA安装路径下bin目录中的原始文件（第1条）。</li>
-</ol>
-</blockquote>
-<p>对于第一种情况，直接去对应地址下修改即可；对于我们在 IDEA 软件中通过 <code>Help -&gt; Edit Custom VM Options</code> 修改 <code>idea.vmoptions</code> 的情况，则对应第二种。</p>
-<h4 id="关于如何查找-vmoptions副本的位置："><a href="#关于如何查找-vmoptions副本的位置：" class="headerlink" title="关于如何查找 .vmoptions副本的位置："></a>关于如何查找 <code>.vmoptions</code>副本的位置：</h4><ol>
-<li><p>首先找到对应版本IDEA的安装目录，以本人电脑举例 <code>/Applications/IntelliJ\ IDEA.app/</code></p>
-</li>
-<li><p>找到文件夹 <code>/Contents/MacOS</code></p>
-</li>
-<li><p>使用命令行运行 <code>idea</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./idea</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>随后命令行会打印启动加载详情及文件路径，如下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">2022-05-02 12:12:33.623 idea[80627:6541003] allVms required 1.8*,1.8+</span><br><span class="line">2022-05-02 12:12:33.624 idea[80627:6541007] Current Directory: /Users/xxx</span><br><span class="line">2022-05-02 12:12:33.624 idea[80627:6541007] parseVMOptions: IDEA_VM_OPTIONS = (null)</span><br><span class="line">2022-05-02 12:12:33.624 idea[80627:6541007] fullFileName is: /Applications/IntelliJ IDEA.app/Contents/bin/idea.vmoptions</span><br><span class="line">2022-05-02 12:12:33.624 idea[80627:6541007] fullFileName exists: /Applications/IntelliJ IDEA.app/Contents/bin/idea.vmoptions</span><br><span class="line">2022-05-02 12:12:33.624 idea[80627:6541007] parseVMOptions: /Applications/IntelliJ IDEA.app/Contents/bin/idea.vmoptions</span><br><span class="line">2022-05-02 12:12:33.624 idea[80627:6541007] parseVMOptions: /Applications/IntelliJ IDEA.app.vmoptions</span><br><span class="line">2022-05-02 12:12:33.625 idea[80627:6541007] parseVMOptions: /Users/dave/Library/Application Support/JetBrains/IntelliJIdea2021.3/idea.vmoptions</span><br><span class="line">2022-05-02 12:12:33.625 idea[80627:6541007] parseVMOptions: platform=17 user=2 file=/Users/xxx/Library/Application Support/JetBrains/IntelliJIdea2021.3/idea.vmoptions</span><br><span class="line">Error opening zip file or JAR manifest missing : /Applications/IntelliJ\IDEA.app/Contents/plugins/xxx.jar</span><br><span class="line">Error occurred during initialization of VM agent library failed to init: instrument</span><br></pre></td></tr></table></figure>
-<p>我们可以发现 <code>idea</code> 在加载并解析 <code>VMOptions</code> 时访问了如下地址：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Users/xxx/Library/Application Support/JetBrains/IntelliJIdea2021.3/idea.vmoptions</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>至此我们就找到了 <code>.vmoptions</code>副本的位置。</p>
-</li>
-<li><p>修改错误代码或者将其删除即可重新打开软件。</p>
-</li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/02/idea%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -898,7 +870,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-27 21:41:31" itemprop="dateModified" datetime="2022-04-27T21:41:31+02:00">2022-04-27</time>
+                <time title="修改时间：2022-11-05 20:30:21" itemprop="dateModified" datetime="2022-11-05T20:30:21+01:00">2022-11-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1094,7 +1066,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-06-14 14:50:38" itemprop="dateModified" datetime="2022-06-14T14:50:38+02:00">2022-06-14</time>
+                <time title="修改时间：2022-11-05 20:35:20" itemprop="dateModified" datetime="2022-11-05T20:35:20+01:00">2022-11-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
