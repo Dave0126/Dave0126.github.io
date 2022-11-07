@@ -273,13 +273,6 @@
   </url>
   
   <url>
-    <loc>https://dave0126.github.io/tags/SQL/</loc>
-    <lastmod>2022-11-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://dave0126.github.io/tags/Java/</loc>
     <lastmod>2022-11-07</lastmod>
     <changefreq>weekly</changefreq>
@@ -294,7 +287,7 @@
   </url>
   
   <url>
-    <loc>https://dave0126.github.io/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</loc>
+    <loc>https://dave0126.github.io/tags/JUC/</loc>
     <lastmod>2022-11-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -315,14 +308,21 @@
   </url>
   
   <url>
-    <loc>https://dave0126.github.io/tags/IDEA/</loc>
+    <loc>https://dave0126.github.io/tags/SQL/</loc>
     <lastmod>2022-11-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://dave0126.github.io/tags/JMM/</loc>
+    <loc>https://dave0126.github.io/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</loc>
+    <lastmod>2022-11-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://dave0126.github.io/tags/IDEA/</loc>
     <lastmod>2022-11-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -343,7 +343,7 @@
   </url>
   
   <url>
-    <loc>https://dave0126.github.io/tags/JUC/</loc>
+    <loc>https://dave0126.github.io/tags/JMM/</loc>
     <lastmod>2022-11-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
