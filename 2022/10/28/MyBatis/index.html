@@ -22,15 +22,15 @@
     var CONFIG = {"hostname":"dave0126.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="MyBatis 学习本文主要通过以下几个方面来系统的介绍 MyBatis 框架：  MyBatis简单介绍 搭建 MyBatis 环境 核心配置文件详解 MyBatis 中的基本增删改查 自定义映射 resultMap 动态 SQL MyBatis 中的分页 MyBatis 的缓存机制  参考资料：  哔哩哔哩：“尚硅谷” 2022 版 MyBatis 入门教程 MyBatis 官方中文开发文档">
+  <meta name="description" content="MyBatis 学习本文主要通过以下几个方面来系统的介绍 MyBatis 框架：  零、MyBatis简单介绍 一、搭建 MyBatis 环境 二、核心配置文件详解 三、MyBatis 中的基本增删改查 四、自定义映射 resultMap 五、动态 SQL 六、MyBatis 中的分页 七、MyBatis 的缓存机制 八、MyBatis 与 Spring 框架整合  参考资料：  哔哩哔哩：“尚硅">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MyBatis">
 <meta property="og:url" content="https://dave0126.github.io/2022/10/28/MyBatis/index.html">
 <meta property="og:site_name" content="Lost N Found">
-<meta property="og:description" content="MyBatis 学习本文主要通过以下几个方面来系统的介绍 MyBatis 框架：  MyBatis简单介绍 搭建 MyBatis 环境 核心配置文件详解 MyBatis 中的基本增删改查 自定义映射 resultMap 动态 SQL MyBatis 中的分页 MyBatis 的缓存机制  参考资料：  哔哩哔哩：“尚硅谷” 2022 版 MyBatis 入门教程 MyBatis 官方中文开发文档">
+<meta property="og:description" content="MyBatis 学习本文主要通过以下几个方面来系统的介绍 MyBatis 框架：  零、MyBatis简单介绍 一、搭建 MyBatis 环境 二、核心配置文件详解 三、MyBatis 中的基本增删改查 四、自定义映射 resultMap 五、动态 SQL 六、MyBatis 中的分页 七、MyBatis 的缓存机制 八、MyBatis 与 Spring 框架整合  参考资料：  哔哩哔哩：“尚硅">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-10-28T18:39:03.000Z">
-<meta property="article:modified_time" content="2022-11-08T22:29:05.165Z">
+<meta property="article:modified_time" content="2022-11-08T22:47:23.093Z">
 <meta property="article:author" content="Guohao">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="MyBatis">
@@ -197,7 +197,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-08 23:29:05" itemprop="dateModified" datetime="2022-11-08T23:29:05+01:00">2022-11-08</time>
+                <time title="修改时间：2022-11-08 23:47:23" itemprop="dateModified" datetime="2022-11-08T23:47:23+01:00">2022-11-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -235,16 +235,17 @@
 
       
         <h1 id="MyBatis-学习"><a href="#MyBatis-学习" class="headerlink" title="MyBatis 学习"></a>MyBatis 学习</h1><p>本文主要通过以下几个方面来系统的介绍 MyBatis 框架：</p>
-<ol>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#零、MyBatis简单介绍">MyBatis简单介绍</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#一、搭建-MyBatis-环境">搭建 MyBatis 环境</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#二、核心配置文件详解">核心配置文件详解</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#三、MyBatis-中的基本增删改查">MyBatis 中的基本增删改查</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#四、自定义映射-resultMap">自定义映射 resultMap</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#五、动态-SQL">动态 SQL</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#六、MyBatis-中的分页">MyBatis 中的分页</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#七、MyBatis-的缓存机制">MyBatis 的缓存机制</a></li>
-</ol>
+<ul>
+<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#零、MyBatis简单介绍">零、MyBatis简单介绍</a></li>
+<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#一、搭建-MyBatis-环境">一、搭建 MyBatis 环境</a></li>
+<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#二、核心配置文件详解">二、核心配置文件详解</a></li>
+<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#三、MyBatis-中的基本增删改查">三、MyBatis 中的基本增删改查</a></li>
+<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#四、自定义映射-resultMap">四、自定义映射 resultMap</a></li>
+<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#五、动态-SQL">五、动态 SQL</a></li>
+<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#六、MyBatis-中的分页">六、MyBatis 中的分页</a></li>
+<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#七、MyBatis-的缓存机制">七、MyBatis 的缓存机制</a></li>
+<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#八、MyBatis-与-Spring-框架整合">八、MyBatis 与 Spring 框架整合</a></li>
+</ul>
 <p>参考资料：</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1VP4y1c7j7">哔哩哔哩：“尚硅谷” 2022 版 MyBatis 入门教程</a></li>
