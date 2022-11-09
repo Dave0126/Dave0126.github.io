@@ -1,264 +1,170 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.1.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-  <meta name="google-site-verification" content="qsomFTOc7YRdtgzLlWGwUadJSQMVq1DsnmdpbHKahT8" />
-  <meta name="baidu-site-verification" content="code-7YO3gQf9BH" />
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dave0126.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="参考资料：  Database System Concepts（数据库系统概念） 『浅入深出』MySQL 中事务的实现 MySQL的InnoDB的幻读问题">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>事务 Transaction 简介 | Lost N Found</title><meta name="author" content="Guohao"><meta name="copyright" content="Guohao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考资料：  Database System Concepts（数据库系统概念） 『浅入深出』MySQL 中事务的实现 MySQL的InnoDB的幻读问题">
 <meta property="og:type" content="article">
 <meta property="og:title" content="事务 Transaction 简介">
 <meta property="og:url" content="https://dave0126.github.io/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/index.html">
 <meta property="og:site_name" content="Lost N Found">
 <meta property="og:description" content="参考资料：  Database System Concepts（数据库系统概念） 『浅入深出』MySQL 中事务的实现 MySQL的InnoDB的幻读问题">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://dave0126.github.io/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006110856479.png">
-<meta property="og:image" content="https://dave0126.github.io/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006115352515.png">
-<meta property="og:image" content="https://dave0126.github.io/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006115227918.png">
-<meta property="og:image" content="https://dave0126.github.io/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006115352515.png">
-<meta property="og:image" content="https://dave0126.github.io/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006115352515.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg3.png">
 <meta property="article:published_time" content="2022-04-11T17:22:49.000Z">
-<meta property="article:modified_time" content="2022-10-06T16:11:06.619Z">
+<meta property="article:modified_time" content="2022-11-09T20:25:15.571Z">
 <meta property="article:author" content="Guohao">
 <meta property="article:tag" content="SQL">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://dave0126.github.io/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006110856479.png">
-
-<link rel="canonical" href="https://dave0126.github.io/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>事务 Transaction 简介 | Lost N Found</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg3.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://dave0126.github.io/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: Guohao","link":"链接: ","source":"来源: Lost N Found","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '事务 Transaction 简介',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-11-09 21:25:15'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
   }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-<link rel="alternate" href="/atom.xml" title="Lost N Found" type="application/atom+xml">
-</head>
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Lost N Found</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-  <a href="https://github.com/Dave0126" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guohao">
-      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lost N Found">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          事务 Transaction 简介
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-11 19:22:49" itemprop="dateCreated datePublished" datetime="2022-04-11T19:22:49+02:00">2022-04-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-06 18:11:06" itemprop="dateModified" datetime="2022-10-06T18:11:06+02:00">2022-10-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">课程笔记</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>9.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <p>参考资料：</p>
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Lost N Found" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-battery-full"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-calendar-check"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-hashtag"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-user-circle"></i><span> 关于我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Dave0126"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li><li><a class="site-page child" href="mailto:dave980126@outlook.com"><i class="fa-fw fas fa-envelope"></i><span> Mail</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg3.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Lost N Found</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-battery-full"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-calendar-check"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-hashtag"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-user-circle"></i><span> 关于我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Dave0126"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li><li><a class="site-page child" href="mailto:dave980126@outlook.com"><i class="fa-fw fas fa-envelope"></i><span> Mail</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">事务 Transaction 简介</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-11T17:22:49.000Z" title="发表于 2022-04-11 19:22:49">2022-04-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-09T20:25:15.571Z" title="更新于 2022-11-09 21:25:15">2022-11-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">94k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="事务 Transaction 简介"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>参考资料：</p>
 <ul>
 <li>Database System Concepts（数据库系统概念）</li>
 <li><a target="_blank" rel="noopener" href="https://draveness.me/mysql-transaction">『浅入深出』MySQL 中事务的实现</a></li>
 <li><a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_499740cb0100ugs7.html">MySQL的InnoDB的幻读问题</a></li>
 </ul>
 <span id="more"></span>
-<h3 id="1-什么是事务？"><a href="#1-什么是事务？" class="headerlink" title="1 什么是事务？"></a>1 什么是事务？</h3><p><img src="/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006110856479.png" alt="image-20221006110856479" style="zoom:50%;"></p>
-<p>数据库事务通常包含了<u><strong><em>一系列的对数据库的操作</em></strong></u>，是一系列操作的集合。包含有以下两个目的：</p>
+<h3 id="1-什么是事务"><a class="markdownIt-Anchor" href="#1-什么是事务"></a> 1 什么是事务？</h3>
+<img src="/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006110856479.png" alt="image-20221006110856479" style="zoom:50%;">
+<p>数据库事务通常包含了<u><em><strong>一系列的对数据库的操作</strong></em></u>，是一系列操作的集合。包含有以下两个目的：</p>
 <ol>
 <li>为数据库操作序列提供了一个从失败中恢复到正常状态的方法，同时提供了数据库即使在异常状态下仍能保持一致性的方法。</li>
 <li>当多个应用程序在并发访问数据库时，可以在这些应用程序之间提供一个隔离方法，以防止彼此的操作互相干扰。</li>
 </ol>
-<p>当事务被提交给了数据库管理系统（DBMS），则DBMS需要确保该事务中的所有操作都成功完成且其结果被永久保存在数据库中，如果事务中有的操作没有成功完成，则事务中的所有操作都需要<strong><em><u>回滚</u></em></strong>，回到事务执行前的状态；同时，该事务对数据库或者其他事务的执行无影响，所有的事务都好像在独立的运行。</p>
-<h3 id="2-事务的操作"><a href="#2-事务的操作" class="headerlink" title="2 事务的操作"></a>2 事务的操作</h3><p>在这里，我们使用一个简单的转账的例子来演示事务的操作：</p>
+<p>当事务被提交给了数据库管理系统（DBMS），则DBMS需要确保该事务中的所有操作都成功完成且其结果被永久保存在数据库中，如果事务中有的操作没有成功完成，则事务中的所有操作都需要***<u>回滚</u>***，回到事务执行前的状态；同时，该事务对数据库或者其他事务的执行无影响，所有的事务都好像在独立的运行。</p>
+<h3 id="2-事务的操作"><a class="markdownIt-Anchor" href="#2-事务的操作"></a> 2 事务的操作</h3>
+<p>在这里，我们使用一个简单的转账的例子来演示事务的操作：</p>
 <blockquote>
 <p>在 <code>account</code> 表中有 <code>Amy</code> 和 <code>Bob</code> 两个用户，他们的账户中都有金额 <code>amount = 2000</code>。 如今， <code>Amy</code> 想向 <code>Bob</code> 转账 <code>1000</code> 元。</p>
 </blockquote>
 <p>（1）准备数据</p>
-<p><img src="/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006115352515.png" alt="image-20221006115352515" style="zoom:50%;"></p>
+<img src="/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006115352515.png" alt="image-20221006115352515" style="zoom:50%;">
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> account(</span><br><span class="line">    id <span class="type">int</span> auto_increment <span class="keyword">primary</span> key comment <span class="string">&#x27;账户编号&#x27;</span>,</span><br><span class="line">    name <span class="type">varchar</span>(<span class="number">20</span>) comment <span class="string">&#x27;账户持有人姓名&#x27;</span>,</span><br><span class="line">    amount <span class="type">int</span> comment <span class="string">&#x27;金额&#x27;</span></span><br><span class="line">) comment <span class="string">&#x27;账户表&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> account(name, amount) <span class="keyword">VALUES</span></span><br><span class="line">    (<span class="string">&#x27;Amy&#x27;</span>, <span class="number">2000</span>),</span><br><span class="line">    (<span class="string">&#x27;Bob&#x27;</span>, <span class="number">2000</span>);</span><br><span class="line">    </span><br><span class="line"><span class="comment">-- 数据初始化</span></span><br><span class="line"><span class="keyword">update</span> account <span class="keyword">set</span> amount<span class="operator">=</span><span class="number">2000</span> <span class="keyword">where</span> <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
 <p>（2）转账操作成功（模拟事务）</p>
 <ol>
@@ -267,81 +173,96 @@
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查询是否自动提交（1是，0否）</span></span><br><span class="line"><span class="keyword">select</span> @<span class="variable">@autocommit</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 修改为不自动提交（仅对当前Query有效）</span></span><br><span class="line"><span class="keyword">set</span> @<span class="variable">@autocommit</span><span class="operator">=</span><span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务开始</span></span><br><span class="line"><span class="keyword">update</span> account <span class="keyword">set</span> amount<span class="operator">=</span>amount<span class="number">-1000</span> <span class="keyword">where</span> name<span class="operator">=</span><span class="string">&#x27;Amy&#x27;</span> <span class="keyword">and</span> amount<span class="operator">&gt;=</span><span class="number">1000</span>;</span><br><span class="line"><span class="keyword">update</span> account <span class="keyword">set</span> amount<span class="operator">=</span>amount<span class="operator">+</span><span class="number">1000</span> <span class="keyword">where</span> name<span class="operator">=</span><span class="string">&#x27;Bob&#x27;</span>;</span><br><span class="line"><span class="comment">-- 事务结束</span></span><br><span class="line"><span class="comment">--      此时事务还没有commit，所以数据库并没有变化</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- commit 提交</span></span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
 <p>此时的数据库表 <code>account</code>：</p>
-<p><img src="/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006115227918.png" alt="image-20221006115227918" style="zoom:50%;"></p>
+<img src="/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006115227918.png" alt="image-20221006115227918" style="zoom:50%;">
 <p>（3）转账操作失败（模拟事务）</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 事务开始</span></span><br><span class="line"><span class="keyword">update</span> account <span class="keyword">set</span> amount<span class="operator">=</span>amount<span class="number">-1000</span> <span class="keyword">where</span> name<span class="operator">=</span><span class="string">&#x27;Amy&#x27;</span> <span class="keyword">and</span> amount<span class="operator">&gt;=</span><span class="number">1000</span>;</span><br><span class="line"><span class="comment">--      如果此时发生错误</span></span><br><span class="line"><span class="keyword">update</span> account <span class="keyword">set</span> amount<span class="operator">=</span>amount<span class="operator">+</span><span class="number">1000</span> <span class="keyword">where</span> name<span class="operator">=</span><span class="string">&#x27;Bob&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--      因为在事务的执行中发生了错误，所以需要回滚事务（rollback）</span></span><br><span class="line"><span class="keyword">rollback</span> ;</span><br></pre></td></tr></table></figure>
 <p>此时的数据库表 <code>account</code>：</p>
-<p><img src="/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006115352515.png" alt="image-20221006115352515" style="zoom:50%;"></p>
+<img src="/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006115352515.png" alt="image-20221006115352515" style="zoom:50%;">
 <p>（4）使用事务</p>
 <p>使用事务时，需要添加</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> transaction;</span><br></pre></td></tr></table></figure>
-<p>来开启事务。事务开启后会关闭自动提交 <code>autocommit</code>，需要<strong><em><u>手动提交 <code>commit</code></u></em></strong> 或<strong><em><u>回滚 <code>rollback</code></u></em></strong>。</p>
+<p>来开启事务。事务开启后会关闭自动提交 <code>autocommit</code>，需要***<u>手动提交 <code>commit</code></u>*** 或***<u>回滚 <code>rollback</code></u>***。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> transaction;</span><br><span class="line"><span class="comment">-- 事务开始</span></span><br><span class="line"><span class="keyword">update</span> account <span class="keyword">set</span> amount<span class="operator">=</span>amount<span class="number">-1000</span> <span class="keyword">where</span> name<span class="operator">=</span><span class="string">&#x27;Amy&#x27;</span> <span class="keyword">and</span> amount<span class="operator">&gt;=</span><span class="number">1000</span>;</span><br><span class="line"><span class="keyword">update</span> account <span class="keyword">set</span> amount<span class="operator">=</span><span class="string">&#x27;发生错误&#x27;</span> <span class="keyword">where</span> name<span class="operator">=</span><span class="string">&#x27;Amy&#x27;</span> ;</span><br><span class="line"><span class="keyword">update</span> account <span class="keyword">set</span> amount<span class="operator">=</span>amount<span class="operator">+</span><span class="number">1000</span> <span class="keyword">where</span> name<span class="operator">=</span><span class="string">&#x27;Bob&#x27;</span>;</span><br><span class="line"><span class="comment">-- 事务结束</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 因为在事务的执行中发生了错误，所以需要回滚事务（rollback）</span></span><br><span class="line"><span class="keyword">rollback</span>;</span><br></pre></td></tr></table></figure>
 <p>此时的数据库表 <code>account</code>：</p>
-<p><img src="/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006115352515.png" alt="image-20221006115352515" style="zoom:50%;"></p>
-<h3 id="3-事务的四大特性-ACID"><a href="#3-事务的四大特性-ACID" class="headerlink" title="3 事务的四大特性 ACID"></a>3 事务的四大特性 <code>ACID</code></h3><p>事务是关系型数据库引入的概念，一个现实的业务操作往往关联多处数据，需要在数据库层面提供一种底层的逻辑保障，确保对数据的操作符合一定的特性，简化业务逻辑。</p>
+<img src="/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/image-20221006115352515.png" alt="image-20221006115352515" style="zoom:50%;">
+<h3 id="3-事务的四大特性-acid"><a class="markdownIt-Anchor" href="#3-事务的四大特性-acid"></a> 3 事务的四大特性 <code>ACID</code></h3>
+<p>事务是关系型数据库引入的概念，一个现实的业务操作往往关联多处数据，需要在数据库层面提供一种底层的逻辑保障，确保对数据的操作符合一定的特性，简化业务逻辑。</p>
 <p>事务的四大特性可以解决以下问题：</p>
 <ul>
-<li><p><u>逻辑操作</u>的<font color="darkgreen">【<strong><em><u>原子性（<code>Atomicity</code>）</u></em></strong>】</font>：</p>
-<p>一系列的逻辑操作<strong><em><u>要么全部执行成功</u></em></strong>的反应在数据库中，<strong><em><u>要么全部不执行</u></em></strong>完全不反映在数据库中（意味着如果<strong><em><u>有任何一处失败，整个操作需要回滚 <code>rollback</code></u></em></strong>）。</p>
+<li>
+<p><u>逻辑操作</u>的<font color="darkgreen">【***<u>原子性（<code>Atomicity</code>）</u>***】</font>：</p>
+<p>一系列的逻辑操作***<u>要么全部执行成功</u>***的反应在数据库中，***<u>要么全部不执行</u><em><strong>完全不反映在数据库中（意味着如果</strong></em><u>有任何一处失败，整个操作需要回滚 <code>rollback</code></u>***）。</p>
 </li>
-<li><p><u>数据约束</u>的<font color="darkgreen">【<strong><em><u>一致性（<code>Consistency</code>）</u></em></strong>】</font>：</p>
-<p>数据库的表之间存在各种约束条件，比如主键约束、外键约束等，在没有其他事务并发执行的情况下，<strong><em><u>对数据库的修改需要符合数据库的一致性约束</u></em></strong>。</p>
+<li>
+<p><u>数据约束</u>的<font color="darkgreen">【***<u>一致性（<code>Consistency</code>）</u>***】</font>：</p>
+<p>数据库的表之间存在各种约束条件，比如主键约束、外键约束等，在没有其他事务并发执行的情况下，***<u>对数据库的修改需要符合数据库的一致性约束</u>***。</p>
 </li>
-<li><p><u>并发执行</u>的<font color="darkgreen">【<strong><em><u>隔离性（<code>Isolation</code>）</u></em></strong>】</font>：</p>
-<p>数据库需要能够并发执行多个事务，对于<strong><em><u>每个事务来说，其他事务是不可见的</u></em></strong>；整理看起来，事务并发执行的结果跟按顺序一个一个串行地执行结果一样。</p>
+<li>
+<p><u>并发执行</u>的<font color="darkgreen">【***<u>隔离性（<code>Isolation</code>）</u>***】</font>：</p>
+<p>数据库需要能够并发执行多个事务，对于***<u>每个事务来说，其他事务是不可见的</u>***；整理看起来，事务并发执行的结果跟按顺序一个一个串行地执行结果一样。</p>
 </li>
-<li><p><u>执行结果</u>的<font color="darkgreen">【<strong><em><u>持久性（<code>Durability</code>）</u></em></strong>】</font>：</p>
-<p>一旦对数据库事务操作结果提交或回滚，就代表这个<strong><em><u>改变是永久</u></em></strong>的。不管数据库系统出现什么故障，比如断电、系统故障、磁盘故障等等（意味着数据库需要在保证性能的情况下具备恢复能力，即，每个成功的操作均需要存储在非易失性存储器上）</p>
+<li>
+<p><u>执行结果</u>的<font color="darkgreen">【***<u>持久性（<code>Durability</code>）</u>***】</font>：</p>
+<p>一旦对数据库事务操作结果提交或回滚，就代表这个***<u>改变是永久</u>***的。不管数据库系统出现什么故障，比如断电、系统故障、磁盘故障等等（意味着数据库需要在保证性能的情况下具备恢复能力，即，每个成功的操作均需要存储在非易失性存储器上）</p>
 </li>
 </ul>
-<h4 id="3-1-原子性的实现"><a href="#3-1-原子性的实现" class="headerlink" title="3.1 原子性的实现"></a>3.1 原子性的实现</h4><ul>
-<li>【原理】：<strong><em><u>影子拷贝（<code>shadow copy</code>）</u></em></strong>，在数据库<strong><em><u>副本</u></em></strong>上执行事务操作，如果成功，则<strong><em><u>更新数据库指针指向新的拷贝</u></em></strong>。</li>
+<h4 id="31-原子性的实现"><a class="markdownIt-Anchor" href="#31-原子性的实现"></a> 3.1 原子性的实现</h4>
+<ul>
+<li>【原理】：***<u>影子拷贝（<code>shadow copy</code>）</u>***，在数据库***<u>副本</u><em><strong>上执行事务操作，如果成功，则</strong></em><u>更新数据库指针指向新的拷贝</u>***。</li>
 <li>【前提】：数据库指针存储在磁盘上，更新磁盘上数据库指针的操作要确保原子性，要么写入新的指针，要么原指针不被擦除。这个由磁盘提供原子性支持，磁盘系统确保了对块或者磁盘扇区更新的原子性。</li>
 <li>【其他案例】：文本编辑器在编辑的时候，也通过 <code>shadow copy</code> 的方案来确保编辑会话的事务性。</li>
 </ul>
-<h4 id="3-2-持久性的实现"><a href="#3-2-持久性的实现" class="headerlink" title="3.2 持久性的实现"></a>3.2 持久性的实现</h4><p>【需求】：事务成功返回，则记录必须<strong><em><u>有效保存在非易失存储器</u></em></strong>（比如硬盘）上。</p>
-<h5 id="困难"><a href="#困难" class="headerlink" title="困难"></a>困难</h5><ul>
+<h4 id="32-持久性的实现"><a class="markdownIt-Anchor" href="#32-持久性的实现"></a> 3.2 持久性的实现</h4>
+<p>【需求】：事务成功返回，则记录必须***<u>有效保存在非易失存储器</u>***（比如硬盘）上。</p>
+<h5 id="困难"><a class="markdownIt-Anchor" href="#困难"></a> 困难</h5>
+<ul>
 <li>每次事务都直接更新保存在硬盘上的数据库数据文件，不仅性能高，也无法做到错误恢复；</li>
 <li>如果在内存中加 <code>buffer</code>，将一批事务批处理更新到数据库数据文件，则无法做到持久（系统随时有断电风险）</li>
 </ul>
-<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><p>每次事务的修改保存在硬盘上的【<strong><u><em>更新日志记录</em></u></strong>】，而不是直接修改数据库数据文件。</p>
+<h5 id="解决方案"><a class="markdownIt-Anchor" href="#解决方案"></a> 解决方案</h5>
+<p>每次事务的修改保存在硬盘上的【<strong><u><em>更新日志记录</em></u></strong>】，而不是直接修改数据库数据文件。</p>
 <p>日志文件和数据文件相比，虽然都是保存在硬盘上，但是有两个优点：</p>
 <ol>
-<li>效率更高：日志是<strong><em><u>”顺序存储“</u></em></strong>的，又叫顺序日志，<strong><em><u>查询记录不需要磁头寻址</u></em></strong>；而数据文件的存储是随机的，每次都需要寻址。几乎所有的磁盘针对数据库日志文件更新效率都很高。</li>
-<li>确保事务的原子性：一个事务对应的日志包括 <code>start</code>、<code>commit</code> 作为开头和提交，只<strong><em><u>有日志完整的事务，才会被批量更新到数据文件</u></em></strong>。</li>
+<li>效率更高：日志是***<u>”顺序存储“</u>***的，又叫顺序日志，***<u>查询记录不需要磁头寻址</u>***；而数据文件的存储是随机的，每次都需要寻址。几乎所有的磁盘针对数据库日志文件更新效率都很高。</li>
+<li>确保事务的原子性：一个事务对应的日志包括 <code>start</code>、<code>commit</code> 作为开头和提交，只***<u>有日志完整的事务，才会被批量更新到数据文件</u>***。</li>
 </ol>
 <p>此外，日志文件的更新可以通过在内存中加 <code>buffer</code>（日志记录缓冲）实现批处理，进一步提高效率，毕竟将数据输出到硬盘上开销还是比较高。在这种方案下，只要日志没有真正写入硬盘，事务就不进入提交状态。在高并发的情况下，让事务阻塞几纳秒，但是极大提高了日志写的效率，系统整体效率还是提升的。</p>
 <p>日志文件中还可以加入【检查点（<code>checkpoint</code>）】,让数据库系统在恢复的时候可以少做一些工作，不需要从头开始 <code>redo</code> 日志记录，而是从最近的检查点开始。</p>
-<h4 id="3-3-隔离性的实现"><a href="#3-3-隔离性的实现" class="headerlink" title="3.3 隔离性的实现"></a>3.3 隔离性的实现</h4><p>隔离性是针对<strong><em><u>事务并发的场景</u></em></strong>，需要达到的目标：</p>
+<h4 id="33-隔离性的实现"><a class="markdownIt-Anchor" href="#33-隔离性的实现"></a> 3.3 隔离性的实现</h4>
+<p>隔离性是针对***<u>事务并发的场景</u>***，需要达到的目标：</p>
 <ul>
 <li>事务尽可能并行执行，但是执行效果跟事务串行执行一样。</li>
 <li>提高系统的吞吐量和处理器、磁盘的利用率</li>
 <li>同时减少事务的平均响应时间</li>
 </ul>
 <p><strong>【调度（schedule）】</strong>：一个事务组的操作的<strong>绝对执行顺序</strong>就是一个调度。</p>
-<p><strong>【冲突（conflict）】</strong>：当两个事务 $T_i$、$T_j$ 对同一数据项 $x$ 进行操作，其中至少有一个是 <code>write</code> 操作时，事务 $T_i$ 和 $T_j$ 是冲突的。有冲突存在，决定了产生冲突的两个事务的冲突操作先后顺序不能改变。</p>
+<p><strong>【冲突（conflict）】</strong>：当两个事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>、<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">T_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span> 对同一数据项 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 进行操作，其中至少有一个是 <code>write</code> 操作时，事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">T_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span> 是冲突的。有冲突存在，决定了产生冲突的两个事务的冲突操作先后顺序不能改变。</p>
 <p><strong>【冲突可串行化】</strong>：在不改变一个调度中同一数据项产生操作冲突的操作的先后顺序的情况下，可以将调度变成一个串行调度，则表示这个调度是冲突可串行化的。</p>
-<h5 id="困难-1"><a href="#困难-1" class="headerlink" title="困难"></a>困难</h5><ol>
+<h5 id="困难-2"><a class="markdownIt-Anchor" href="#困难-2"></a> 困难</h5>
+<ol>
 <li>调度可串行化：对于多个事务成的事务组，每个事务包含多个操作（<code>read</code>、<code>write</code> 以及 <code>修改操作</code>），如何产生一个冲突可串行化的调度，同时尽可能的提高执行效率（并行执行）</li>
-<li>调度<strong><em><u>可恢复</u></em></strong>与<strong><em><u>无级联</u></em></strong>：对于一个调度，如果某一个事务 $T_1$ 失败了，确保整个调度是可以恢复的，也就是：既可以 <code>redo</code> 执行失败的事务，而不影响其他事务；也可以 <code>rollback</code> 回滚失败的事务，而不会导致其他事务级联回滚。</li>
+<li>调度***<u>可恢复</u><em><strong>与</strong></em><u>无级联</u>***：对于一个调度，如果某一个事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">T_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 失败了，确保整个调度是可以恢复的，也就是：既可以 <code>redo</code> 执行失败的事务，而不影响其他事务；也可以 <code>rollback</code> 回滚失败的事务，而不会导致其他事务级联回滚。</li>
 </ol>
-<h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ul>
-<li><p>为了保证调度的可串行性，首先要明确什么情况下会出现冲突，其次要确定处理冲突的方式。</p>
+<h5 id="思路"><a class="markdownIt-Anchor" href="#思路"></a> 思路</h5>
+<ul>
+<li>
+<p>为了保证调度的可串行性，首先要明确什么情况下会出现冲突，其次要确定处理冲突的方式。</p>
 <ul>
 <li>定义冲突的过程中，我们可以对事务操作进行规范，降低复杂度。比如两阶段加锁、有效性检查等方法，都约定了事务操作的规范。</li>
 <li>解决冲突的方式，要么延迟冲突的操作（比如加锁），要么终止发出冲突操作的事务（比如时间戳协议、有效性检查）。</li>
 </ul>
 </li>
-<li><p>为了保证调度的可恢复性和无级联性，需要确保：<strong><em><u>当 $T_2$ 事务读取了 $T_1$ 事务所写的数据项，那么 $T_1$ 事务必须在 $T_2$ 读取该数据项之前提交</u></em></strong>。</p>
+<li>
+<p>为了保证调度的可恢复性和无级联性，需要确保：***<u>当 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">T_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 事务读取了 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">T_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 事务所写的数据项，那么 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">T_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 事务必须在 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">T_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 读取该数据项之前提交</u>***。</p>
 </li>
 </ul>
-<h5 id="冲突可串行化判定"><a href="#冲突可串行化判定" class="headerlink" title="冲突可串行化判定"></a>冲突可串行化判定</h5><p>【判定原理】：事务 $T_i$ 对数据项 $x$ 的 <code>read</code>、<code>write</code> 操作和事务 $T_j$ 对数据项 $x$ 的 <code>read</code>、<code>write</code> 操作决定了他们的串行顺序。以下两种情况均表示 $T_i$ 依赖 $T_j$（$T_i \to T_j$）</p>
+<h5 id="冲突可串行化判定"><a class="markdownIt-Anchor" href="#冲突可串行化判定"></a> 冲突可串行化判定</h5>
+<p>【判定原理】：事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 对数据项 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 的 <code>read</code>、<code>write</code> 操作和事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">T_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span> 对数据项 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 的 <code>read</code>、<code>write</code> 操作决定了他们的串行顺序。以下两种情况均表示 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 依赖 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">T_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>（<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub><mo>→</mo><msub><mi>T</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">T_i \to T_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>）</p>
 <ul>
-<li>$T_i$ 事务 <code>read</code> 操作前，如果 $T_j$ 有 <code>write</code> 操作</li>
-<li>$T_i$ 事务 <code>write</code> 操作前，如果 $T_j$ 有 <code>write</code> 或 <code>read</code> 操作<br>（两个事务的 <code>read</code> 操作无法确定依赖关系，任何对同一数据项 的<code>read</code>、<code>write</code> 操作可以确定一组依赖关系）</li>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 事务 <code>read</code> 操作前，如果 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">T_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span> 有 <code>write</code> 操作</li>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 事务 <code>write</code> 操作前，如果 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">T_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span> 有 <code>write</code> 或 <code>read</code> 操作<br>
+（两个事务的 <code>read</code> 操作无法确定依赖关系，任何对同一数据项 的<code>read</code>、<code>write</code> 操作可以确定一组依赖关系）</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -383,9 +304,8 @@
 </tr>
 </tbody>
 </table>
-</div>
 <blockquote>
-<p>例如：两个事务 $T_1$、$T_2$ 对同一数据项 $x$ 进行操作。在 $T_1$ 的操作 <code>write(x,1)</code> 之后 $T_2$ 中有操作 <code>read(x,1)</code>。我们可以得到一组依赖关系：$T_1 \to T_2$</p>
+<p>例如：两个事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">T_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>、<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">T_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 对同一数据项 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 进行操作。在 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">T_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 的操作 <code>write(x,1)</code> 之后 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">T_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 中有操作 <code>read(x,1)</code>。我们可以得到一组依赖关系：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mn>1</mn></msub><mo>→</mo><msub><mi>T</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">T_1 \to T_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></p>
 </blockquote>
 <p>根据依赖关系可以画出调度的<strong>优先图(precedence graph)</strong>，如果该图是<strong>无环图</strong>，可以通过拓扑排序获得等价的串行调度；否则表示这个<strong>调度是非串行的</strong>。</p>
 <blockquote>
@@ -396,7 +316,7 @@
     participant T2
     participant T3
     participant T4
-
+    
     Note over T1 :1. start();
     Note over T2 :2. start();
     Note over T3 :3. start();
@@ -413,9 +333,6 @@
     Note over T2 :14. end();
     Note over T4 :15. end();
     Note over T1 :16. end();</pre>
-
-
-
 <blockquote>
 <p>调度优先图为：</p>
 </blockquote>
@@ -425,34 +342,37 @@ T2 --"(9)"--> T4
 T4 --"(10)"--> T3
 T1 --"(12)"--> T4
 T3 --"(11)"--> T2</pre>
-
 <blockquote>
 <p>由图可见，该图内存在环，所以不符合可串行性。</p>
 </blockquote>
-<h5 id="可串行性解决方案"><a href="#可串行性解决方案" class="headerlink" title="可串行性解决方案"></a>可串行性解决方案</h5><h6 id="方案1：加锁（悲观）"><a href="#方案1：加锁（悲观）" class="headerlink" title="方案1：加锁（悲观）"></a>方案1：加锁（悲观）</h6><p><strong>两阶段封锁协议（two-phase locking protocol，2PL）</strong>：将事务加锁、解锁请求分成两个阶段，<strong><em><u>所有加锁请求必须在第一阶段</u></em></strong>（增长阶段 <code>Growing phase</code>）申请，<strong><em><u>所有解锁请求必须在第二阶段</u></em></strong>（缩减阶段 <code>Shrinking phase</code>）申请，<strong><em><u>加锁</u></em>和<em><u>解锁</u></em>操作<em><u>不能交叉执行</u></em>（同一个事务内）</strong>。</p>
+<h5 id="可串行性解决方案"><a class="markdownIt-Anchor" href="#可串行性解决方案"></a> 可串行性解决方案</h5>
+<h6 id="方案1加锁悲观"><a class="markdownIt-Anchor" href="#方案1加锁悲观"></a> 方案1：加锁（悲观）</h6>
+<p><strong>两阶段封锁协议（two-phase locking protocol，2PL）</strong>：将事务加锁、解锁请求分成两个阶段，***<u>所有加锁请求必须在第一阶段</u>***（增长阶段 <code>Growing phase</code>）申请，***<u>所有解锁请求必须在第二阶段</u>***（缩减阶段 <code>Shrinking phase</code>）申请，<strong><em><u>加锁</u><em>和</em><u>解锁</u><em>操作</em><u>不能交叉执行</u></em>（同一个事务内）</strong>。</p>
 <p>两段锁协议规定所有的事务应遵守的规则：</p>
 <blockquote>
 <p>① 在对任何数据进行<strong>读、写操作之前</strong>，首先要<strong>申请</strong>并获得对该数据的<strong>锁</strong>。</p>
 <p>② 在<strong>释放</strong>一个<strong>锁之后</strong>，事务<strong>不再申请</strong>和获得其它<strong>任何锁</strong>。</p>
 </blockquote>
 <ol>
-<li><p>第一阶段（增长阶段 <code>Growing Phase</code>）：</p>
+<li>
+<p>第一阶段（增长阶段 <code>Growing Phase</code>）：</p>
 <p>其实也就是该阶段可以进入加锁操作:</p>
 <ul>
-<li>在对任何数据进行<strong><em><u>读操作之前</u></em>要申请获得 <em><u><code>S</code> 锁（共享锁）</u></em></strong>；</li>
-<li><strong>在进行<em><u>写操作之前</u></em>要申请并获得 <em><u><code>X</code> 锁（排他锁）</u></em></strong></li>
+<li>在对任何数据进行***<u>读操作之前</u><em>要申请获得 <em><u><code>S</code> 锁（共享锁）</u></em></em>*；</li>
+<li><em><em>在进行</em><u>写操作之前</u><em>要申请并获得 <em><u><code>X</code> 锁（排他锁）</u></em></em></em></li>
 <li>加锁不成功，则事务进入等待状态，直到加锁成功才继续执行。</li>
 <li>第一阶段无法解锁，也就意味着，不能在两个加锁操作之间执行解锁操作。</li>
 </ul>
 </li>
-<li><p>第二阶段（缩减阶段 <code>Shrinking Phase</code>）：</p>
-<p>第二阶段是释放封锁，事务可以<strong><em><u>释放任何数据项上的任何类型的锁，但不能申请</u></em></strong>。当事务释放一个封锁后，事务进入封锁阶段，在该阶段只能进行解锁而<strong><em><u>不能再进行加锁操作</u></em></strong>。</p>
+<li>
+<p>第二阶段（缩减阶段 <code>Shrinking Phase</code>）：</p>
+<p>第二阶段是释放封锁，事务可以***<u>释放任何数据项上的任何类型的锁，但不能申请</u>***。当事务释放一个封锁后，事务进入封锁阶段，在该阶段只能进行解锁而***<u>不能再进行加锁操作</u>***。</p>
 </li>
 </ol>
 <pre class="mermaid">sequenceDiagram
     participant T1
     participant T2
-
+    
     Note over T1 :1. S_Lock(x);
     Note over T1 :2. read(x);
     Note over T1 :3. X_Lock(y);
@@ -465,76 +385,81 @@ T3 --"(11)"--> T2</pre>
     Note over T1 :8. unlock(x);
     Note over T2 :9. read(y);
     Note over T2 :10. unlock(y);</pre>
-
-<p><code>2PL</code> 协议解决串行化问题的思路是<em><u>通过把可能冲突的数据操作集中在申请锁的阶段，由锁的不相容性延迟有冲突的事务，从而确定冲突事务的执行次序</u></em>。这种加锁方式也避免了事务解锁了一部分锁之后又去申请新的锁，导致脏读的问题。</p>
-<p>但是，<code>2PL</code> 协议<strong><em><u>无法解决死锁问题和级联回滚问题</u></em></strong>。</p>
+<p><code>2PL</code> 协议解决串行化问题的思路是*<u>通过把可能冲突的数据操作集中在申请锁的阶段，由锁的不相容性延迟有冲突的事务，从而确定冲突事务的执行次序</u>*。这种加锁方式也避免了事务解锁了一部分锁之后又去申请新的锁，导致脏读的问题。</p>
+<p>但是，<code>2PL</code> 协议***<u>无法解决死锁问题和级联回滚问题</u>***。</p>
 <ul>
-<li><strong>严格（strict）两阶段封锁协议</strong>：规定持有<strong><em><u><code>X</code> 锁（排他锁）</u></em></strong>的事务必须在<strong><em><u>事务 <code>commit</code> 之后才能释放锁</u></em></strong>。<u>避免了<strong><em>级联回滚</em></strong></u>。</li>
-<li><strong>强（rigorous）两阶段封锁协议</strong>：规定持有<strong><em><u>任何锁</u></em></strong>的事务必须在<strong><em><u>事务 <code>commit</code> 之后才能释放锁</u></em></strong>。比严格模式更严格，<u>避免了<strong><em>死锁</em></strong></u>。</li>
+<li><strong>严格（strict）两阶段封锁协议</strong>：规定持有***<u><code>X</code> 锁（排他锁）</u><em><strong>的事务必须在</strong></em><u>事务 <code>commit</code> 之后才能释放锁</u>***。<u>避免了***级联回滚***</u>。</li>
+<li><strong>强（rigorous）两阶段封锁协议</strong>：规定持有***<u>任何锁</u><em><strong>的事务必须在</strong></em><u>事务 <code>commit</code> 之后才能释放锁</u>***。比严格模式更严格，<u>避免了***死锁***</u>。</li>
 </ul>
-<p>大部分数据库要么采用strict 2PL，要么rigorous 2PL。为了提高并行性能，允许在增长阶段将<strong><em><u>共享锁 <code>S</code> 升级为排他锁 <code>X</code></u></em></strong>，同时在缩减阶段将<strong><em><u>排他锁 <code>X</code> 降级为共享锁 <code>S</code></u></em></strong>，这样确保在 <code>write</code> 的时候才排他，操作完之后就不排他，减少事务等待时间。</p>
-<p><strong>重点注意</strong>：使用2PL，虽然可以确保冲突可串行化，但是不代表它的执行效果跟串行一样。因为加锁状态下的可串行化是理论上的可串行化，是根据每个事物的封锁点(lock point，也就是最后加锁的位置)排序得到的串行化顺序，而<u>调度实际执行的时候主要依靠【<strong><em>锁</em></strong>】来保证对冲突操作的执行顺序，这个是并行执行的，因此会出现不同的事务都优先拿到对方需要的数据集的锁的情况（死锁）</u>。</p>
+<p>大部分数据库要么采用strict 2PL，要么rigorous 2PL。为了提高并行性能，允许在增长阶段将***<u>共享锁 <code>S</code> 升级为排他锁 <code>X</code></u>***，同时在缩减阶段将***<u>排他锁 <code>X</code> 降级为共享锁 <code>S</code></u>***，这样确保在 <code>write</code> 的时候才排他，操作完之后就不排他，减少事务等待时间。</p>
+<p><strong>重点注意</strong>：使用2PL，虽然可以确保冲突可串行化，但是不代表它的执行效果跟串行一样。因为加锁状态下的可串行化是理论上的可串行化，是根据每个事物的封锁点(lock point，也就是最后加锁的位置)排序得到的串行化顺序，而<u>调度实际执行的时候主要依靠【<em><strong>锁</strong></em>】来保证对冲突操作的执行顺序，这个是并行执行的，因此会出现不同的事务都优先拿到对方需要的数据集的锁的情况（死锁）</u>。</p>
 <p><strong>数据多粒度（granularity）封锁</strong>：理论情况下，加锁针对的数据项 <code>Q</code> 是没有粒度的。实际中，数据项在保存的时候，经常多个数据项聚成一个数据单元。这种情况下，如果要加锁一个范围比较大的数据时，需要挨个数据项加锁，比较费时；如果需要加锁一个范围比较小的数据时，又会锁定无关的数据项，导致整体并发性减弱。为数据建立<em>多粒度</em>机制就是解决方案。该方案根据数据在数据库中的存储特点，从「数据库」到「区域的文件节点」再到「记录」，形成一颗提现粒度层次的树。并引入「共享型意向锁IS」、「排他型意向锁IX」、「共享排他型意向锁SIX」，实现多粒度封锁。</p>
-<p><strong>多版本两阶段封锁（Multiversion PL）</strong>：2PL的并行性能有待提升，尤其是在大部分事务「只读」，小部分事务是「更新」操作的情况下，只读的事务会被延迟到更新事务完成，这种情况可以通过结合多版本的特性进行提升。<br>多版本的2PL协议，将事务分为「只读事务」和「更新事务」，针对每一个数据项 $x$ 维护一个全局的版本号ts-counter（计数器型时间戳），事务 $T_i$ 执行 <code>read(x)</code> 操作将返回时间戳小于 $TS(T_i)$ 的最大时间戳版本的内容；<code>write(x)</code> 操作会增加全局版本号以及写入 $x$ 的新版本。这种情况下，只读事务永远不需要等待锁，更新事务则执行强两阶段封锁协议，确保他们可以按照提交次序串行化。</p>
-<h6 id="处理死锁问题的思路"><a href="#处理死锁问题的思路" class="headerlink" title="处理死锁问题的思路"></a>处理死锁问题的思路</h6><ol>
+<p><strong>多版本两阶段封锁（Multiversion PL）</strong>：2PL的并行性能有待提升，尤其是在大部分事务「只读」，小部分事务是「更新」操作的情况下，只读的事务会被延迟到更新事务完成，这种情况可以通过结合多版本的特性进行提升。<br>
+多版本的2PL协议，将事务分为「只读事务」和「更新事务」，针对每一个数据项 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 维护一个全局的版本号ts-counter（计数器型时间戳），事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 执行 <code>read(x)</code> 操作将返回时间戳小于 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>T</mi><mi>S</mi><mo stretchy="false">(</mo><msub><mi>T</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">TS(T_i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 的最大时间戳版本的内容；<code>write(x)</code> 操作会增加全局版本号以及写入 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 的新版本。这种情况下，只读事务永远不需要等待锁，更新事务则执行强两阶段封锁协议，确保他们可以按照提交次序串行化。</p>
+<h6 id="处理死锁问题的思路"><a class="markdownIt-Anchor" href="#处理死锁问题的思路"></a> 处理死锁问题的思路</h6>
+<ol>
 <li>死锁预防（deadlock prevention）：对加锁请求进行排序或者要求同时获得所有锁来确保不会发生循环等待。</li>
 <li>死锁恢复（deadlock recovery）：在检测出死锁之后，根据一定的规则选择某些事务进行回滚，打破循环等待的状态。</li>
 </ol>
-<h6 id="方案2：时间戳规则（乐观）"><a href="#方案2：时间戳规则（乐观）" class="headerlink" title="方案2：时间戳规则（乐观）"></a>方案2：时间戳规则（乐观）</h6><p><strong>时间戳排序协议（Timestamp-ordering protocol）</strong>：不同于加锁的方式，通过锁的相容性决定冲突事务执行顺序，时间戳排序机制<strong>通过事务的时间戳</strong>来决定事务串行化的次序。</p>
+<h6 id="方案2时间戳规则乐观"><a class="markdownIt-Anchor" href="#方案2时间戳规则乐观"></a> 方案2：时间戳规则（乐观）</h6>
+<p><strong>时间戳排序协议（Timestamp-ordering protocol）</strong>：不同于加锁的方式，通过锁的相容性决定冲突事务执行顺序，时间戳排序机制<strong>通过事务的时间戳</strong>来决定事务串行化的次序。</p>
 <ol>
-<li>为每一个数据项 $x$ 关联 <code>read</code>、<code>write</code> 操作最近一次成功执行的时间戳 $R_{ead}T_{imestamp}(x)\quad W_{rite}T_{imestamp}(x)$。</li>
-<li>当事务 $T_i$ 对数据项 $x$ 进行 <code>write</code> 操作的时候，如果在事务 $T_i$ 开始之后，$x$ 被其他事务 <code>read</code> 或者 <code>write</code> 过，则当前事务 $T_i$ 进行回滚。</li>
+<li>为每一个数据项 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 关联 <code>read</code>、<code>write</code> 操作最近一次成功执行的时间戳 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>R</mi><mrow><mi>e</mi><mi>a</mi><mi>d</mi></mrow></msub><msub><mi>T</mi><mrow><mi>i</mi><mi>m</mi><mi>e</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>m</mi><mi>p</mi></mrow></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mspace width="1em"><msub><mi>W</mi><mrow><mi>r</mi><mi>i</mi><mi>t</mi><mi>e</mi></mrow></msub><msub><mi>T</mi><mrow><mi>i</mi><mi>m</mi><mi>e</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>m</mi><mi>p</mi></mrow></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></mspace></mrow><annotation encoding="application/x-tex">R_{ead}T_{imestamp}(x)\quad W_{rite}T_{imestamp}(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">t</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">p</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:1em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">t</span><span class="mord mathdefault mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">t</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">p</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span>。</li>
+<li>当事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 对数据项 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 进行 <code>write</code> 操作的时候，如果在事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 开始之后，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 被其他事务 <code>read</code> 或者 <code>write</code> 过，则当前事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 进行回滚。</li>
 </ol>
 <blockquote>
 <p>基本时间戳排序协议的工作原理如下：</p>
 <ul>
-<li><code>TS(Ti)</code>表示事务 $T_i$ 的时间戳。</li>
-<li><code>RT(x)</code>表示数据项 $x$ 的读时间戳。</li>
-<li><code>WT(x)</code>表示数据项 $x$ 的写时间戳。</li>
+<li><code>TS(Ti)</code>表示事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 的时间戳。</li>
+<li><code>RT(x)</code>表示数据项 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 的读时间戳。</li>
+<li><code>WT(x)</code>表示数据项 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 的写时间戳。</li>
 </ul>
 <ol>
-<li>每当事务 $T_i$ 发出 <code>read(x)</code> 操作时，请检查以下条件：</li>
+<li>每当事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 发出 <code>read(x)</code> 操作时，请检查以下条件：</li>
 </ol>
 <ul>
-<li>如果 $WT(x) &gt; TS(T_i)$ 则<strong>拒绝</strong>该操作；</li>
-<li>如果 $WT(x) \le TS(T_i)$ 则<strong>执行</strong>操作；</li>
+<li>如果 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>W</mi><mi>T</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>&gt;</mo><mi>T</mi><mi>S</mi><mo stretchy="false">(</mo><msub><mi>T</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">WT(x) &gt; TS(T_i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 则<strong>拒绝</strong>该操作；</li>
+<li>如果 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>W</mi><mi>T</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>≤</mo><mi>T</mi><mi>S</mi><mo stretchy="false">(</mo><msub><mi>T</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">WT(x) \le TS(T_i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 则<strong>执行</strong>操作；</li>
 <li>更新所有数据项的时间戳。</li>
 </ul>
-<ol>
-<li>每当事务 $T_i$ 发出 <code>write(x)</code> 操作时，请检查以下条件（<strong>Thomas 写规则</strong>）：</li>
+<ol start="2">
+<li>每当事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 发出 <code>write(x)</code> 操作时，请检查以下条件（<strong>Thomas 写规则</strong>）：</li>
 </ol>
 <ul>
-<li>如果 $TS(T_i)&lt;RT(x)$，则表明 $T_i$ 准备写的值还没来得及写入，$x$ 就提前被读取了，所以 $T_i$ 的 <code>write(x)</code>操作被拒绝，并且事务 $T_i$ 被回滚</li>
-<li>如果 $TS(T_i) &lt; WT(x)$，表明 $T_i$ 写的值已过期，比它更新的值已经写到 $x$ 上，所以 $T_i$ 的 <code>write(x)</code>操作被拒绝；</li>
+<li>如果 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>T</mi><mi>S</mi><mo stretchy="false">(</mo><msub><mi>T</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mo>&lt;</mo><mi>R</mi><mi>T</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">TS(T_i)&lt;RT(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span>，则表明 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 准备写的值还没来得及写入，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 就提前被读取了，所以 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 的 <code>write(x)</code>操作被拒绝，并且事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 被回滚</li>
+<li>如果 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>T</mi><mi>S</mi><mo stretchy="false">(</mo><msub><mi>T</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mo>&lt;</mo><mi>W</mi><mi>T</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">TS(T_i) &lt; WT(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span>，表明 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 写的值已过期，比它更新的值已经写到 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 上，所以 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 的 <code>write(x)</code>操作被拒绝；</li>
 <li>剩下的情况，<code>write(x)</code> 操作被允许；</li>
 <li>更新所有数据项的时间戳。</li>
 </ul>
 </blockquote>
 <p>时间戳排序协议<strong>不会有死锁</strong>，因为没有事务处于「等待」状态，事务发现数据项被后来者动过之后就回滚了。但是，这种规则有很强的「抢断」性质，容易导致<strong>长事务持续被短事务抢断，长事务反复重启，可能导致饿死</strong>。</p>
-<p><em>Thomas写规则</em>：对时间戳排序协议的性能优化，当事务 $T_i$ 对数据项 $x$ 进行<code>write</code>操作的时候，如果在事务 $T_i$ 开始之后，$x$ 被其他事务<code>write</code> 过，则当前事务 $T_i$ 的 <code>write</code> 操作<strong>忽略</strong>，而不是进行<strong>回滚</strong>。通过这种方式减少不必要的回滚。</p>
-<p><em>多版本时间戳排序机制(multiversion timestamp-ordering scheme)</em>：类似多版本两阶段封锁协议，让每个 <code>write(x)</code> 操作创建 $x$ 的新版本，而 <code>read(x)</code> 操作则会被分配一个合适的 $x$ 版本进行读取，提高「读」的效率。</p>
-<h6 id="方案3：Validation-有效性规则（乐观）"><a href="#方案3：Validation-有效性规则（乐观）" class="headerlink" title="方案3：Validation 有效性规则（乐观）"></a>方案3：Validation 有效性规则（乐观）</h6><p>有效性检查协议：假设每个事物Ti的生命周期分为2个阶段（只读事务）或者3个阶段（更新事务）。读阶段只进行读、计算操作，之后进行$validation$ 检查，通过的话就进行写操作。每个阶段都关联一个时间戳：$Start(T_i)$，$Validation(T_i)$，$Finish(T_i)$。有效性测试的原理跟时间戳规则一样，</p>
+<p><em>Thomas写规则</em>：对时间戳排序协议的性能优化，当事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 对数据项 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 进行<code>write</code>操作的时候，如果在事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 开始之后，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 被其他事务<code>write</code> 过，则当前事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 的 <code>write</code> 操作<strong>忽略</strong>，而不是进行<strong>回滚</strong>。通过这种方式减少不必要的回滚。</p>
+<p><em>多版本时间戳排序机制(multiversion timestamp-ordering scheme)</em>：类似多版本两阶段封锁协议，让每个 <code>write(x)</code> 操作创建 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 的新版本，而 <code>read(x)</code> 操作则会被分配一个合适的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 版本进行读取，提高「读」的效率。</p>
+<h6 id="方案3validation-有效性规则乐观"><a class="markdownIt-Anchor" href="#方案3validation-有效性规则乐观"></a> 方案3：Validation 有效性规则（乐观）</h6>
+<p>有效性检查协议：假设每个事物Ti的生命周期分为2个阶段（只读事务）或者3个阶段（更新事务）。读阶段只进行读、计算操作，之后进行<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>v</mi><mi>a</mi><mi>l</mi><mi>i</mi><mi>d</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">validation</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">i</span><span class="mord mathdefault">d</span><span class="mord mathdefault">a</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span></span></span></span> 检查，通过的话就进行写操作。每个阶段都关联一个时间戳：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi><mi>t</mi><mi>a</mi><mi>r</mi><mi>t</mi><mo stretchy="false">(</mo><msub><mi>T</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Start(T_i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault">t</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">t</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi><mi>a</mi><mi>l</mi><mi>i</mi><mi>d</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi><mo stretchy="false">(</mo><msub><mi>T</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Validation(T_i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">i</span><span class="mord mathdefault">d</span><span class="mord mathdefault">a</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>F</mi><mi>i</mi><mi>n</mi><mi>i</mi><mi>s</mi><mi>h</mi><mo stretchy="false">(</mo><msub><mi>T</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Finish(T_i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mord mathdefault">h</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>。有效性测试的原理跟时间戳规则一样，</p>
 <blockquote>
-<p><em>如果事务 $T_i$ 在写数据项 $x$（有效性验证）的时候发现数据项已经被写过了，则事务 $T_i$ 回滚</em>。</p>
+<p><em>如果事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 在写数据项 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>（有效性验证）的时候发现数据项已经被写过了，则事务 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 回滚</em>。</p>
 </blockquote>
-<p>相比时间戳排序，有效性检查协议把 $validation$ 的时间作为事务的时间戳，而不是使用事务开始的时间，这样可以在冲突度低的情况下有更快响应。</p>
+<p>相比时间戳排序，有效性检查协议把 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>v</mi><mi>a</mi><mi>l</mi><mi>i</mi><mi>d</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">validation</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">i</span><span class="mord mathdefault">d</span><span class="mord mathdefault">a</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span></span></span></span> 的时间作为事务的时间戳，而不是使用事务开始的时间，这样可以在冲突度低的情况下有更快响应。</p>
 <p>有效性规则是一种<strong>乐观并发控制(optimistic concurrency control)</strong></p>
-<h5 id="非可串行性解决方案"><a href="#非可串行性解决方案" class="headerlink" title="非可串行性解决方案"></a>非可串行性解决方案</h5><blockquote>
+<h5 id="非可串行性解决方案"><a class="markdownIt-Anchor" href="#非可串行性解决方案"></a> 非可串行性解决方案</h5>
+<blockquote>
 <p>为什么要有非可串行化解决方案？</p>
 <p>在某些应用中，串行化方案可能会影响并发性能，但是应用并不需要精确的信息，因此可以牺牲串行性而提高并发性。</p>
 </blockquote>
-<h5 id="并发事务弱一致性的问题"><a href="#并发事务弱一致性的问题" class="headerlink" title="并发事务弱一致性的问题"></a>并发事务弱一致性的问题</h5><ol>
-<li>【<strong><em><u>脏读（Dirty Read）</u></em></strong>】：当前事务读取的数据项已经过时，原因是其他事务已经修改了该数据，但是并未最后提交（也可能最终回滚）。总之，当前事务<strong><em><u>读到的数据是不可靠的</u></em></strong>，是【<strong><em><u>脏数据</u></em></strong> 】。</li>
-<li>【<strong><em><u>不可重复读（Unrepeatable Read）</u></em></strong>】：同一个事务连续两次读取同一数据项 $x$，间隙之间其他事务修改了数据项 $x$，因此本事务<strong><u><em>先后两次读到的数据结果会不一致</em></u></strong>。</li>
-<li>【<strong><em><u>幻读（Phantom Read）</u></em></strong>】：当前事务进行某个范围数据的读或者写的操作的同时，另一个事物插入了符合当前事务读写约束的新数据，当前事务再更新时，惊奇地发现了这些新数据，貌似之前读到的数据是幻觉一样。<strong><em><u>比如一个事物在按照条件查询数据时，没有对应的数据，但是在插入数据时，又发现此时数据已经存在了。</u></em></strong></li>
+<h5 id="并发事务弱一致性的问题"><a class="markdownIt-Anchor" href="#并发事务弱一致性的问题"></a> 并发事务弱一致性的问题</h5>
+<ol>
+<li>【***<u>脏读（Dirty Read）</u>***】：当前事务读取的数据项已经过时，原因是其他事务已经修改了该数据，但是并未最后提交（也可能最终回滚）。总之，当前事务***<u>读到的数据是不可靠的</u>***，是【***<u>脏数据</u>*** 】。</li>
+<li>【**<em><u>不可重复读（Unrepeatable Read）</u><em><strong>】：同一个事务连续两次读取同一数据项 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>，间隙之间其他事务修改了数据项 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>，因此本事务</strong><u><em>先后两次读到的数据结果会不一致</em></u></em></em>。</li>
+<li>【***<u>幻读（Phantom Read）</u>***】：当前事务进行某个范围数据的读或者写的操作的同时，另一个事物插入了符合当前事务读写约束的新数据，当前事务再更新时，惊奇地发现了这些新数据，貌似之前读到的数据是幻觉一样。***<u>比如一个事物在按照条件查询数据时，没有对应的数据，但是在插入数据时，又发现此时数据已经存在了。</u>***</li>
 </ol>
-<h5 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h5><ul>
-<li>【<strong><em><u>读未提交（Read Uncommited）</u></em></strong>】：读操作不加锁，可能读到已经过时的数据，<strong><em><u>存在【脏读】的问题</u></em></strong>。</li>
-<li>【<strong><em><u>读已提交（Read commited）</u></em></strong>】：只允许读取已提交记录，但是不要求可重复读。事务连续两次读取同一数据之间会释放锁，因此两次读取结果不保证一样。<strong><em><u>解决了【脏读】，但是不解决【不重复读】</u></em></strong>。</li>
-<li>【<strong><em><u>可重复读（Repeatable read）</u></em></strong>】：只允许读取已提交记录，且同一个事务两次读取同一数据项 $x$ 得到的结果是一致的。事务在提交之前不会释放锁。<strong><em><u>解决了【脏读、不重复读】问题，但是解决不了【幻读】</u></em></strong>。</li>
-<li>【<strong><em><u>串行化（Serializable）</u></em></strong>】：执行结果跟串行执行一样。<strong><em><u>解决了【幻读】问题</u></em></strong>。</li>
+<h5 id="事务的隔离级别"><a class="markdownIt-Anchor" href="#事务的隔离级别"></a> 事务的隔离级别</h5>
+<ul>
+<li>【***<u>读未提交（Read Uncommited）</u>***】：读操作不加锁，可能读到已经过时的数据，***<u>存在【脏读】的问题</u>***。</li>
+<li>【***<u>读已提交（Read commited）</u>***】：只允许读取已提交记录，但是不要求可重复读。事务连续两次读取同一数据之间会释放锁，因此两次读取结果不保证一样。***<u>解决了【脏读】，但是不解决【不重复读】</u>***。</li>
+<li>【***<u>可重复读（Repeatable read）</u>***】：只允许读取已提交记录，且同一个事务两次读取同一数据项 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 得到的结果是一致的。事务在提交之前不会释放锁。***<u>解决了【脏读、不重复读】问题，但是解决不了【幻读】</u>***。</li>
+<li>【***<u>串行化（Serializable）</u>***】：执行结果跟串行执行一样。***<u>解决了【幻读】问题</u>***。</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -571,7 +496,6 @@ T3 --"(11)"--> T2</pre>
 </tr>
 </tbody>
 </table>
-</div>
 <p>查看当前事务的隔离级别：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> @<span class="variable">@transaction</span>_isolation;</span><br></pre></td></tr></table></figure>
 <p>设置事务的隔离级别：</p>
@@ -579,333 +503,51 @@ T3 --"(11)"--> T2</pre>
 <blockquote>
 <p>可以通过更改事务的隔离级别来复现“脏读”、“不可重复读”和“幻读”问题。</p>
 </blockquote>
-
-    </div>
-
-    
-    
-    
-        
-
-<div>
-<ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>本文作者： </strong>Guohao
-  </li>
-  <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="https://dave0126.github.io/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/" title="事务 Transaction 简介">https://dave0126.github.io/2022/04/11/事务transaction简介/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
-  </li>
-</ul>
-</div>
-
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/SQL/" rel="tag"># SQL</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/" rel="prev" title="Transition System(变迁系统) 与 TLA+">
-      <i class="fa fa-chevron-left"></i> Transition System(变迁系统) 与 TLA+
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/04/19/%E8%BF%90%E7%AD%B9%E5%AD%A6/" rel="next" title="运筹学">
-      运筹学 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-    <div class="comments" id="gitalk-container"></div>
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8B%E5%8A%A1%EF%BC%9F"><span class="nav-text">1 什么是事务？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-text">2 事务的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7-ACID"><span class="nav-text">3 事务的四大特性 ACID</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E5%8E%9F%E5%AD%90%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.1 原子性的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.2 持久性的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%B0%E9%9A%BE"><span class="nav-text">困难</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">解决方案</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-%E9%9A%94%E7%A6%BB%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.3 隔离性的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%B0%E9%9A%BE-1"><span class="nav-text">困难</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-text">思路</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%B2%E7%AA%81%E5%8F%AF%E4%B8%B2%E8%A1%8C%E5%8C%96%E5%88%A4%E5%AE%9A"><span class="nav-text">冲突可串行化判定</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E4%B8%B2%E8%A1%8C%E6%80%A7%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">可串行性解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%96%B9%E6%A1%881%EF%BC%9A%E5%8A%A0%E9%94%81%EF%BC%88%E6%82%B2%E8%A7%82%EF%BC%89"><span class="nav-text">方案1：加锁（悲观）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E6%AD%BB%E9%94%81%E9%97%AE%E9%A2%98%E7%9A%84%E6%80%9D%E8%B7%AF"><span class="nav-text">处理死锁问题的思路</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%96%B9%E6%A1%882%EF%BC%9A%E6%97%B6%E9%97%B4%E6%88%B3%E8%A7%84%E5%88%99%EF%BC%88%E4%B9%90%E8%A7%82%EF%BC%89"><span class="nav-text">方案2：时间戳规则（乐观）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%96%B9%E6%A1%883%EF%BC%9AValidation-%E6%9C%89%E6%95%88%E6%80%A7%E8%A7%84%E5%88%99%EF%BC%88%E4%B9%90%E8%A7%82%EF%BC%89"><span class="nav-text">方案3：Validation 有效性规则（乐观）</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9D%9E%E5%8F%AF%E4%B8%B2%E8%A1%8C%E6%80%A7%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">非可串行性解决方案</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E4%BA%8B%E5%8A%A1%E5%BC%B1%E4%B8%80%E8%87%B4%E6%80%A7%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">并发事务弱一致性的问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-text">事务的隔离级别</span></a></li></ol></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Guohao</p>
-  <div class="site-description" itemprop="description">间歇性踌躇满志, 持续性划水摸鱼</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">22</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">4</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">18</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/Dave0126" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Dave0126" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:dave980126@outlook.com" title="E-Mail → mailto:dave980126@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
-      </span>
-  </div>
-  <div class="cc-license motion-element" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
-  </div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Guohao</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-area"></i>
-    </span>
-      <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">549k</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">8:19</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>
-
-
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-if (document.querySelectorAll('pre.mermaid').length) {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
-    mermaid.initialize({
-      theme    : '[object Object]',
-      logLevel : 3,
-      flowchart: { curve     : 'linear' },
-      gantt    : { axisFormat: '%m/%d/%Y' },
-      sequence : { actorMargin: 50 }
-    });
-  }, window.mermaid);
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://dave0126.github.io">Guohao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://dave0126.github.io/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/">https://dave0126.github.io/2022/04/11/%E4%BA%8B%E5%8A%A1transaction%E7%AE%80%E4%BB%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://dave0126.github.io" target="_blank">Lost N Found</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SQL/">SQL</a></div><div class="post_share"><div class="social-share" data-image="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg3.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/03/29/%E5%8F%98%E8%BF%81%E7%B3%BB%E7%BB%9F%E4%B8%8ETLA-%E4%B8%80/"><img class="prev-cover" src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Transition System(变迁系统) 与 TLA+</div></div></a></div><div class="next-post pull-right"><a href="/2022/04/19/%E8%BF%90%E7%AD%B9%E5%AD%A6/"><img class="next-cover" src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">运筹学</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Guohao</div><div class="author-info__description">间歇性踌躇满志, 持续性划水摸鱼</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Dave0126" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:dave980126@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8B%E5%8A%A1"><span class="toc-text"> 1 什么是事务？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-text"> 2 事务的操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7-acid"><span class="toc-text"> 3 事务的四大特性 ACID</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#31-%E5%8E%9F%E5%AD%90%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text"> 3.1 原子性的实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#32-%E6%8C%81%E4%B9%85%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text"> 3.2 持久性的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%B0%E9%9A%BE"><span class="toc-text"> 困难</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text"> 解决方案</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#33-%E9%9A%94%E7%A6%BB%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text"> 3.3 隔离性的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%B0%E9%9A%BE-2"><span class="toc-text"> 困难</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-text"> 思路</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%86%B2%E7%AA%81%E5%8F%AF%E4%B8%B2%E8%A1%8C%E5%8C%96%E5%88%A4%E5%AE%9A"><span class="toc-text"> 冲突可串行化判定</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AF%E4%B8%B2%E8%A1%8C%E6%80%A7%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text"> 可串行性解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%96%B9%E6%A1%881%E5%8A%A0%E9%94%81%E6%82%B2%E8%A7%82"><span class="toc-text"> 方案1：加锁（悲观）</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E6%AD%BB%E9%94%81%E9%97%AE%E9%A2%98%E7%9A%84%E6%80%9D%E8%B7%AF"><span class="toc-text"> 处理死锁问题的思路</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%96%B9%E6%A1%882%E6%97%B6%E9%97%B4%E6%88%B3%E8%A7%84%E5%88%99%E4%B9%90%E8%A7%82"><span class="toc-text"> 方案2：时间戳规则（乐观）</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%96%B9%E6%A1%883validation-%E6%9C%89%E6%95%88%E6%80%A7%E8%A7%84%E5%88%99%E4%B9%90%E8%A7%82"><span class="toc-text"> 方案3：Validation 有效性规则（乐观）</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%9D%9E%E5%8F%AF%E4%B8%B2%E8%A1%8C%E6%80%A7%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text"> 非可串行性解决方案</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E4%BA%8B%E5%8A%A1%E5%BC%B1%E4%B8%80%E8%87%B4%E6%80%A7%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text"> 并发事务弱一致性的问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-text"> 事务的隔离级别</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/10/28/MyBatis/" title="MyBatis"><img src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MyBatis"/></a><div class="content"><a class="title" href="/2022/10/28/MyBatis/" title="MyBatis">MyBatis</a><time datetime="2022-10-28T18:39:03.000Z" title="发表于 2022-10-28 20:39:03">2022-10-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/25/MySQL-%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/" title="MySQL 相关笔记"><img src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL 相关笔记"/></a><div class="content"><a class="title" href="/2022/09/25/MySQL-%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/" title="MySQL 相关笔记">MySQL 相关笔记</a><time datetime="2022-09-25T14:56:12.000Z" title="发表于 2022-09-25 16:56:12">2022-09-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/16/Java%E4%B8%AD%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%88%86%E6%9E%90/" title="Java中线程池的使用及分析"><img src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java中线程池的使用及分析"/></a><div class="content"><a class="title" href="/2022/09/16/Java%E4%B8%AD%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%88%86%E6%9E%90/" title="Java中线程池的使用及分析">Java中线程池的使用及分析</a><time datetime="2022-09-16T21:18:33.000Z" title="发表于 2022-09-16 23:18:33">2022-09-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/15/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9A%E4%B9%90%E8%A7%82%E9%94%81/" title="Java中的锁：乐观锁"><img src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java中的锁：乐观锁"/></a><div class="content"><a class="title" href="/2022/09/15/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9A%E4%B9%90%E8%A7%82%E9%94%81/" title="Java中的锁：乐观锁">Java中的锁：乐观锁</a><time datetime="2022-09-15T08:15:51.000Z" title="发表于 2022-09-15 10:15:51">2022-09-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/05/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9AReentrantLock/" title="Java中的锁：ReentrantLock"><img src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java中的锁：ReentrantLock"/></a><div class="content"><a class="title" href="/2022/09/05/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9AReentrantLock/" title="Java中的锁：ReentrantLock">Java中的锁：ReentrantLock</a><time datetime="2022-09-05T13:03:11.000Z" title="发表于 2022-09-05 15:03:11">2022-09-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Guohao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
 }
-</script>
 
-
-  
-
-  
-      
-
-<script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
-    
-
-  
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
-
-<script>
-NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : 'ea138c6f176d57705144',
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: 'ea138c6f176d57705144',
       clientSecret: 'c999d74b366c68c80bc3b704c716a8ff8d67af6d',
-      repo        : 'Dave0126.github.io',
-      owner       : 'Dave0126',
-      admin       : ['Dave0126'],
-      id          : '8d3f4a1cae4e8c90fa2a0c2ac18767a0',
-        language: 'zh-CN',
-      distractionFreeMode: true
-    });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
-});
-</script>
+      repo: 'Dave0126.github.io',
+      owner: 'Dave0126',
+      admin: ['Dave0126'],
+      id: '7fb95e6cb20e95d1a1a7c115abf691c0',
+      updateCountCallback: commentCount
+    },null))
 
-</body>
-</html>
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !false) {
+  if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

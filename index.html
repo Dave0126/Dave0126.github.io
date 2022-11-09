@@ -1,1491 +1,418 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.1.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-  <meta name="google-site-verification" content="qsomFTOc7YRdtgzLlWGwUadJSQMVq1DsnmdpbHKahT8" />
-  <meta name="baidu-site-verification" content="code-7YO3gQf9BH" />
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dave0126.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="间歇性踌躇满志, 持续性划水摸鱼">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Lost N Found</title><meta name="author" content="Guohao"><meta name="copyright" content="Guohao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="间歇性踌躇满志, 持续性划水摸鱼">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Lost N Found">
 <meta property="og:url" content="https://dave0126.github.io/index.html">
 <meta property="og:site_name" content="Lost N Found">
 <meta property="og:description" content="间歇性踌躇满志, 持续性划水摸鱼">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://dave0126.github.io/img/avatar.jpg">
 <meta property="article:author" content="Guohao">
 <meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://dave0126.github.io/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : true,
-    isPost : false,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>Lost N Found</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
+<meta name="twitter:image" content="https://dave0126.github.io/img/avatar.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://dave0126.github.io/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: Guohao","link":"链接: ","source":"来源: Lost N Found","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Lost N Found',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-11-10 00:53:49'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
   }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-<link rel="alternate" href="/atom.xml" title="Lost N Found" type="application/atom+xml">
-</head>
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Lost N Found</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Lost N Found" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-battery-full"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-calendar-check"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-hashtag"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-user-circle"></i><span> 关于我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Dave0126"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li><li><a class="site-page child" href="mailto:dave980126@outlook.com"><i class="fa-fw fas fa-envelope"></i><span> Mail</span></a></li></ul></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background: linear-gradient(20deg, #0062be, #925696, #cc426e, #fb0347)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Lost N Found</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-battery-full"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-calendar-check"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-hashtag"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-user-circle"></i><span> 关于我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Dave0126"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li><li><a class="site-page child" href="mailto:dave980126@outlook.com"><i class="fa-fw fas fa-envelope"></i><span> Mail</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Lost N Found</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/Dave0126" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:dave980126@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-1/" title="Java 并发多线程编程 (JUC)"><img class="post_bg" src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 并发多线程编程 (JUC)"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-1/" title="Java 并发多线程编程 (JUC)">Java 并发多线程编程 (JUC)</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack sticky"></i><span class="sticky">置顶</span><span class="article-meta-separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-03-23T20:13:13.000Z" title="发表于 2022-03-23 21:13:13">2022-03-23</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-09T20:24:59.694Z" title="更新于 2022-11-09 21:24:59">2022-11-09</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content"> Java 并发多线程编程
+本文主要通过以下几个方面来系统的介绍 Java 并发多线程编程：
 
-  <a href="https://github.com/Dave0126" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+线程与进程
+Java 线程
+共享模型之 Monitor
+共享模型之 JMM
+共享模型之 无锁（乐观锁）
+并发工具之 线程池
 
 
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
+【参考资料】:
+视频课程: BiliBili - 黑马程序员Java并发编程 JUC
+笔记参考: Java并发 - Nyima’s Blog
 
-          <div class="content index posts-expand">
+注：本课程笔记基于 JDK8，采用 lsf4j 打印日志
+
+
+ 1 线程与进程
+ 1.1 进程
+
+程序由指令和数据组成，但这些指令要运行，数据要读写，就必须将指令加载至 CPU，数据加载至内存。在指令运行过程中还需要用到磁盘、网络等设备。进程就是用来加载指令、管理内存、管理 IO 的。
+当一个程序被运行，从磁盘加载这个程序的代码至内存，这时就开启了一个进程。
+进程就可以视为程序的一个实例（程序是静态的，进程是动态的）。大部分程序可以同时运行多个实例进程（例如记事本、画图、浏览器 等），也有的程序只能启动一个实例进程（例如网易云音乐、360 安全卫士等）
+
+ 1.2 线程
+
+一个进程可以分为一到多个线程。
+一个线程就是一个指令 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/03/22/JVM-1/" title="Java 虚拟机 - JVM"><img class="post_bg" src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg3.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java 虚拟机 - JVM"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/03/22/JVM-1/" title="Java 虚拟机 - JVM">Java 虚拟机 - JVM</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack sticky"></i><span class="sticky">置顶</span><span class="article-meta-separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-03-22T20:52:44.000Z" title="发表于 2022-03-22 21:52:44">2022-03-22</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-09T20:24:50.594Z" title="更新于 2022-11-09 21:24:50">2022-11-09</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content"> JVM 基础学习
+本文主要通过以下几个方面来系统的介绍 JVM ：
+
+第一章：JVM 结构
+第二章：JVM 内存结构
+第三章：JVM 垃圾回收
+第四章：类加载与字节码技术
+第五章：JMM 内存模型
+
+【参考资料】
+
+视频课程：BiliBili - 黑马程序员 JVM 完整教程
+The Java® Virtual Machine Specification - Java SE 8 Edition 官方文档
+
+
+ 零、什么是 JVM？
+JVM (Java Virtual Machine) 是 Java 程序的运行环境(Java 二进制字节码的运行环境)
+好处:
+
+可以提供一个跨平台的一致的运行环境, 达到平台无关性；
+提供内存管理, 垃圾回收功能；
+
+JRE = JVM + 基础类库
+JDK = JVM + 基础类库 + 编译工具
+
+ 一、JVM 结构
+
+总体分为三大部分：
+
+ClassLoader 类加载器：Java 代码编译成二进制后，会经过类加载器，这样才能加载到 JVM 中运行。
+JVM 内存结构
+执行引擎
+
+ 二、JVM 内存结构
+
+程序计数器 (Program Counter ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/09/25/MySQL-%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/" title="MySQL 相关笔记"><img class="post_bg" src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL 相关笔记"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/09/25/MySQL-%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/" title="MySQL 相关笔记">MySQL 相关笔记</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack sticky"></i><span class="sticky">置顶</span><span class="article-meta-separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-09-25T14:56:12.000Z" title="发表于 2022-09-25 16:56:12">2022-09-25</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-09T20:26:44.351Z" title="更新于 2022-11-09 21:26:44">2022-11-09</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/SQL/">SQL</a></span></div><div class="content"> MySQL 相关笔记
+
+ MySQL 基础知识
+ 1 数据库相关概念
+
+
+
+名称
+简称
+作用
+
+
+
+
+数据库
+DataBase (DB)
+存储数据的仓库，数据是***有组织***的进行存储
+
+
+数据库操作系统
+DataBase Management System (DBMS)
+操纵和管理数据库的大型软件
+
+
+SQL
+Structured Query Language
+操作***关系型数据库***的编程语言，定义了一套操作关系型数据库的统一语言
+
+
+
+常见的 DBMS：Oracle、MySQL、SQL Server 等。我们以 MySQL 作为课程的讲解的管理系统。
+ 2 MySQL 数据库的数据模型
+关系型数据库（RDBMS）：建立在关系模型基础上，由多张相关联的二维***表 (Table)*** 组成的数据库。如
+
+MySQL 数据库的结构为：
+MySQL客户端→DBMS→DB→表 (Table)→记录\text{MySQL客户端} \to \text{DBMS} \to \text{DB} \to \text{表 (Table)} \to \text{记录}
+MySQL客户端→D ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/10/28/MyBatis/" title="MyBatis"><img class="post_bg" src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MyBatis"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/10/28/MyBatis/" title="MyBatis">MyBatis</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-10-28T18:39:03.000Z" title="发表于 2022-10-28 20:39:03">2022-10-28</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-09T20:27:08.825Z" title="更新于 2022-11-09 21:27:08">2022-11-09</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content"> MyBatis 学习
+本文主要通过以下几个方面来系统的介绍 MyBatis 框架：
+
+零、MyBatis简单介绍
+一、搭建 MyBatis 环境
+二、核心配置文件详解
+三、MyBatis 中的基本增删改查
+四、自定义映射 resultMap
+五、动态 SQL
+六、MyBatis 中的分页
+七、MyBatis 的缓存机制
+八、MyBatis 与 Spring 框架整合
+
+参考资料：
+
+哔哩哔哩：“尚硅谷” 2022 版 MyBatis 入门教程
+MyBatis 官方中文开发文档
+学习 MyBatis 框架时的练习代码 GitHub : MyBatis_Demo
+
+
+ 零、MyBatis简单介绍
+MyBatis 是一个基于 Java 的***持久化框架***，支持定制化 SQL（自行编写 SQL 语句维护数据库）、存储过程及高级映射。它几乎避免了所有的 JDBC 代码和获取结果集。
+ 与其他持久化层技术的对比
+
+
+JDBC：SQL 语句于业务语句耦合度高，不易更改维护；代码冗长
+
+
+JPA/Hibernate：操作便捷，开发效率高；但是因为 SQL 语句是自动生成的，不容易做特殊优化
+
+ ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/09/16/Java%E4%B8%AD%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%88%86%E6%9E%90/" title="Java中线程池的使用及分析"><img class="post_bg" src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java中线程池的使用及分析"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/09/16/Java%E4%B8%AD%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%88%86%E6%9E%90/" title="Java中线程池的使用及分析">Java中线程池的使用及分析</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-09-16T21:18:33.000Z" title="发表于 2022-09-16 23:18:33">2022-09-16</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-09T20:26:52.966Z" title="更新于 2022-11-09 21:26:52">2022-11-09</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content"> Java 中线程池的使用及分析
+我们可以思考如下场景：线程是一个系统资源，操作系统每分配一个线程，就会消耗一定的资源。如果在高并发的环境下， 我们为每个任务都创建一个线程的话，那么对资源的消耗时非常大的。为了减小在这中环境下的系统消耗，我们引入线程池概念来维护多个线程，将任务分配给线程池中的线程。
+什么是线程池？
+线程池其实就是一种多线程处理的形式，处理过程中可以将任务添加到到队列中，然后在创建线程后自动启动这些任务。
+使用线程池的优势：
+
+使用线程池可以统一的管理线程和控制线程并发数量；
+可以与任务分离，提升线程重用度；
+提升系统的响应速度
+
+
+我们主要通过一下几个部分来介绍 Java 中的线程池：
+
+自定义线程池
+JDK 提供的线程池：ThreadPoolExecutor
+设计模式 - 工作线程
+
+
+ 一、自定义线程池
+我们在介绍 JDK 提供的线程池之前，先自定义一个线程池，以更好的了解线程池的工作方式。
+我们可以回忆一下***生产者消费者问题***，线程池其实就符合这个模型。线程池中的线程 ***thread 就是消费者***，阻塞队列中的任务 ***task 就是商品*** ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/09/15/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9A%E4%B9%90%E8%A7%82%E9%94%81/" title="Java中的锁：乐观锁"><img class="post_bg" src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java中的锁：乐观锁"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/09/15/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9A%E4%B9%90%E8%A7%82%E9%94%81/" title="Java中的锁：乐观锁">Java中的锁：乐观锁</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-09-15T08:15:51.000Z" title="发表于 2022-09-15 10:15:51">2022-09-15</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-09T20:27:00.452Z" title="更新于 2022-11-09 21:27:00">2022-11-09</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content"> Java中的锁：乐观锁
+写在前面：
+我们在学习 Java 并发编程 时已经知道， synchronized 的本质是对 ObjectMonitor 对象的操作。在本章中我们会讲解一种相对于 Monitor（悲观锁）来实现线程安全的模式（乐观锁）。但碍于学识浅薄，文章中难免会出现错误，恳请各位读者加以指正。
+我们主要通过以下几个方面来系统的介绍“乐观锁”的实现原理：
+
+CAS 与 violate
+原子整数 AtomicInteger
+原子引用 AtomicReference
+原子数组 AtomicArray
+原子累加器
+Unsafe 类
+
+相关资料：
+
+关于 ObjectMonitor 的底层源码分析
+Java 中的锁：ReentrantLock
+Java 内存模型 - JMM
+
+
+ 0 引出问题
+我们思考这样一个场景：
+
+对于一个临界区数据 count，分别有两个线程对 count 进行增减操作。
+
+如果我们使用 synchronized 关键字来对 count 进行保护，简易代码如下：
+12345synchronized class Count &#123;  int num;   ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/09/05/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9AReentrantLock/" title="Java中的锁：ReentrantLock"><img class="post_bg" src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java中的锁：ReentrantLock"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/09/05/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9AReentrantLock/" title="Java中的锁：ReentrantLock">Java中的锁：ReentrantLock</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-09-05T13:03:11.000Z" title="发表于 2022-09-05 15:03:11">2022-09-05</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-09-27T16:50:56.121Z" title="更新于 2022-09-27 18:50:56">2022-09-27</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content"> Java 中的锁：ReentrantLock
+写在前面：
+本人在学习 Java 并发编程 学习到一种除了 synchronized 用得较多的一种锁 ReentrantLock，本文旨在学习研究 ReentrantLock 相关知识，如 AbstractQueuedSynchronizer（简称 AQS），Lock 接口等。但碍于学识浅薄，文章中难免会出现错误，恳请各位读者加以指正。
+
+本文主要通过以下几个方面来系统的介绍 ReentrantLock：
+
+AQS 同步器
+基于 AQS 自定义一个阻塞式的锁
+ReentrantLock
+ReentrantReadWriteLock 读写锁
+
+
+ AQS
+ReentrantLock 继承自 AbstractQueuedSynchronizer（简称 AQS），所以我们从 AQS 开始讲起。
+AQS （抽象的、基于队列的同步器）是**阻塞式锁和相关同步器工具**的框架，即其他的同步器工具都是它的子类，且基于 AQS 实现的锁是阻塞式的锁。
+AQS 的特点有：
+
+用 state 属性（volatile int）来表示资源的状态，分为***独占 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/09/02/%E5%85%B3%E4%BA%8EObjectMonitor%E7%9A%84%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" title="关于ObjectMonitor的底层源码分析"><img class="post_bg" src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于ObjectMonitor的底层源码分析"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/09/02/%E5%85%B3%E4%BA%8EObjectMonitor%E7%9A%84%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" title="关于ObjectMonitor的底层源码分析">关于ObjectMonitor的底层源码分析</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-09-02T19:22:43.000Z" title="发表于 2022-09-02 21:22:43">2022-09-02</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-09-04T08:33:42.589Z" title="更新于 2022-09-04 10:33:42">2022-09-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content"> 关于 ObjectMonitor 的底层源码分析
+写在前面：
+本人在学习 Java 并发编程时，对于 synchronized 关键字最底层的重量级锁 Monitor 的实现过程兴趣颇高，所以写下这篇文章记录学习过程。但碍于学识浅薄，文章中难免会出现错误，恳请各位读者加以指正。
+文章末尾有本人根据源码分析得出的获取 Monitor 流程图，点击此处跳转。
+主要参考资料：
+
+ObjectMonitor 头文件：jdk8.runtime.objectMonitor.hpp
+ObjectMonitor 源文件：jdk8.runtime.objectMonitor.cpp
+知乎：深入底层源码 - 深度理解 synchronized 原理
+Java多线程-对象内置锁（ObjectMonitor）
+
+
+ Java 的对象头结构
+首先我们先回顾一下关于 Java 的对象头结构。
+在一个 32 bits 的机器中，普通对象的 Java 对象头由 Mark Word 和 Klass Word 组成，一共 64 bits：
+12345|---------------------------------- ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/08/26/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="JMM - Java 内存模型"><img class="post_bg" src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JMM - Java 内存模型"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/08/26/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="JMM - Java 内存模型">JMM - Java 内存模型</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-26T08:28:21.000Z" title="发表于 2022-08-26 10:28:21">2022-08-26</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-09T20:26:35.881Z" title="更新于 2022-11-09 21:26:35">2022-11-09</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content"> JMM - Java 内存模型
+首先，我们应该区分【JVM 内存结构】和【JMM 内存模型】的区别。我们常说的 【JVM 内存结构】指的是JVM 的内存分区；而 【JMM 内存模型】是一种虚拟机规范。
+简单的说，JMM 定义了一套在***多线程***读写共享数据时（成员变量、数组）时，对数据的可见性、有序性和原子性的规则和保障。
+
+本文主要通过以下几个方面来系统的介绍 JMM 内存结构：
+
+原子性
+可见性
+有序性
+***volatile 原理***
+
+
+ 0 Java 内存模型
+Java 虚拟机规范中定义了 Java 内存模型（Java Memory Model，JMM），用于屏蔽掉各种硬件和操作系统的内存访问差异，以实现让 Java程序在各种平台下都能达到一致的***并发***效果，JMM 规范了 Java 虚拟机与计算机内存是如何协同工作的：规定了一个线程如何和何时可以看到由其他线程修改过后的共享变量的值，以及在必须时如何同步的访问共享变量。
+JMM 体现在以下几个方面
+
+原子性 - 保证指令不会受到线程上下文切换的影响
+可见性 - 保证指令不会受 CPU 缓存的影响
+有序性 - ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/06/16/Java%E7%9A%8423%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="Java的23种设计模式"><img class="post_bg" src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java的23种设计模式"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/06/16/Java%E7%9A%8423%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="Java的23种设计模式">Java的23种设计模式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-16T11:07:34.000Z" title="发表于 2022-06-16 13:07:34">2022-06-16</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-09T20:26:04.325Z" title="更新于 2022-11-09 21:26:04">2022-11-09</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content"> Java 的 23种设计模式
+设计模式（Design pattern）是一套被反复使用、多数人知晓的、经过分类编目的，是软件开发人员在软件开发过程中面临的一般问题的解决方案。这些解决方案是众多软件开发人员经过相当长的一段时间的试验和错误总结出来的。
+设计模式分为三种类型，共23种：
+
+创建型模式：单例模式、抽象工厂模式、建造者模式、工厂模式、原型模式。
+结构型模式：适配器模式、桥接模式、装饰模式、组合模式、外观模式、享元模式、代理模式。
+行为型模式：模版方法模式、命令模式、迭代器模式、观察者模式、中介者模式、备忘录模式、解释器模式、状态模式、策略模式、责任链模式、访问者模式。
+
+
+ 创建型模式
+创建型模式的主要关注点是“怎样创建对象”，它的主要特点是“将对象的创建与使用分离”。
+这样可以降低系统的耦合度，使用者不需要关注对象的创建细节。
+创建型模式分为：
+
+单例模式
+工厂方法模式
+抽象工厂模式
+原型模式
+建造者模式
+
+ 单例模式
+所谓类的单例设计模式，就是采取一定的方法保证在整个软件系统中，对于某个类只能存在一个实例，该类负责创建自己的实例，并且该类只提供一个取得其实例的方法（静态方 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="page-number" href="/page/3/#content-inner">3</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Guohao</div><div class="author-info__description">间歇性踌躇满志, 持续性划水摸鱼</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Dave0126" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:dave980126@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/10/28/MyBatis/" title="MyBatis"><img src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MyBatis"/></a><div class="content"><a class="title" href="/2022/10/28/MyBatis/" title="MyBatis">MyBatis</a><time datetime="2022-10-28T18:39:03.000Z" title="发表于 2022-10-28 20:39:03">2022-10-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/25/MySQL-%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/" title="MySQL 相关笔记"><img src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL 相关笔记"/></a><div class="content"><a class="title" href="/2022/09/25/MySQL-%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/" title="MySQL 相关笔记">MySQL 相关笔记</a><time datetime="2022-09-25T14:56:12.000Z" title="发表于 2022-09-25 16:56:12">2022-09-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/16/Java%E4%B8%AD%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%88%86%E6%9E%90/" title="Java中线程池的使用及分析"><img src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java中线程池的使用及分析"/></a><div class="content"><a class="title" href="/2022/09/16/Java%E4%B8%AD%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%88%86%E6%9E%90/" title="Java中线程池的使用及分析">Java中线程池的使用及分析</a><time datetime="2022-09-16T21:18:33.000Z" title="发表于 2022-09-16 23:18:33">2022-09-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/15/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9A%E4%B9%90%E8%A7%82%E9%94%81/" title="Java中的锁：乐观锁"><img src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java中的锁：乐观锁"/></a><div class="content"><a class="title" href="/2022/09/15/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9A%E4%B9%90%E8%A7%82%E9%94%81/" title="Java中的锁：乐观锁">Java中的锁：乐观锁</a><time datetime="2022-09-15T08:15:51.000Z" title="发表于 2022-09-15 10:15:51">2022-09-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/05/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9AReentrantLock/" title="Java中的锁：ReentrantLock"><img src="https://fastly.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java中的锁：ReentrantLock"/></a><div class="content"><a class="title" href="/2022/09/05/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9AReentrantLock/" title="Java中的锁：ReentrantLock">Java中的锁：ReentrantLock</a><time datetime="2022-09-05T13:03:11.000Z" title="发表于 2022-09-05 15:03:11">2022-09-05</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guohao">
-      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lost N Found">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-              <span class="post-sticky-flag" title="置顶">
-                <i class="fa fa-thumbtack"></i>
-              </span>
-            <a href="/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-1/" class="post-title-link" itemprop="url">Java 并发多线程编程 (JUC)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-23 21:13:13" itemprop="dateCreated datePublished" datetime="2022-03-23T21:13:13+01:00">2022-03-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-06 21:12:16" itemprop="dateModified" datetime="2022-10-06T21:12:16+02:00">2022-10-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>63k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>57 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Java-并发多线程编程"><a href="#Java-并发多线程编程" class="headerlink" title="Java 并发多线程编程"></a>Java 并发多线程编程</h2><p>本文主要通过以下几个方面来系统的介绍 Java 并发多线程编程：</p>
-<ol>
-<li><a href="https://dave0126.github.io/2022/03/23/JUC-Java多线程-1/#1-线程与进程">线程与进程</a></li>
-<li><a href="https://dave0126.github.io/2022/03/23/JUC-Java多线程-1/#2-Java-线程">Java 线程</a></li>
-<li><a href="https://dave0126.github.io/2022/03/23/JUC-Java多线程-1/#3-共享模型之-Monitor">共享模型之 <code>Monitor</code></a></li>
-<li><a href="https://dave0126.github.io/2022/08/26/JMM-Java-内存模型/">共享模型之 <code>JMM</code></a></li>
-<li><a href="https://dave0126.github.io/2022/09/15/Java中的锁：乐观锁/">共享模型之 无锁（乐观锁）</a></li>
-<li><a href="https://dave0126.github.io/2022/09/16/Java中线程池的使用及分析/">并发工具之 线程池</a></li>
-</ol>
-<hr>
-<p>【参考资料】:</p>
-<p>视频课程: <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16J411h7Rd?p=1">BiliBili - 黑马程序员Java并发编程 JUC</a></p>
-<p>笔记参考: <a target="_blank" rel="noopener" href="https://nyimac.gitee.io/2020/06/08/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Java并发 - Nyima’s Blog</a></p>
-<ul>
-<li>注：本课程笔记基于 JDK8，采用 <code>lsf4j</code> 打印日志</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/03/22/JVM-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guohao">
-      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lost N Found">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-              <span class="post-sticky-flag" title="置顶">
-                <i class="fa fa-thumbtack"></i>
-              </span>
-            <a href="/2022/03/22/JVM-1/" class="post-title-link" itemprop="url">Java 虚拟机 - JVM</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-22 21:52:44" itemprop="dateCreated datePublished" datetime="2022-03-22T21:52:44+01:00">2022-03-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-05 20:16:54" itemprop="dateModified" datetime="2022-11-05T20:16:54+01:00">2022-11-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>66k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1:01</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="JVM-基础学习"><a href="#JVM-基础学习" class="headerlink" title="JVM 基础学习"></a>JVM 基础学习</h1><p>本文主要通过以下几个方面来系统的介绍 <code>JVM</code> ：</p>
-<ul>
-<li><a href="https://dave0126.github.io/2022/03/22/JVM-1/#一、JVM-结构">第一章：<code>JVM</code> 结构</a></li>
-<li><a href="https://dave0126.github.io/2022/03/22/JVM-1/#二、JVM-内存结构">第二章：<code>JVM</code> 内存结构</a></li>
-<li><a href="https://dave0126.github.io/2022/03/22/JVM-1/#三、JVM-垃圾回收">第三章：<code>JVM</code> 垃圾回收</a></li>
-<li><a href="https://dave0126.github.io/2022/03/22/JVM-1/#四、类加载与字节码技术">第四章：类加载与字节码技术</a></li>
-<li><a href="https://dave0126.github.io/2022/08/26/JMM-Java-内存模型/">第五章：<code>JMM</code> 内存模型</a></li>
-</ul>
-<p>【参考资料】</p>
-<ol>
-<li>视频课程：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1yE411Z7AP">BiliBili - 黑马程序员 JVM 完整教程</a></li>
-<li><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/specs/jvms/se8/html/index.html">The Java® Virtual Machine Specification - Java SE 8 Edition 官方文档</a></li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/22/JVM-1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/09/25/MySQL-%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guohao">
-      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lost N Found">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-              <span class="post-sticky-flag" title="置顶">
-                <i class="fa fa-thumbtack"></i>
-              </span>
-            <a href="/2022/09/25/MySQL-%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">MySQL 相关笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-25 16:56:12" itemprop="dateCreated datePublished" datetime="2022-09-25T16:56:12+02:00">2022-09-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-05 20:13:50" itemprop="dateModified" datetime="2022-11-05T20:13:50+01:00">2022-11-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/SQL/" itemprop="url" rel="index"><span itemprop="name">SQL</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>30k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>27 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="MySQL-相关笔记"><a href="#MySQL-相关笔记" class="headerlink" title="MySQL 相关笔记"></a><code>MySQL</code> 相关笔记</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/25/MySQL-%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/10/28/MyBatis/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guohao">
-      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lost N Found">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/28/MyBatis/" class="post-title-link" itemprop="url">MyBatis</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-10-28 20:39:03" itemprop="dateCreated datePublished" datetime="2022-10-28T20:39:03+02:00">2022-10-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-08 23:47:23" itemprop="dateModified" datetime="2022-11-08T23:47:23+01:00">2022-11-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>85k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1:17</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="MyBatis-学习"><a href="#MyBatis-学习" class="headerlink" title="MyBatis 学习"></a>MyBatis 学习</h1><p>本文主要通过以下几个方面来系统的介绍 MyBatis 框架：</p>
-<ul>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#零、MyBatis简单介绍">零、MyBatis简单介绍</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#一、搭建-MyBatis-环境">一、搭建 MyBatis 环境</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#二、核心配置文件详解">二、核心配置文件详解</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#三、MyBatis-中的基本增删改查">三、MyBatis 中的基本增删改查</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#四、自定义映射-resultMap">四、自定义映射 resultMap</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#五、动态-SQL">五、动态 SQL</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#六、MyBatis-中的分页">六、MyBatis 中的分页</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#七、MyBatis-的缓存机制">七、MyBatis 的缓存机制</a></li>
-<li><a href="https://dave0126.github.io/2022/10/28/MyBatis/#八、MyBatis-与-Spring-框架整合">八、MyBatis 与 Spring 框架整合</a></li>
-</ul>
-<p>参考资料：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1VP4y1c7j7">哔哩哔哩：“尚硅谷” 2022 版 MyBatis 入门教程</a></li>
-<li><a target="_blank" rel="noopener" href="https://mybatis.org/mybatis-3/zh/index.html"><code>MyBatis</code> 官方中文开发文档</a></li>
-<li>学习 MyBatis 框架时的练习代码 <a target="_blank" rel="noopener" href="https://github.com/Dave0126/MyBatis_Demo">GitHub : MyBatis_Demo</a></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/10/28/MyBatis/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/09/16/Java%E4%B8%AD%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%88%86%E6%9E%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guohao">
-      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lost N Found">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/16/Java%E4%B8%AD%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">Java中线程池的使用及分析</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-16 23:18:33" itemprop="dateCreated datePublished" datetime="2022-09-16T23:18:33+02:00">2022-09-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-27 18:44:57" itemprop="dateModified" datetime="2022-09-27T18:44:57+02:00">2022-09-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>17k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>16 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Java-中线程池的使用及分析"><a href="#Java-中线程池的使用及分析" class="headerlink" title="Java 中线程池的使用及分析"></a>Java 中线程池的使用及分析</h1><p>我们可以思考如下场景：线程是一个系统资源，操作系统每分配一个线程，就会消耗一定的资源。如果在高并发的环境下， 我们为每个任务都创建一个线程的话，那么对资源的消耗时非常大的。为了减小在这中环境下的系统消耗，我们引入线程池概念来维护多个线程，将任务分配给线程池中的线程。</p>
-<p><strong>什么是线程池？</strong><br>线程池其实就是一种多线程处理的形式，处理过程中可以将任务添加到到队列中，然后在创建线程后自动启动这些任务。</p>
-<p>使用线程池的优势：</p>
-<ul>
-<li>使用线程池可以统一的管理线程和控制线程并发数量；</li>
-<li>可以与任务分离，提升线程重用度；</li>
-<li>提升系统的响应速度</li>
-</ul>
-<hr>
-<p>我们主要通过一下几个部分来介绍 Java 中的线程池：</p>
-<ol>
-<li><a href="https://dave0126.github.io/2022/09/16/Java中线程池的使用及分析/#一、自定义线程池">自定义线程池</a></li>
-<li><a href="https://dave0126.github.io/2022/09/16/Java中线程池的使用及分析/#二、JDK-提供的线程池">JDK 提供的线程池：<code>ThreadPoolExecutor</code></a></li>
-<li><a href="https://dave0126.github.io/2022/09/16/Java中线程池的使用及分析/#三、设计模式-工作线程">设计模式 - 工作线程</a></li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/16/Java%E4%B8%AD%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%88%86%E6%9E%90/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/09/15/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9A%E4%B9%90%E8%A7%82%E9%94%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guohao">
-      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lost N Found">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/15/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9A%E4%B9%90%E8%A7%82%E9%94%81/" class="post-title-link" itemprop="url">Java中的锁：乐观锁</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-15 10:15:51" itemprop="dateCreated datePublished" datetime="2022-09-15T10:15:51+02:00">2022-09-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-16 22:59:02" itemprop="dateModified" datetime="2022-09-16T22:59:02+02:00">2022-09-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>21k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>19 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Java中的锁：乐观锁"><a href="#Java中的锁：乐观锁" class="headerlink" title="Java中的锁：乐观锁"></a>Java中的锁：乐观锁</h1><p>写在前面：</p>
-<p>我们在学习 <a href="https://dave0126.github.io/2022/03/23/JUC-Java多线程-1/#3-4-Monitor">Java 并发编程</a> 时已经知道， <code>synchronized</code> 的本质是对 <code>ObjectMonitor</code> 对象的操作。在本章中我们会讲解一种相对于 <code>Monitor</code>（悲观锁）来实现线程安全的模式（乐观锁）。但碍于学识浅薄，文章中难免会出现错误，恳请各位读者加以指正。</p>
-<p>我们主要通过以下几个方面来系统的介绍“乐观锁”的实现原理：</p>
-<ol>
-<li><a href="https://dave0126.github.io/2022/09/15/Java中的锁：乐观锁/#1-CAS-与-volatile"><code>CAS</code> 与 <code>violate</code></a></li>
-<li><a href="https://dave0126.github.io/2022/09/15/Java中的锁：乐观锁/#2-原子整数-AtomicInteger">原子整数 <code>AtomicInteger</code></a></li>
-<li><a href="https://dave0126.github.io/2022/09/15/Java中的锁：乐观锁/#3-原子引用-AtomicReference">原子引用 <code>AtomicReference</code></a></li>
-<li><a href="https://dave0126.github.io/2022/09/15/Java中的锁：乐观锁/#4-原子数组">原子数组 <code>AtomicArray</code></a></li>
-<li><a href="https://dave0126.github.io/2022/09/15/Java中的锁：乐观锁/#5-原子累加器">原子累加器</a></li>
-<li><a href="https://dave0126.github.io/2022/09/15/Java中的锁：乐观锁/#6-Unsafe"><code>Unsafe</code> 类</a></li>
-</ol>
-<p>相关资料：</p>
-<ol>
-<li><a href="https://dave0126.github.io/2022/09/02/关于ObjectMonitor的底层源码分析/">关于 <code>ObjectMonitor</code> 的底层源码分析</a></li>
-<li><a href="https://dave0126.github.io/2022/09/05/Java中的锁：ReentrantLock/">Java 中的锁：<code>ReentrantLock</code></a></li>
-<li><a href="https://dave0126.github.io/2022/08/26/JMM-Java-内存模型/#JMM-Java-内存模型">Java 内存模型 - JMM</a></li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/15/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9A%E4%B9%90%E8%A7%82%E9%94%81/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/09/05/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9AReentrantLock/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guohao">
-      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lost N Found">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/05/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9AReentrantLock/" class="post-title-link" itemprop="url">Java中的锁：ReentrantLock</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-05 15:03:11" itemprop="dateCreated datePublished" datetime="2022-09-05T15:03:11+02:00">2022-09-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-27 18:50:56" itemprop="dateModified" datetime="2022-09-27T18:50:56+02:00">2022-09-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>22k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>20 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Java-中的锁：ReentrantLock"><a href="#Java-中的锁：ReentrantLock" class="headerlink" title="Java 中的锁：ReentrantLock"></a>Java 中的锁：<code>ReentrantLock</code></h1><p>写在前面：</p>
-<p>本人在学习 <a href="https://dave0126.github.io/2022/03/23/JUC-Java多线程-1/#3-4-Monitor">Java 并发编程</a> 学习到一种除了 <code>synchronized</code> 用得较多的一种锁 <code>ReentrantLock</code>，本文旨在学习研究 <code>ReentrantLock</code> 相关知识，如 <code>AbstractQueuedSynchronizer</code>（简称 <code>AQS</code>），<code>Lock</code> 接口等。但碍于学识浅薄，文章中难免会出现错误，恳请各位读者加以指正。</p>
-<hr>
-<p>本文主要通过以下几个方面来系统的介绍 <code>ReentrantLock</code>：</p>
-<ol>
-<li><a href="https://dave0126.github.io/2022/09/05/Java中的锁：ReentrantLock/#AQS"><code>AQS</code> 同步器</a></li>
-<li><a href="https://dave0126.github.io/2022/09/05/Java中的锁：ReentrantLock/#自定义一个阻塞式的锁">基于 <code>AQS</code> 自定义一个阻塞式的锁</a></li>
-<li><a href="https://dave0126.github.io/2022/09/05/Java中的锁：ReentrantLock/#ReentrantLock"><code>ReentrantLock</code></a></li>
-<li><a href="https://dave0126.github.io/2022/09/05/Java中的锁：ReentrantLock/#ReentrantReadWriteLock-读写锁"><code>ReentrantReadWriteLock</code> 读写锁</a></li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/05/Java%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%9AReentrantLock/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/09/02/%E5%85%B3%E4%BA%8EObjectMonitor%E7%9A%84%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guohao">
-      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lost N Found">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/02/%E5%85%B3%E4%BA%8EObjectMonitor%E7%9A%84%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">关于ObjectMonitor的底层源码分析</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-02 21:22:43" itemprop="dateCreated datePublished" datetime="2022-09-02T21:22:43+02:00">2022-09-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-04 10:33:42" itemprop="dateModified" datetime="2022-09-04T10:33:42+02:00">2022-09-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>15k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>14 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="关于-ObjectMonitor-的底层源码分析"><a href="#关于-ObjectMonitor-的底层源码分析" class="headerlink" title="关于 ObjectMonitor 的底层源码分析"></a>关于 <code>ObjectMonitor</code> 的底层源码分析</h1><p>写在前面：</p>
-<p>本人在学习 <a href="https://dave0126.github.io/2022/03/23/JUC-Java多线程-1/#3-4-Monitor">Java 并发编程</a>时，对于 <code>synchronized</code> 关键字最底层的重量级锁 <code>Monitor</code> 的实现过程兴趣颇高，所以写下这篇文章记录学习过程。但碍于学识浅薄，文章中难免会出现错误，恳请各位读者加以指正。</p>
-<p>文章末尾有本人根据源码分析得出的获取 <code>Monitor</code> 流程图，<a href="https://dave0126.github.io/2022/09/02/关于ObjectMonitor的底层源码分析/#附录">点击此处跳转</a>。</p>
-<p>主要参考资料：</p>
-<ol>
-<li><a target="_blank" rel="noopener" href="https://github.com/JetBrains/jdk8u_hotspot/blob/master/src/share/vm/runtime/objectMonitor.hpp"><code>ObjectMonitor</code> 头文件：<code>jdk8.runtime.objectMonitor.hpp</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/JetBrains/jdk8u_hotspot/blob/master/src/share/vm/runtime/objectMonitor.cpp"><code>ObjectMonitor</code> 源文件：<code>jdk8.runtime.objectMonitor.cpp</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/440994983?utm_id=0">知乎：深入底层源码 - 深度理解 <code>synchronized</code> 原理</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/sky_ccy/article/details/124124662">Java多线程-对象内置锁（<code>ObjectMonitor</code>）</a></li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/02/%E5%85%B3%E4%BA%8EObjectMonitor%E7%9A%84%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/08/26/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guohao">
-      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lost N Found">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/26/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">JMM - Java 内存模型</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-26 10:28:21" itemprop="dateCreated datePublished" datetime="2022-08-26T10:28:21+02:00">2022-08-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-27 18:55:46" itemprop="dateModified" datetime="2022-09-27T18:55:46+02:00">2022-09-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>11k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>10 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="JMM-Java-内存模型"><a href="#JMM-Java-内存模型" class="headerlink" title="JMM - Java 内存模型"></a>JMM - Java 内存模型</h1><p>首先，我们应该区分【JVM 内存结构】和【JMM 内存模型】的区别。我们常说的 【JVM 内存结构】指的是JVM 的内存分区；而 【JMM 内存模型】是一种虚拟机规范。</p>
-<p>简单的说，JMM 定义了一套在<strong><em><u>多线程</u></em></strong>读写共享数据时（成员变量、数组）时，对数据的可见性、有序性和原子性的规则和保障。</p>
-<hr>
-<p>本文主要通过以下几个方面来系统的介绍 <code>JMM</code> 内存结构：</p>
-<ol>
-<li><a href="https://dave0126.github.io/2022/08/26/JMM-Java-内存模型/#1-原子性">原子性</a></li>
-<li><a href="https://dave0126.github.io/2022/08/26/JMM-Java-内存模型/#2-可见性">可见性</a></li>
-<li><a href="https://dave0126.github.io/2022/08/26/JMM-Java-内存模型/#3-有序性">有序性</a></li>
-<li><a href="https://dave0126.github.io/2022/08/26/JMM-Java-内存模型/#4-volatile-原理"><strong><em><u><code>volatile</code> 原理</u></em></strong></a></li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/26/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dave0126.github.io/2022/06/16/Java%E7%9A%8423%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guohao">
-      <meta itemprop="description" content="间歇性踌躇满志, 持续性划水摸鱼">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lost N Found">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/16/Java%E7%9A%8423%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">Java的23种设计模式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-06-16 13:07:34" itemprop="dateCreated datePublished" datetime="2022-06-16T13:07:34+02:00">2022-06-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-05 20:19:43" itemprop="dateModified" datetime="2022-11-05T20:19:43+01:00">2022-11-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>19k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>18 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Java-的-23种设计模式"><a href="#Java-的-23种设计模式" class="headerlink" title="Java 的 23种设计模式"></a>Java 的 23种设计模式</h1><p>设计模式（Design pattern）是一套被反复使用、多数人知晓的、经过分类编目的，是软件开发人员在软件开发过程中面临的一般问题的解决方案。这些解决方案是众多软件开发人员经过相当长的一段时间的试验和错误总结出来的。</p>
-<p>设计模式分为三种类型，共23种：</p>
-<ul>
-<li><strong>创建型模式</strong>：<a href="https://dave0126.github.io/2022/06/16/Java的23种设计模式/#单例模式">单例模式</a>、<a href="https://dave0126.github.io/2022/06/16/Java的23种设计模式/#抽象工厂模式">抽象工厂模式</a>、<a href>建造者模式</a>、<a href="https://dave0126.github.io/2022/06/16/Java的23种设计模式/#工厂模式">工厂模式</a>、<a href>原型模式</a>。</li>
-<li><strong>结构型模式</strong>：<a href>适配器模式</a>、<a href>桥接模式</a>、<a href="https://dave0126.github.io/2022/06/16/Java的23种设计模式/#装饰模式">装饰模式</a>、<a href>组合模式</a>、<a href>外观模式</a>、<a href>享元模式</a>、<a href="https://dave0126.github.io/2022/06/16/Java的23种设计模式/#代理模式">代理模式</a>。</li>
-<li><strong>行为型模式</strong>：<a href>模版方法模式</a>、<a href>命令模式</a>、<a href>迭代器模式</a>、<a href>观察者模式</a>、<a href>中介者模式</a>、<a href>备忘录模式</a>、<a href>解释器模式</a>、<a href>状态模式</a>、<a href>策略模式</a>、<a href>责任链模式</a>、<a href>访问者模式</a>。</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/16/Java%E7%9A%8423%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Guohao</p>
-  <div class="site-description" itemprop="description">间歇性踌躇满志, 持续性划水摸鱼</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">22</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">4</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">18</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/Dave0126" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Dave0126" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:dave980126@outlook.com" title="E-Mail → mailto:dave980126@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
-      </span>
-  </div>
-  <div class="cc-license motion-element" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
-  </div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Guohao</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-area"></i>
-    </span>
-      <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">549k</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">8:19</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>
-
-
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-if (document.querySelectorAll('pre.mermaid').length) {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
-    mermaid.initialize({
-      theme    : '[object Object]',
-      logLevel : 3,
-      flowchart: { curve     : 'linear' },
-      gantt    : { axisFormat: '%m/%d/%Y' },
-      sequence : { actorMargin: 50 }
-    });
-  }, window.mermaid);
-}
-</script>
-
-
-  
-
-  
-      
-
-<script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/IDEA/"><span class="card-category-list-name">IDEA</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/"><span class="card-category-list-name">Java</span><span class="card-category-list-count">11</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/SQL/"><span class="card-category-list-name">SQL</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/"><span class="card-category-list-name">课程笔记</span><span class="card-category-list-count">9</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/IDEA/" style="font-size: 1.1em; color: #999">IDEA</a> <a href="/tags/JMM/" style="font-size: 1.1em; color: #999">JMM</a> <a href="/tags/JUC/" style="font-size: 1.3em; color: #99a1ac">JUC</a> <a href="/tags/JVM/" style="font-size: 1.1em; color: #999">JVM</a> <a href="/tags/Java/" style="font-size: 1.5em; color: #99a9bf">Java</a> <a href="/tags/MyBatis/" style="font-size: 1.1em; color: #999">MyBatis</a> <a href="/tags/SQL/" style="font-size: 1.2em; color: #999da3">SQL</a> <a href="/tags/Spring/" style="font-size: 1.1em; color: #999">Spring</a> <a href="/tags/TLA/" style="font-size: 1.1em; color: #999">TLA+</a> <a href="/tags/sychronized/" style="font-size: 1.1em; color: #999">sychronized</a> <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 1.1em; color: #999">图论</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 1.1em; color: #999">数据结构</a> <a href="/tags/%E6%9C%80%E4%BC%98%E5%8C%96/" style="font-size: 1.3em; color: #99a1ac">最优化</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.1em; color: #999">算法</a> <a href="/tags/%E7%B3%BB%E7%BB%9F/" style="font-size: 1.1em; color: #999">系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 1.1em; color: #999">设计模式</a> <a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" style="font-size: 1.4em; color: #99a5b6">课程笔记</a> <a href="/tags/%E9%94%81/" style="font-size: 1.2em; color: #999da3">锁</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">十月 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/09/"><span class="card-archive-list-date">九月 2022</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">八月 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/06/"><span class="card-archive-list-date">六月 2022</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/05/"><span class="card-archive-list-date">五月 2022</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/04/"><span class="card-archive-list-date">四月 2022</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/03/"><span class="card-archive-list-date">三月 2022</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/01/"><span class="card-archive-list-date">一月 2022</span><span class="card-archive-list-count">1</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">22</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2021-10-19T22:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">645k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2022-11-09T23:53:49.305Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Guohao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><script>function subtitleType () {
+  if (true) { 
+    window.typed = new Typed("#subtitle", {
+      strings: ["年轻人，","你的职责是平整土地，而非焦虑时光。","你做三四月的事，在八九月自有答案。"],
+      startDelay: 700,
+      typeSpeed: 130,
+      loop: false,
+      backSpeed: 40
+    })
   } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
+    document.getElementById("subtitle").innerHTML = '年轻人，'
   }
-</script>
+}
 
-    
-
-  
-
-
-</body>
-</html>
+if (true) {
+  if (typeof Typed === 'function') {
+    subtitleType()
+  } else {
+    getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js').then(subtitleType)
+  }
+} else {
+  subtitleType()
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
