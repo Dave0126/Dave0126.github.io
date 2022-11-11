@@ -11,4 +11,5 @@ Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
 
-Sitemap: https://dave0126.github.io/sitemap.xml
+Sitemap: https://lostnfound.top/sitemap.xml
+Sitemap: https://lostnfound.top/baidusitemap.xml
