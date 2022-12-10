@@ -1,0 +1,559 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>MPI 课程笔记 | Lost N Found</title><meta name="author" content="Guohao"><meta name="copyright" content="Guohao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="写在前面：   参考资料：Jikai Zhang 的博客：MPI   本文章不会具体介绍 MPI 的历史发展，以及开发环境的过程配置。   本文章将会使用 SimGrid 工具，来为异构分布式环境中的分布式应用程序仿真提供核心功能（模拟一个集群）。   建议使用 Docker 等容器化虚拟环境搭建测试开发平台，以下给出一个可用的 Docker 镜像文件。点击跳转至 DockerHub，或直接使用如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MPI 课程笔记">
+<meta property="og:url" content="https://lostnfound.top/2022/12/08/MPI-Tutorial/index.html">
+<meta property="og:site_name" content="Lost N Found">
+<meta property="og:description" content="写在前面：   参考资料：Jikai Zhang 的博客：MPI   本文章不会具体介绍 MPI 的历史发展，以及开发环境的过程配置。   本文章将会使用 SimGrid 工具，来为异构分布式环境中的分布式应用程序仿真提供核心功能（模拟一个集群）。   建议使用 Docker 等容器化虚拟环境搭建测试开发平台，以下给出一个可用的 Docker 镜像文件。点击跳转至 DockerHub，或直接使用如">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lostnfound.top/linear-gradient(45deg,%20#8EC3B0,%20#9ED5C5,%20#F8C4B4,%20#FF8787)">
+<meta property="article:published_time" content="2022-12-08T17:54:56.000Z">
+<meta property="article:modified_time" content="2022-12-10T22:55:06.125Z">
+<meta property="article:author" content="Guohao">
+<meta property="article:tag" content="课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lostnfound.top/linear-gradient(45deg,%20#8EC3B0,%20#9ED5C5,%20#F8C4B4,%20#FF8787)"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://lostnfound.top/2022/12/08/MPI-Tutorial/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: Guohao","link":"链接: ","source":"来源: Lost N Found","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MPI 课程笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-12-10 23:55:06'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Lost N Found" type="application/atom+xml">
+</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-battery-full"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-calendar-check"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-hashtag"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-user-circle"></i><span> 关于我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Dave0126"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li><li><a class="site-page child" href="mailto:dave980126@outlook.com"><i class="fa-fw fas fa-envelope"></i><span> Mail</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(45deg, #8EC3B0, #9ED5C5, #F8C4B4, #FF8787)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Lost N Found</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-battery-full"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-calendar-check"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-hashtag"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-user-circle"></i><span> 关于我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Dave0126"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li><li><a class="site-page child" href="mailto:dave980126@outlook.com"><i class="fa-fw fas fa-envelope"></i><span> Mail</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MPI 课程笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-12-08T17:54:56.000Z" title="发表于 2022-12-08 18:54:56">2022-12-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-12-10T22:55:06.125Z" title="更新于 2022-12-10 23:55:06">2022-12-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.3k</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>写在前面：</p>
+<ul>
+<li>
+<p>参考资料：<a target="_blank" rel="noopener" href="http://parallel.zhangjikai.com/mpi.html">Jikai Zhang 的博客：MPI</a></p>
+</li>
+<li>
+<p>本文章不会具体介绍 MPI 的历史发展，以及开发环境的过程配置。</p>
+</li>
+<li>
+<p>本文章将会使用 <a target="_blank" rel="noopener" href="https://simgrid.org/">SimGrid</a> 工具，来为异构分布式环境中的分布式应用程序仿真提供核心功能（模拟一个集群）。</p>
+</li>
+<li>
+<p>建议使用 <a target="_blank" rel="noopener" href="https://www.docker.com/">Docker</a> 等容器化虚拟环境搭建测试开发平台，以下给出一个可用的 Docker 镜像文件。<a target="_blank" rel="noopener" href="https://hub.docker.com/r/henricasanova/ics632_smpi">点击跳转至 <code>DockerHub</code></a>，或直接使用如下命令将镜像文件拉取到本地：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull henricasanova/ics632_smpi</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>我们使用 <code>SimGrid</code> 工具来模拟一个集群，集群的配置文件<a href>点击此处下载</a>。为了后续运行方便，我们使用别名 <code>alias</code> 来简化 <code>smpirun</code> 指令的参数：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">SIMGRID=/集群配置文件的地址/</span><br><span class="line"></span><br><span class="line"><span class="built_in">alias</span> smpirun=<span class="string">&quot;smpirun -hostfile <span class="variable">$&#123;SIMGRID&#125;</span>/archis/cluster_hostfile.txt -platform <span class="variable">$&#123;SIMGRID&#125;</span>/archis/cluster_crossbar.xml&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>保存当前环境变量：</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> init.sh</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h1 id="什么是-mpi"><a class="markdownIt-Anchor" href="#什么是-mpi"></a> 什么是 MPI？</h1>
+<p>MPI 是高性能计算常用的实现方式，它的全名叫做 <code>Message Passing Interface</code>。顾名思义，它是一个实现了消息传递接口的库（并不是一种语言）。部分的 MPI 实现由一些指定的编程接口（API）组成，可由 <code>C</code>、<code>C++</code>、<code>Fortran</code>，或者有此类库的语言比如 <code>C#</code>、 <code>Java</code> 或者 <code>Python</code> 直接调用。它提供了应用程序接口，包括协议和和语义说明，他们指明其如何在各种实现中发挥其特性。</p>
+<p><code>MPI</code> 用作基于消息传递的并行编程，它提供了语义丰富的消息通信机制，包括<u><em><strong>点对点</strong></em></u>、<u><em><strong>组播</strong></em></u>和<u><em><strong>多播</strong></em></u>模式。用户程序利用这些接口进行进程之间的数据移动、聚集、规约和同步。<code>MPI</code> 标准规定了这些接口的调用规范和语义，不同的实现可能采用不同的优化策略。</p>
+<p>一个 <code>MPI</code> 程序基本由四个部分组成分：<u><code>MPI</code> 头文件</u>、<u>初始化 <code>MPI</code> 环境</u>、<u>消息交换处理及计算</u>等以及<u>退出 <code>MPI</code> 环境</u> 。</p>
+<h2 id="mpi-中的经典概念"><a class="markdownIt-Anchor" href="#mpi-中的经典概念"></a> MPI 中的经典概念</h2>
+<p>下面我们来介绍一些 <code>MPI</code> 中的经典概念：</p>
+<ol>
+<li>第一个概念是<u><em><strong>通讯器</strong></em></u>（communicator）：通讯器定义了一组能够互相发消息的进程。 <code>MPI</code> 的所有通信都必须在某个通讯器中进行。</li>
+<li><u><em><strong>秩</strong></em></u>（rank）：即进程的<u><em><strong>唯一标识</strong></em></u>。在通讯器的这组进程中，每个进程会被分配一个序号，称作<em>秩</em>（rank），进程间显性地通过指定秩来进行通信。</li>
+<li><u><em><strong>消息</strong></em></u>：<code>MPI</code> 程序在进程间传递的数据。它由通讯器、源地址、目的地址、消息标签（tag）和数据构成。
+<ul>
+<li>消息标签 <code>tag</code>：</li>
+</ul>
+</li>
+<li><u><em><strong>通信</strong></em></u>：通信是指在进程之间进行消息的收发、同步等操作。</li>
+<li><u><em><strong>缓冲区</strong></em></u> <code>buffer</code>：在用户应用程序中定义的用于<u>***保存发送和接收数据的【地址空间】***</u>。</li>
+</ol>
+<h2 id="mpi-的基本语句"><a class="markdownIt-Anchor" href="#mpi-的基本语句"></a> MPI 的基本语句</h2>
+<p>在 <code>C</code> 语言代码中，<code>MPI</code> 的实现形式如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mpi.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">MPI_Init(<span class="type">int</span>* argc, <span class="type">char</span>*** argv);	<span class="comment">// MPI初始化</span></span><br><span class="line">MPI_Comm_rank(MPI_Comm communicator, <span class="type">int</span>* rank);	<span class="comment">// MPI的comm通讯器中的每个进程的序号</span></span><br><span class="line">MPI_Comm_size(MPI_Comm communicator, <span class="type">int</span>* size);	<span class="comment">// MPI的comm通讯器中的进程总数</span></span><br><span class="line">MPI_Get_processor_name(<span class="type">char</span>* name, <span class="type">int</span>* name_length);	<span class="comment">// 当前调用MPI的线程的处理器名</span></span><br><span class="line"></span><br><span class="line">MPI_Xxxxx();	<span class="comment">// MPI操作</span></span><br><span class="line">MPI_Finalize();	<span class="comment">// 退出MPI环境</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>在 【<code>MPI_Init</code>】 的过程中，所有 <code>MPI</code> 的全局变量或者内部变量都会被创建。</p>
+<p>举例来说，一个通讯器 <code>communicator</code> 会根据所有可用的进程被创建出来（进程是我们通过 <code>MPI</code> 运行时的参数指定的），然后每个进程会被分配独一无二的秩 <code>rank</code>。</p>
+</li>
+<li>
+<p>【<code>MPI_Comm_rank</code>】 会返回<u><em><strong>当前调用线程在通讯器 <code>communicator</code> 进程标示号</strong></em></u>。<code>communicator</code> 中每个进程会以此得到一个<u><em><strong>从 0 开始递增的数字</strong></em></u>作为 <code>rank</code> 值。<code>rank</code> 值主要是用来指定发送或者接受信息时对应的进程。</p>
+</li>
+<li>
+<p>【<code>MPI_Comm_size</code>】 会返回 <code>communicator</code> 的大小，也就是 <code>communicator</code> 中可用的进程数量。在我们的例子中，<code>MPI_COMM_WORLD</code>（这个 communicator 是 MPI 帮我们生成的）这个变量包含了当前 <code>MPI</code> 任务中所有的进程，因此在我们的代码里的这个调用会<u><em><strong>返回所有的可用的进程数目</strong></em></u>。</p>
+</li>
+<li>
+<p>【<code>MPI_Get_processor_name</code>】：会得到当前进程实际跑的时候所在的处理器名字。</p>
+</li>
+<li>
+<p>【<code>MPI_Finalize</code>】 是用来清理 <code>MPI</code> 环境的。这个调用之后就没有 <code>MPI</code> 函数可以被调用了。</p>
+</li>
+</ul>
+<h2 id="hello-world-代码案例"><a class="markdownIt-Anchor" href="#hello-world-代码案例"></a> Hello World 代码案例</h2>
+<p>我们用以上介绍过的函数编写一个简单的演示示例，用多线程间消息传递的方式来打印一段简单输出：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mpi.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span> &#123;</span><br><span class="line">    <span class="comment">// 初始化 MPI 环境</span></span><br><span class="line">    MPI_Init(<span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过调用以下方法来得到所有可以工作的进程数量</span></span><br><span class="line">    <span class="type">int</span> world_size;</span><br><span class="line">    MPI_Comm_size(MPI_COMM_WORLD, &amp;world_size);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 得到当前进程的秩</span></span><br><span class="line">    <span class="type">int</span> world_rank;</span><br><span class="line">    MPI_Comm_rank(MPI_COMM_WORLD, &amp;world_rank);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 得到当前进程的名字</span></span><br><span class="line">    <span class="type">char</span> processor_name[MPI_MAX_PROCESSOR_NAME];</span><br><span class="line">    <span class="type">int</span> name_len;</span><br><span class="line">    MPI_Get_processor_name(processor_name, &amp;name_len);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 打印一条带有当前进程名字，秩以及</span></span><br><span class="line">    <span class="comment">// 整个 communicator 的大小的 hello world 消息。</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello world from processor %s, rank %d out of %d processors\n&quot;</span>,</span><br><span class="line">           processor_name, world_rank, world_size);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 释放 MPI 的一些资源</span></span><br><span class="line">    MPI_Finalize();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来，我们使用 <code>mpicc</code> 命令编译这个程序，<code>mpirun</code> 指定使用多少个进程来运行这个程序：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mpicc HelloWorld.c -o HelloWorld</span><br><span class="line">mpirun -n 4 HelloWorld</span><br></pre></td></tr></table></figure>
+<p>输出结果如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Hello world from processor c0f2333487ce, rank 1 out of 4 processors</span><br><span class="line">Hello world from processor c0f2333487ce, rank 2 out of 4 processors</span><br><span class="line">Hello world from processor c0f2333487ce, rank 3 out of 4 processors</span><br><span class="line">Hello world from processor c0f2333487ce, rank 0 out of 4 processors</span><br></pre></td></tr></table></figure>
+<p>或者使用 <code>SimGrid</code> 工具来模拟一个集群，运行（<code>smpirun -np 24 Helloworld</code>）结果如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Hello world from processor host-0.hawaii.edu, rank 0 out of 24 processors</span><br><span class="line">Hello world from processor host-1.hawaii.edu, rank 1 out of 24 processors</span><br><span class="line">Hello world from processor host-2.hawaii.edu, rank 2 out of 24 processors</span><br><span class="line">...</span><br><span class="line">Hello world from processor host-22.hawaii.edu, rank 22 out of 24 processors</span><br><span class="line">Hello world from processor host-23.hawaii.edu, rank 23 out of 24 processors</span><br></pre></td></tr></table></figure>
+<h1 id="mpi-中的点对点通信"><a class="markdownIt-Anchor" href="#mpi-中的点对点通信"></a> MPI 中的点对点通信</h1>
+<img src="/2022/12/08/MPI-Tutorial/image-20221208210833749.png" alt="image-20221208210833749" style="zoom:50%;">
+<p>所谓的点对点通信，就是在如上图所示中通讯器中，一个进程 <code>0, Source</code> 与另一个进程 <code>2, Destination</code> 之间的通信。当然也存在多对多的通信，我们将在后面讲解。</p>
+<p>在一次通信中，离不开消息的<u><em><strong>发送</strong></em></u> 和<u><em><strong>接收</strong></em></u>。他们是 MPI 里面两个基础的概念。MPI 里面几乎所有单个的方法都可以使用基础的发送和接收 API 来实现。</p>
+<blockquote>
+<p>MPI 的发送和接收方法是按以下方式进行的：</p>
+<p>【缓存区】</p>
+<p>开始的时候，<em>A</em> 进程决定要发送一些消息给 <em>B</em> 进程。A 进程就会把需要发送给 B 进程的所有数据打包好，放到一个<u><em><strong>缓存</strong></em></u>里面。</p>
+<p>因为所有数据会被打包到一个大的信息里面，因此缓存常常会被比作<em>信封</em>（就像我们把好多信纸打包到一个信封里面然后再寄去邮局）。数据打包进缓存之后，通信设备（通常是网络）就需要负责把信息传递到正确的地方。这个正确的地方也就是根据特定秩确定的那个进程。</p>
+<hr>
+<p>【阻塞/非阻塞】</p>
+<ul>
+<li>阻塞式：当一个进程发送或接收一个较大的信息，该进程会一直阻塞在当前的（发送或接收）状态，直至发送或接收完成。</li>
+<li>非阻塞式：同样的，当一个进程发送或接收一条消息时，进程不会阻塞在当前状态，而是会继续向下执行。它只保证调用函数的时候通信开始了，然后马上返回，返回的时候不保证完成了。我们必须另外调用一个 <code>MPI_Wait</code> 来确保通信完成，而这里的“完整”指的也是“<u><em><strong>信封和数据都已经被转存到别的地方</strong></em></u>”。</li>
+</ul>
+<hr>
+<p>【同步发送/异步发送】</p>
+<ul>
+<li><u><em><strong>同步</strong></em></u>发送：当一个发送进程是同步的，那么该进程需要<u><em><strong>等到接收进程完成接收</strong></em></u>后，才能完成发送。</li>
+<li><u><em><strong>异步</strong></em></u>发送：当一个发送进程是异步的，那么该进程<u><em><strong>只要将消息完全发送</strong></em></u>，此时异步发送就完胜了，而<u><em><strong>不必在乎消息是否被接收</strong></em></u>。</li>
+</ul>
+</blockquote>
+<p>而基于以上几点，我们可以组合出许多不同种类的发送/接收模式：</p>
+<table>
+<thead>
+<tr>
+<th>发送/接收模式</th>
+<th>描述</th>
+<th>关键字</th>
+<th>非阻塞式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同步发送<br>(<strong>Synchronous Send</strong>)</td>
+<td>发送进程会<u><em><strong>等待接收的完成</strong></em></u>而完成</td>
+<td><code>MPI_Ssend()</code></td>
+<td><code>MPI_Issend()</code></td>
+</tr>
+<tr>
+<td>缓存发送<br>(<strong>Buffered Send</strong>)</td>
+<td>只要<u><em><strong>缓冲区 <code>buffer</code> 可重入</strong></em></u>时发送完成</td>
+<td><code>MPI_Bsend()</code></td>
+<td><code>MPI_Ibsend()</code></td>
+</tr>
+<tr>
+<td>标准发送<br>(<strong>Standard Send</strong>)</td>
+<td>即可以是<u><em><strong>同步</strong></em></u>的，也可以是<u><em><strong>缓存</strong></em></u>发送<br>MPI 系统自行判断选择：大 S 小 B。</td>
+<td><code>MPI_Send()</code></td>
+<td><code>MPI_Isend()</code></td>
+</tr>
+<tr>
+<td>就绪发送<br>(<strong>Ready Send</strong>)</td>
+<td>只能在匹配的接收开始的时候，才能开始发送<br>除此以外它其他行为和标准发送一样</td>
+<td><code>MPI_Rsend()</code></td>
+<td><code>MPI_Irsend()</code></td>
+</tr>
+<tr>
+<td>标准接收<br>(<strong>Standard Send</strong>)</td>
+<td>消息完全到达时接收完成（总是同步的）</td>
+<td><code>MPI_Recv()</code></td>
+<td><code>MPI_Irecv()</code></td>
+</tr>
+</tbody>
+</table>
+<img src="/2022/12/08/MPI-Tutorial/image-20221210133951158.png" alt="image-20221210133951158" style="zoom:40%;">
+<h2 id="1-标准通信模式"><a class="markdownIt-Anchor" href="#1-标准通信模式"></a> 1. 标准通信模式</h2>
+<p>首先，让我们来看一下 MPI 标准发送和标准接收方法的定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MPI_Send(</span><br><span class="line">    type* data, <span class="type">int</span> count, MPI_Datatype datatype,		<span class="comment">// 消息数据</span></span><br><span class="line">    <span class="type">int</span> destination, <span class="type">int</span> tag, MPI_Comm communicator)	<span class="comment">// 消息信封</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MPI_Recv(</span><br><span class="line">    type* data, <span class="type">int</span> count, MPI_Datatype datatype,		<span class="comment">// 消息数据</span></span><br><span class="line">    <span class="type">int</span> source, <span class="type">int</span> tag, MPI_Comm communicator, MPI_Status* status)</span><br></pre></td></tr></table></figure>
+<p>或者在正式接收之前，可以在任何时候使用 <code>MPI_Probe</code> 查询消息大小，但是其并不<u><em><strong>接收任何消息</strong></em></u>，只是“<u><em><strong>探查</strong></em></u>”消息的信息</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MPI_Probe(</span><br><span class="line">    <span class="type">int</span> source, <span class="type">int</span> tag, MPI_Comm communicator, MPI_Status* status)</span><br></pre></td></tr></table></figure>
+<p>其中：</p>
+<ul>
+<li>
+<p><code>type* data</code>：待发送/接收的<u><em><strong>数据地址</strong></em></u></p>
+</li>
+<li>
+<p><code>count</code>：待发送/接收的<u><strong>数据个数</strong></u></p>
+</li>
+<li>
+<p><code>datatype</code>：待发送/接收的<u><em><strong>数据类型</strong></em></u></p>
+<table>
+<thead>
+<tr>
+<th><code>MPI_Datatype</code></th>
+<th>对应 C 语言的数据结构</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MPI_SHORT</code></td>
+<td><code>short int</code></td>
+</tr>
+<tr>
+<td><code>MPI_INT</code></td>
+<td><code>int</code></td>
+</tr>
+<tr>
+<td><code>MPI_LONG</code></td>
+<td><code>long int</code></td>
+</tr>
+<tr>
+<td><code>MPI_LONG_LONG</code></td>
+<td><code>long long int</code></td>
+</tr>
+<tr>
+<td><code>MPI_UNSIGNED_CHAR</code></td>
+<td><code>unsigned char</code></td>
+</tr>
+<tr>
+<td><code>MPI_UNSIGNED_SHORT</code></td>
+<td><code>unsigned short int</code></td>
+</tr>
+<tr>
+<td><code>MPI_UNSIGNED</code></td>
+<td><code>unsigned int</code></td>
+</tr>
+<tr>
+<td><code>MPI_UNSIGNED_LONG</code></td>
+<td><code>unsigned long int</code></td>
+</tr>
+<tr>
+<td><code>MPI_UNSIGNED_LONG_LONG</code></td>
+<td><code>unsigned long long int</code></td>
+</tr>
+<tr>
+<td><code>MPI_FLOAT</code></td>
+<td><code>float</code></td>
+</tr>
+<tr>
+<td><code>MPI_DOUBLE</code></td>
+<td><code>double</code></td>
+</tr>
+<tr>
+<td><code>MPI_LONG_DOUBLE</code></td>
+<td><code>long double</code></td>
+</tr>
+<tr>
+<td><code>MPI_BYTE</code></td>
+<td><code>char</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><code>destination</code>：发送到目的进程的 <code>rank</code></p>
+</li>
+<li>
+<p><code>source</code>：接收到源进程的 <code>rank</code></p>
+<ul>
+<li><code>MPI_ANY_SOURCE</code>：接收者可以给 <code>source</code> 指定一个任意值 <code>MPI_ANY_SOURCE</code>，标识<u><em><strong>任何进程</strong></em></u>发送的消息都是可以接收的</li>
+</ul>
+</li>
+<li>
+<p><code>tag</code>：通信标示</p>
+<ul>
+<li><code>MPI_ANY_TAG</code>：表示给 <code>tag</code> 一个任意值 <code>MPI_ANY_TAG</code>，则<u><em><strong>任何 <code>tag</code> 都是可接收的</strong></em></u>。</li>
+</ul>
+</li>
+<li>
+<p><code>MPI_Comm communicator</code>：通信域</p>
+</li>
+<li>
+<p><code>MPI_Status* status</code>：设置接收端的状态。在这个结构体中，包含三个主要信息，包括</p>
+<ol>
+<li>
+<p><u><em><strong>发送端秩</strong></em></u> <code>rank</code>： 发送端的秩存储在结构体的 <code>MPI_SOURCE</code> 元素中。可以通过 <code>status.MPI_SOURCE</code> 访问秩。</p>
+</li>
+<li>
+<p><u><em><strong>消息的标签</strong></em></u> <code>tag</code>：消息的标签可以通过结构体的 <code>MPI_TAG</code> 元素访问（<code>status.MPI_TAG</code>）。</p>
+</li>
+<li>
+<p><u><em><strong>消息的长度</strong></em></u>：将 <code>status</code> 结构体中 <code>datatype</code> 类型数据的个数写入到 <code>count</code> 地址。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MPI_Get_count(</span><br><span class="line">    MPI_Status* status,</span><br><span class="line">    MPI_Datatype datatype,</span><br><span class="line">    <span class="type">int</span>* count)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li>
+<p><code>MPI_Get_count(MPI_Status* status , MPI_Datatype datatype ,int* count)</code></p>
+<p>在接收端可以使用 <code>MPI_Get_count()</code> 函数<u><em><strong>得到实际接收到的消息个数，并复制到 <code>count</code> 的地址下</strong></em></u>。</p>
+</li>
+</ul>
+<h3 id="标准通信流程图"><a class="markdownIt-Anchor" href="#标准通信流程图"></a> 标准通信流程图</h3>
+<p>在 MPI 中采用标准通信模式时，是否能够成功返回取决于缓存区 <code>buffer</code> 是否可以被重新写入（即，消息是否发送完成）。</p>
+<p>在下图中，</p>
+<ul>
+<li>如果 <u><em><strong>MPI 维护的 <code>buffer</code> 没有满</strong></em></u>，此时就是<u><em><strong>缓存模式</strong></em></u>（进程 0 不依赖接收进程 1），可以将消息缓存进 <code>buffer</code>，然后即可返回；</li>
+<li>如果 <u><em><strong>MPI 维护的 <code>buffer</code> 已经满了</strong></em></u>，此时就是<u><em><strong>同步模式</strong></em></u>（进程 0 依赖接收进程 1），便不需要缓存，采取同步模式的策略。</li>
+</ul>
+<img src="/2022/12/08/MPI-Tutorial/image-20221210141317667.png" alt="image-20221210141317667" style="zoom:40%;">
+<h3 id="通信语序"><a class="markdownIt-Anchor" href="#通信语序"></a> 通信语序</h3>
+<p>点对点通信的语序遵循 <u><em><strong>FIFO</strong></em></u> 模式，即</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">进程<span class="number">0</span> &#123;</span><br><span class="line">    MPI_Send(data1, <span class="number">1</span>, MPI_INT, rank1, tag1, comm);		<span class="comment">// 发送消息【1】</span></span><br><span class="line">    MPI_Send(data2, <span class="number">1</span>, MPI_INT, rank1, tag2, comm);		<span class="comment">// 发送消息【2】</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">进程<span class="number">1</span> &#123;</span><br><span class="line">    MPI_Recv(data1, <span class="number">1</span>, MPI_INT, rank0, tag1, comm, status1);		<span class="comment">// 接收消息【1】</span></span><br><span class="line">    MPI_Recv(data2, <span class="number">1</span>, MPI_INT, rank0, tag2, comm, status2);		<span class="comment">// 接收消息【2】</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果标准接收 <code>MPI_Recv()</code> 方法<u><em><strong>没有返回</strong></em></u>，该进程会<u><em><strong>一直等待接收</strong></em></u>。此时在设计程序时需要注意避免死锁。</p>
+<h3 id="示例"><a class="markdownIt-Anchor" href="#示例"></a> 示例</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mpi.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span> &#123;</span><br><span class="line">    <span class="comment">// 初始化 MPI 环境</span></span><br><span class="line">    MPI_Init(&amp;argc, &amp;argv);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过调用以下方法来得到所有可以工作的进程数量</span></span><br><span class="line">    <span class="type">int</span> size;</span><br><span class="line">    MPI_Comm_size(MPI_COMM_WORLD, &amp;size);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 得到当前进程的秩</span></span><br><span class="line">    <span class="type">int</span> rank;</span><br><span class="line">    MPI_Comm_rank(MPI_COMM_WORLD, &amp;rank);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 得到当前进程的名字</span></span><br><span class="line">    <span class="type">char</span> processor_name[MPI_MAX_PROCESSOR_NAME];</span><br><span class="line">    <span class="type">int</span> name_len;</span><br><span class="line">    MPI_Get_processor_name(processor_name, &amp;name_len);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (size != <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;*** 这个程序需要 2 个进程！当前进程数为 %d ***\n&quot;</span>, size);</span><br><span class="line">        MPI_Abort(MPI_COMM_WORLD, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> sendBuf;</span><br><span class="line">    <span class="type">int</span> recvBuf;</span><br><span class="line">    MPI_Status status1, status2;</span><br><span class="line">    <span class="keyword">if</span> (rank == <span class="number">0</span>) &#123;</span><br><span class="line">        sendBuf = <span class="number">0</span>;</span><br><span class="line">        MPI_Send(&amp;sendBuf, <span class="number">1</span>, MPI_INT, <span class="number">1</span>, <span class="number">1</span>, MPI_COMM_WORLD);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[进程0] : 标准发送模式, 发送数据为 %d , tag=1\n&quot;</span>, sendBuf);</span><br><span class="line">        MPI_Recv(&amp;recvBuf, <span class="number">1</span>, MPI_INT, <span class="number">1</span>, <span class="number">2</span>, MPI_COMM_WORLD, &amp;status1);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[进程0] : 标准发送模式, 接收数据为 %d , tag=2\n&quot;</span>, recvBuf);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rank == <span class="number">1</span>) &#123;</span><br><span class="line">        sendBuf = <span class="number">1</span>;</span><br><span class="line">        MPI_Send(&amp;sendBuf, <span class="number">1</span>, MPI_INT, <span class="number">0</span>, <span class="number">2</span>, MPI_COMM_WORLD);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[进程1] : 标准发送模式, 发送数据为 %d , tag=2\n&quot;</span>, sendBuf);</span><br><span class="line">        MPI_Recv(&amp;recvBuf, <span class="number">1</span>, MPI_INT, <span class="number">0</span>, <span class="number">1</span>, MPI_COMM_WORLD, &amp;status2);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[进程1] : 标准发送模式, 接收数据为 %d , tag=1\n&quot;</span>, recvBuf);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 释放 MPI 的一些资源</span></span><br><span class="line">    MPI_Finalize();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译与运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mpicc standard.c  -o standard</span><br><span class="line">mpirun -n 2 standard</span><br></pre></td></tr></table></figure>
+<p>程序输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[进程0] : 标准发送模式, 发送数据为 0 , tag=1</span><br><span class="line">[进程1] : 标准发送模式, 发送数据为 1 , tag=2</span><br><span class="line">[进程1] : 标准发送模式, 接收数据为 0 , tag=1</span><br><span class="line">[进程0] : 标准发送模式, 接收数据为 1 , tag=2</span><br></pre></td></tr></table></figure>
+<h2 id="2-同步通信模式"><a class="markdownIt-Anchor" href="#2-同步通信模式"></a> 2. 同步通信模式</h2>
+<p>同步通信模式与标准通信相似，我们来看一下 MPI 同步发送方法的定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MPI_Ssend(</span><br><span class="line">    type* data, <span class="type">int</span> count, MPI_Datatype datatype,		<span class="comment">// 消息数据</span></span><br><span class="line">    <span class="type">int</span> destination, <span class="type">int</span> tag, MPI_Comm communicator)	<span class="comment">// 消息信封</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>data</code>：待发送数据的<u><em><strong>地址</strong></em></u></li>
+<li><code>count</code>：待发送/接收的<u><strong>数据个数</strong></u></li>
+<li><code>datatype</code>：待发送/接收的<u><em><strong>数据类型</strong></em></u></li>
+<li><code>destination</code>：发送到目的进程的 <code>rank</code></li>
+<li><code>tag</code>：通信标示</li>
+<li><code>MPI_Comm communicator</code>：通信域</li>
+</ul>
+<h3 id="同步模式流程图"><a class="markdownIt-Anchor" href="#同步模式流程图"></a> 同步模式流程图</h3>
+<ul>
+<li>在<u><em><strong>标准通信</strong></em></u>中，一个<u><em><strong>发送进程的正确返回</strong></em></u>与否<u><em><strong>不需要依靠接收进程的状态</strong></em></u>的，只要消息全部缓存到缓冲区，标准发送 <code>MPI_Send()</code> 便会成功返回。</li>
+<li>在同步模式中，我们规定</li>
+</ul>
+<img src="/2022/12/08/MPI-Tutorial/image-20221210182537909.png" alt="image-20221210182537909" style="zoom:40%;">
+<h3 id="示例-2"><a class="markdownIt-Anchor" href="#示例-2"></a> 示例</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mpi.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span> &#123;</span><br><span class="line">    <span class="comment">// 初始化 MPI 环境</span></span><br><span class="line">    MPI_Init(&amp;argc, &amp;argv);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过调用以下方法来得到所有可以工作的进程数量</span></span><br><span class="line">    <span class="type">int</span> size;</span><br><span class="line">    MPI_Comm_size(MPI_COMM_WORLD, &amp;size);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 得到当前进程的秩</span></span><br><span class="line">    <span class="type">int</span> rank;</span><br><span class="line">    MPI_Comm_rank(MPI_COMM_WORLD, &amp;rank);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 得到当前进程的名字</span></span><br><span class="line">    <span class="type">char</span> processor_name[MPI_MAX_PROCESSOR_NAME];</span><br><span class="line">    <span class="type">int</span> name_len;</span><br><span class="line">    MPI_Get_processor_name(processor_name, &amp;name_len);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (size != <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;*** 这个程序需要 2 个进程！当前进程数为 %d ***\n&quot;</span>, size);</span><br><span class="line">        MPI_Abort(MPI_COMM_WORLD, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">double</span> sendData[<span class="number">3</span>] = &#123;<span class="number">1.11111111</span>, <span class="number">2.22222222</span>, <span class="number">3.33333333</span>&#125;;</span><br><span class="line">    <span class="type">int</span> sendBufferSize; <span class="comment">// 3*sizeof(double)</span></span><br><span class="line"></span><br><span class="line">    <span class="type">double</span> recvData[<span class="number">3</span>];</span><br><span class="line">    MPI_Status status;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (rank == <span class="number">0</span>) &#123;</span><br><span class="line">        MPI_Send(&amp;sendData[<span class="number">0</span>], <span class="number">1</span>, MPI_DOUBLE, <span class="number">1</span>, <span class="number">1</span>, MPI_COMM_WORLD);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[%s | 进程0] : MPI_Send(标准), 发送数据为 %f , tag=1\n&quot;</span>, processor_name, sendData[<span class="number">0</span>]);</span><br><span class="line">        MPI_Ssend(&amp;sendData[<span class="number">1</span>], <span class="number">2</span>, MPI_DOUBLE, <span class="number">1</span>, <span class="number">2</span>, MPI_COMM_WORLD);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[%s | 进程0] : MPI_Ssend(同步), 发送数据为 [%f, %f] , tag=2\n&quot;</span>, processor_name, sendData[<span class="number">1</span>], sendData[<span class="number">2</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (rank == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="type">int</span> recvCount;  <span class="comment">// 实际接收到的数据数量</span></span><br><span class="line">        MPI_Recv(&amp;recvData, <span class="number">3</span>, MPI_DOUBLE, <span class="number">0</span>, <span class="number">1</span>, MPI_COMM_WORLD, &amp;status);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[%s | 进程1] : 缓存发送模式, 接收数据为 [%f, %f, %f] , tag=1\n&quot;</span>, processor_name, recvData[<span class="number">0</span>], recvData[<span class="number">1</span>], recvData[<span class="number">2</span>]);</span><br><span class="line">        MPI_Get_count(&amp;status, MPI_DOUBLE, &amp;recvCount);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[%s | 进程1] : 实际接收到的数据数量: %d\n&quot;</span>, processor_name, recvCount);</span><br><span class="line">        </span><br><span class="line">        MPI_Recv(&amp;recvData, <span class="number">3</span>, MPI_DOUBLE, <span class="number">0</span>, <span class="number">2</span>, MPI_COMM_WORLD, &amp;status);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[%s | 进程1] : 缓存发送模式, 接收数据为 [%f, %f, %f] , tag=1\n&quot;</span>, processor_name, recvData[<span class="number">0</span>], recvData[<span class="number">1</span>], recvData[<span class="number">2</span>]);</span><br><span class="line">        MPI_Get_count(&amp;status, MPI_DOUBLE, &amp;recvCount);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[%s | 进程1] : 实际接收到的数据数量: %d\n&quot;</span>, processor_name, recvCount);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 释放 MPI 的一些资源</span></span><br><span class="line">    MPI_Finalize();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[c0f2333487ce | 进程0] : MPI_Send(标准), 发送数据为 1.111111 , tag=1</span><br><span class="line">[c0f2333487ce | 进程1] : 缓存发送模式, 接收数据为 [1.111111, 0.000000, 0.000000] , tag=1</span><br><span class="line">[c0f2333487ce | 进程1] : 实际接收到的数据数量: 1</span><br><span class="line">[c0f2333487ce | 进程1] : 缓存发送模式, 接收数据为 [2.222222, 3.333333, 0.000000] , tag=1</span><br><span class="line">[c0f2333487ce | 进程1] : 实际接收到的数据数量: 2</span><br><span class="line">[c0f2333487ce | 进程0] : MPI_Ssend(同步), 发送数据为 [2.222222, 3.333333] , tag=2</span><br></pre></td></tr></table></figure>
+<h2 id="3-缓存模式"><a class="markdownIt-Anchor" href="#3-缓存模式"></a> 3. 缓存模式</h2>
+<p>如果我们在设计 MPI 程序时，对标准通信模式并不满意或者希望对缓冲区进行直接控制，我们可以使用<u><em><strong>缓存模式</strong></em></u>。</p>
+<p>注意事项：（1）程序员需要对通信缓冲区进行<u><em><strong>申请</strong></em></u>、<u><em><strong>使用</strong></em></u>和<u><em><strong>释放</strong></em></u>；（2）通信缓冲区的合理与正确使用需要设计人员自己保证。</p>
+<p>相同的，让我们来看一下 MPI 缓存发送的方法的定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MPI_Bsend(</span><br><span class="line">    type* sendBuffer, <span class="type">int</span> count, MPI_Datatype datatype,		<span class="comment">// 消息数据</span></span><br><span class="line">    <span class="type">int</span> destination, <span class="type">int</span> tag, MPI_Comm communicator)		<span class="comment">// 消息信封</span></span><br></pre></td></tr></table></figure>
+<p>与标准模式类似：</p>
+<ul>
+<li><code>sendBuffer</code>：待发送数据的<u><em><strong>缓冲区地址</strong></em></u></li>
+<li><code>count</code>：待发送/接收的<u><strong>数据个数</strong></u></li>
+<li><code>datatype</code>：待发送/接收的<u><em><strong>数据类型</strong></em></u></li>
+<li><code>destination</code>：发送到目的进程的 <code>rank</code></li>
+<li><code>tag</code>：通信标示</li>
+<li><code>MPI_Comm communicator</code>：通信域</li>
+</ul>
+<h3 id="缓存模式流程图"><a class="markdownIt-Anchor" href="#缓存模式流程图"></a> 缓存模式流程图</h3>
+<p>在 MPI 中采用缓存通信模式时，缓存是由程序员来维护的。</p>
+<img src="/2022/12/08/MPI-Tutorial/image-20221210155905046.png" alt="image-20221210155905046" style="zoom:40%;">
+<p>那么，我们该如何申请和释放缓冲区呢？</p>
+<h3 id="申请-释放缓冲区"><a class="markdownIt-Anchor" href="#申请-释放缓冲区"></a> 申请 / 释放缓冲区</h3>
+<p>申请缓冲区</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">MPI_Buffer_attach</span><span class="params">(	<span class="comment">// 申请缓冲区</span></span></span><br><span class="line"><span class="params">	type* buffer,	<span class="comment">// 缓冲区的初始地址</span></span></span><br><span class="line"><span class="params">    <span class="type">int</span> size		<span class="comment">// 缓冲区的大小，单位 byte</span></span></span><br><span class="line"><span class="params">)</span></span><br></pre></td></tr></table></figure>
+<p>释放缓冲区</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">MPI_Buffer_detach</span><span class="params">(	<span class="comment">// 释放缓冲区</span></span></span><br><span class="line"><span class="params">	type* buffer,	<span class="comment">// 缓冲区的初始地址</span></span></span><br><span class="line"><span class="params">    <span class="type">int</span>* size		<span class="comment">// 缓冲区的大小，单位 byte</span></span></span><br><span class="line"><span class="params">)</span></span><br></pre></td></tr></table></figure>
+<h3 id="示例-3"><a class="markdownIt-Anchor" href="#示例-3"></a> 示例</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mpi.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span> &#123;</span><br><span class="line">    <span class="comment">// 初始化 MPI 环境</span></span><br><span class="line">    MPI_Init(&amp;argc, &amp;argv);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过调用以下方法来得到所有可以工作的进程数量</span></span><br><span class="line">    <span class="type">int</span> size;</span><br><span class="line">    MPI_Comm_size(MPI_COMM_WORLD, &amp;size);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 得到当前进程的秩</span></span><br><span class="line">    <span class="type">int</span> rank;</span><br><span class="line">    MPI_Comm_rank(MPI_COMM_WORLD, &amp;rank);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 得到当前进程的名字</span></span><br><span class="line">    <span class="type">char</span> processor_name[MPI_MAX_PROCESSOR_NAME];</span><br><span class="line">    <span class="type">int</span> name_len;</span><br><span class="line">    MPI_Get_processor_name(processor_name, &amp;name_len);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (size != <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;*** 这个程序需要 2 个进程！当前进程数为 %d ***\n&quot;</span>, size);</span><br><span class="line">        MPI_Abort(MPI_COMM_WORLD, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">double</span> sendData[<span class="number">3</span>] = &#123;<span class="number">1.23456789</span>, <span class="number">1.23456789</span>, <span class="number">1.23456789</span>&#125;;</span><br><span class="line">    <span class="type">int</span> sendBufferSize; <span class="comment">// 3*sizeof(double)</span></span><br><span class="line"></span><br><span class="line">    <span class="type">double</span> recvData[<span class="number">3</span>];</span><br><span class="line">    MPI_Status status;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (rank == <span class="number">0</span>) &#123;</span><br><span class="line">        MPI_Pack_size(<span class="number">3</span>, MPI_DOUBLE, MPI_COMM_WORLD, &amp;sendBufferSize);</span><br><span class="line">        <span class="type">double</span>* tempBuffer = (<span class="type">double</span>*) <span class="built_in">malloc</span>(sendBufferSize+MPI_BSEND_OVERHEAD);</span><br><span class="line">        <span class="comment">// 为tempBuffer申请MPI缓存</span></span><br><span class="line">        MPI_Buffer_attach(tempBuffer, sendBufferSize+MPI_BSEND_OVERHEAD);</span><br><span class="line">        MPI_Bsend(&amp;sendData, <span class="number">3</span>, MPI_DOUBLE, <span class="number">1</span>, <span class="number">1</span>, MPI_COMM_WORLD);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[%s | 进程0] : 缓存发送模式, 发送数据为 [%f, %f, %f] , tag=1\n&quot;</span>, processor_name, sendData[<span class="number">0</span>], sendData[<span class="number">1</span>], sendData[<span class="number">2</span>]);</span><br><span class="line">        <span class="comment">// 释放MPI缓存</span></span><br><span class="line">        MPI_Buffer_detach(tempBuffer, &amp;sendBufferSize);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (rank == <span class="number">1</span>) &#123;</span><br><span class="line">        MPI_Recv(&amp;recvData, <span class="number">3</span>, MPI_DOUBLE, <span class="number">0</span>, <span class="number">1</span>, MPI_COMM_WORLD, &amp;status);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[%s | 进程1] : 缓存发送模式, 接收数据为 [%f, %f, %f] , tag=1\n&quot;</span>, processor_name, recvData[<span class="number">0</span>], recvData[<span class="number">1</span>], recvData[<span class="number">2</span>]);</span><br><span class="line">        <span class="type">int</span> recvCount;  <span class="comment">// 实际接收到的数据数量</span></span><br><span class="line">        MPI_Get_count(&amp;status, MPI_DOUBLE, &amp;recvCount);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[%s | 进程1] : 实际接收到的数据数量: %d\n&quot;</span>, processor_name, recvCount);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 释放 MPI 的一些资源</span></span><br><span class="line">    MPI_Finalize();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[c0f2333487ce | 进程0] : 缓存发送模式, 发送数据为 [1.234568, 1.234568, 1.234568] , tag=1</span><br><span class="line">[c0f2333487ce | 进程1] : 缓存发送模式, 接收数据为 [1.234568, 1.234568, 1.234568] , tag=1</span><br><span class="line">[c0f2333487ce | 进程1] : 实际接收到的数据数量: 3</span><br></pre></td></tr></table></figure>
+<h2 id="4-就绪模式"><a class="markdownIt-Anchor" href="#4-就绪模式"></a> 4. 就绪模式</h2>
+<p>首先，让我们来看一下 MPI 就绪发送方法的定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MPI_Rsend(</span><br><span class="line">    type* data, <span class="type">int</span> count, MPI_Datatype datatype,		<span class="comment">// 消息数据</span></span><br><span class="line">    <span class="type">int</span> destination, <span class="type">int</span> tag, MPI_Comm communicator)	<span class="comment">// 消息信封</span></span><br></pre></td></tr></table></figure>
+<p>就绪模式的特殊之处就在于它要求<u><em><strong>接收操作的启动</strong></em></u>要<u><em><strong>先于发送操作的启动</strong></em></u>（可以用标准发送完成相同的语义，但是效率会更低）。如下图所示</p>
+<img src="/2022/12/08/MPI-Tutorial/image-20221210210917930.png" alt="image-20221210210917930" style="zoom:40%;">
+<h3 id="示例-4"><a class="markdownIt-Anchor" href="#示例-4"></a> 示例</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mpi.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span> &#123;</span><br><span class="line">    <span class="comment">// 初始化 MPI 环境</span></span><br><span class="line">    MPI_Init(&amp;argc, &amp;argv);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过调用以下方法来得到所有可以工作的进程数量</span></span><br><span class="line">    <span class="type">int</span> size;</span><br><span class="line">    MPI_Comm_size(MPI_COMM_WORLD, &amp;size);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 得到当前进程的秩</span></span><br><span class="line">    <span class="type">int</span> rank;</span><br><span class="line">    MPI_Comm_rank(MPI_COMM_WORLD, &amp;rank);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 得到当前进程的名字</span></span><br><span class="line">    <span class="type">char</span> processor_name[MPI_MAX_PROCESSOR_NAME];</span><br><span class="line">    <span class="type">int</span> name_len;</span><br><span class="line">    MPI_Get_processor_name(processor_name, &amp;name_len);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (size != <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;*** 这个程序需要 2 个进程！当前进程数为 %d ***\n&quot;</span>, size);</span><br><span class="line">        MPI_Abort(MPI_COMM_WORLD, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">double</span> sendData[<span class="number">3</span>] = &#123;<span class="number">1.11111111</span>, <span class="number">2.22222222</span>, <span class="number">3.33333333</span>&#125;;</span><br><span class="line">    <span class="type">int</span> sendBufferSize; <span class="comment">// 3*sizeof(double)</span></span><br><span class="line"></span><br><span class="line">    <span class="type">double</span> recvData[<span class="number">3</span>];</span><br><span class="line">    MPI_Status status, statusReady;</span><br><span class="line">    MPI_Request request;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (rank == <span class="number">0</span>) &#123; <span class="comment">// 发送进程</span></span><br><span class="line">        <span class="comment">// 确认接收进程的接收已经开始</span></span><br><span class="line">        <span class="type">char</span> recvReady;</span><br><span class="line">        MPI_Recv(&amp;recvReady, <span class="number">1</span>, MPI_BYTE, <span class="number">1</span>, <span class="number">2</span>, MPI_COMM_WORLD, &amp;statusReady);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[%s | 进程0] : MPI_Recv(普通接收), 接收数据为 %c , \t\t\t\t\t tag=1\n&quot;</span>, processor_name, recvReady);</span><br><span class="line">        <span class="comment">// 然后发送</span></span><br><span class="line">        MPI_Rsend(&amp;sendData, <span class="number">3</span>, MPI_DOUBLE, <span class="number">1</span>, <span class="number">1</span>, MPI_COMM_WORLD);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[%s | 进程0] : MPI_Rsend(就绪发送), 发送数据为 [%f, %f, %f] , \t tag=2\n&quot;</span>, processor_name, sendData[<span class="number">0</span>], sendData[<span class="number">1</span>], sendData[<span class="number">2</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (rank == <span class="number">1</span>) &#123;   <span class="comment">// 接收进程</span></span><br><span class="line">        MPI_Irecv(&amp;recvData, <span class="number">3</span>, MPI_DOUBLE, <span class="number">0</span>, <span class="number">1</span>, MPI_COMM_WORLD, &amp;request);</span><br><span class="line">        <span class="comment">// 告诉发送进程，该进程的接收已经开始了</span></span><br><span class="line">        <span class="type">char</span> sendReady= <span class="string">&#x27;R&#x27;</span>;</span><br><span class="line">        MPI_Send(&amp;sendReady, <span class="number">1</span>, MPI_BYTE, <span class="number">0</span>, <span class="number">2</span>, MPI_COMM_WORLD);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[%s | 进程1] : MPI_Send(普通), 发送数据为 %c , \t\t\t\t\t tag=1\n&quot;</span>, processor_name, sendReady);</span><br><span class="line">        <span class="comment">// 等待 MPI_Irecv() 执行结束，并打印接收结果</span></span><br><span class="line">        MPI_Wait(&amp;request, &amp;status);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[%s | 进程1] : MPI_Irecv(非阻塞接收), 接收数据为 [%f, %f, %f] , \t tag=2\n&quot;</span>, processor_name, recvData[<span class="number">0</span>], recvData[<span class="number">1</span>], recvData[<span class="number">2</span>]);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 释放 MPI 的一些资源</span></span><br><span class="line">    MPI_Finalize();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述程序的逻辑如下：</p>
+<img src="/2022/12/08/MPI-Tutorial/image-20221210211400389.png" alt="image-20221210211400389" style="zoom:40%;">
+<p>输出如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[c0f2333487ce | 进程1] : MPI_Send(普通), 发送数据为 R , tag=1</span><br><span class="line">[c0f2333487ce | 进程0] : MPI_Recv(普通接收), 接收数据为 R , tag=1</span><br><span class="line">[c0f2333487ce | 进程0] : MPI_Rsend(就绪发送), 发送数据为 [1.111111, 2.222222, 3.333333], tag=2</span><br><span class="line">[c0f2333487ce | 进程1] : MPI_Irecv(非阻塞接收), 接收数据为 [1.111111, 2.222222, 3.333333], tag=2</span><br></pre></td></tr></table></figure>
+<h2 id="5-死锁"><a class="markdownIt-Anchor" href="#5-死锁"></a> 5. 死锁</h2>
+<h3 id="发生死锁"><a class="markdownIt-Anchor" href="#发生死锁"></a> 发生死锁</h3>
+<p>在<u><em><strong>阻塞式</strong></em></u>的模式下，尤其是<u><em><strong>同步式</strong></em></u>的情况，需要注意不同进程间<u><em><strong>可能会发生死锁</strong></em></u>。</p>
+<p>可能会发生死锁的情形：</p>
+<ul>
+<li>在<u><em><strong>同步阻塞模式</strong></em></u>下出现<u><em><strong>资源依赖中的环</strong></em></u>（事实死锁）</li>
+<li>在<u><em><strong>普通阻塞模式</strong></em></u>下，当<u><em><strong>缓冲区空间耗尽</strong></em></u>时有可能会发生死锁</li>
+<li>在缓存阻塞模式下不太可能出现死锁，但是程序员需要维护缓冲区，当缓冲区空间耗尽时，圆形会失败。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MPI_Comm_Rank(communicator, &amp;rank);</span><br><span class="line"><span class="keyword">if</span> (rank == <span class="number">0</span>)&#123;</span><br><span class="line">    MPI_Recv(recvBuf, <span class="number">1</span>, MPI_INT, rank1, tag1, comm, status1);	<span class="comment">// 接收消息【1】</span></span><br><span class="line">    MPI_Send(sendBuf, <span class="number">1</span>, MPI_INT, rank1, tag2, comm);			<span class="comment">// 发送消息【0】</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (rank == <span class="number">1</span>)&#123;</span><br><span class="line">    MPI_Recv(recvBuf, <span class="number">1</span>, MPI_INT, rank0, tag2, comm, status1);	<span class="comment">// 接收消息【0】</span></span><br><span class="line">    MPI_Send(sendBuf, <span class="number">1</span>, MPI_INT, rank0, tag1, comm);			<span class="comment">// 发送消息【1】</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这种情况下，我们可以知道两个进程 <code>rank0</code> 与 <code>rank1</code> 都因为等待对方的发送而陷入死锁。也可以画出这个系统的资源依赖图（如下图）。可以看出在图中<u><em><strong>存在环</strong></em></u>，说明该系统会<u><em><strong>发生死锁</strong></em></u>。</p>
+<img src="/2022/12/08/MPI-Tutorial/image-20221210144126128.png" alt="image-20221210144126128" style="zoom:40%;">
+<h3 id="避免死锁"><a class="markdownIt-Anchor" href="#避免死锁"></a> 避免死锁</h3>
+<p>那么该如何避免死锁呢？</p>
+<ul>
+<li><u><em><strong>消除资源依赖图中的环</strong></em></u>；</li>
+<li>将阻塞模式改为<u><em><strong>非阻塞模式</strong></em></u>（但并不意味着非阻塞模式不存在死锁）。</li>
+</ul>
+<p>我们改写上述代码，使其不会发生死锁（或者将阻塞式改为非阻塞式）：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MPI_Comm_Rank(communicator, &amp;rank);</span><br><span class="line"><span class="keyword">if</span> (rank == <span class="number">0</span>)&#123;</span><br><span class="line">    MPI_Send(sendBuf, <span class="number">1</span>, MPI_INT, rank1, tag2, comm);			<span class="comment">// 发送消息【0】</span></span><br><span class="line">    MPI_Recv(recvBuf, <span class="number">1</span>, MPI_INT, rank1, tag1, comm, status1);	<span class="comment">// 接收消息【1】</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (rank == <span class="number">1</span>)&#123;</span><br><span class="line">    MPI_Send(sendBuf, <span class="number">1</span>, MPI_INT, rank0, tag1, comm);			<span class="comment">// 发送消息【1】</span></span><br><span class="line">    MPI_Recv(recvBuf, <span class="number">1</span>, MPI_INT, rank0, tag2, comm, status1);	<span class="comment">// 接收消息【0】</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<img src="/2022/12/08/MPI-Tutorial/image-20221210144950681.png" alt="image-20221210144950681" style="zoom:40%;">
+<h2 id="6-非阻塞模式"><a class="markdownIt-Anchor" href="#6-非阻塞模式"></a> 6. 非阻塞模式</h2>
+<p>参考资料：<a target="_blank" rel="noopener" href="http://parallel.zhangjikai.com/%E9%9D%9E%E9%98%BB%E5%A1%9E%E9%80%9A%E4%BF%A1.html">非阻塞通信</a></p>
+<p>我们前面说到，非阻塞式是当一个进程发送或接收一条消息时，进程不会阻塞在当前状态，而是会继续向下执行。它只保证调用函数的时候<u><em><strong>通信开始</strong></em></u>了，然后<u><em><strong>马上返回</strong></em></u>，返回的时候<u><em><strong>不保证完成</strong></em></u>了。</p>
+<p>让我们来看一下 MPI 非阻塞标准发送/接收方法的定义：（其余的三种通信模式和阻塞通信的函数形式类似，只是函数名称修改了一下，这里不做详细介绍）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MPI_Isend(</span><br><span class="line">    <span class="type">void</span> * buf,             <span class="comment">// 发送缓冲区起始地址</span></span><br><span class="line">    <span class="type">int</span> count,              <span class="comment">// 发送数据个数</span></span><br><span class="line">    MPI_Datatype datatype,  <span class="comment">// 发送数据的数据类型</span></span><br><span class="line">    <span class="type">int</span> dest,               <span class="comment">// 目标进程号</span></span><br><span class="line">    <span class="type">int</span> tag,                <span class="comment">// 消息标志</span></span><br><span class="line">    MPI_Comm comm,          <span class="comment">// 通信域</span></span><br><span class="line">    MPI_Request * request   <span class="comment">// 返回的非阻塞通信对象</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MPI_Irecv(</span><br><span class="line">    <span class="type">void</span> * buf,             <span class="comment">// 接受缓冲区的起始地址</span></span><br><span class="line">    <span class="type">int</span> count,              <span class="comment">// 接受数据的最大个数</span></span><br><span class="line">    MPI_Datatype datatype,  <span class="comment">// 数据类型</span></span><br><span class="line">    <span class="type">int</span> source,             <span class="comment">// 源进程标识</span></span><br><span class="line">    <span class="type">int</span> tag,                <span class="comment">// 消息标志</span></span><br><span class="line">    MPI_Comm comm,          <span class="comment">// 通信域</span></span><br><span class="line">    MPI_Request * request   <span class="comment">// 非阻塞通信对象</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 同步通信模式</span></span><br><span class="line">MPI_Issend(<span class="type">void</span> * buf, <span class="type">int</span> count, MPI_Datatype datatype, <span class="type">int</span> dest, <span class="type">int</span> tag,</span><br><span class="line">    MPI_Comm comm, MPI_Request * request)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 缓存通信模式</span></span><br><span class="line">MPI_Ibsend(<span class="type">void</span> * buf, <span class="type">int</span> count, MPI_Datatype datatype, <span class="type">int</span> dest, <span class="type">int</span> tag,</span><br><span class="line">    MPI_Comm comm, MPI_Request * request)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 就绪通信模式</span></span><br><span class="line">MPI_Irsend(<span class="type">void</span> * buf, <span class="type">int</span> count, MPI_Datatype datatype, <span class="type">int</span> dest, <span class="type">int</span> tag,</span><br><span class="line">    MPI_Comm comm, MPI_Request * request)</span><br></pre></td></tr></table></figure>
+<p>那么我们如何知道一个消息发送/接收的状态呢？</p>
+<p>由于非阻塞通信返回并不意味着该通信已经完成，因此 MPI 提供了一个非阻塞通信对象： <code>MPI_Request</code> 来查询通信的状态。通过结合 <code>MPI_Request</code> 和下面的一些函数，我们等待或者检测阻塞通信。</p>
+<p>对于单个非阻塞通信来说，可以使用下面两个函数来等待或者检测非阻塞通信。其中 <code>MPI_Wait</code> 会阻塞当前进程，一直等到相应的非阻塞通信完成之后再返回。<code>MPI_Test</code> 只是用来检测通信是否完成，它会立即返回，不会阻塞当前进程。如果通信完成，将 <code>flag</code> 置为 <code>true</code>，如果通信还没完成，则将 <code>flag</code> 置为 <code>false</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MPI_Wait(</span><br><span class="line">    MPI_Request* request,      <span class="comment">// 非阻塞通信对象</span></span><br><span class="line">    MPI_Status* status         <span class="comment">// 返回的状态</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">MPI_Test(</span><br><span class="line">    MPI_Request* request,      <span class="comment">// 非阻塞通信对象</span></span><br><span class="line">    <span class="type">int</span>* flag,                 <span class="comment">// 操作是否完成，完成 - true，未完成 - false</span></span><br><span class="line">    MPI_Status* status         <span class="comment">// 返回的状态</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h1 id="mpi-中的集体通信"><a class="markdownIt-Anchor" href="#mpi-中的集体通信"></a> MPI 中的集体通信</h1>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://lostnfound.top">Guohao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lostnfound.top/2022/12/08/MPI-Tutorial/">https://lostnfound.top/2022/12/08/MPI-Tutorial/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lostnfound.top" target="_blank">Lost N Found</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></div><div class="post_share"><div class="social-share" data-image="/linear-gradient(45deg,%20#8EC3B0,%20#9ED5C5,%20#F8C4B4,%20#FF8787)" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Guohao</div><div class="author-info__description">L’existence précède l‘essence</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Dave0126" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:dave980126@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-mpi"><span class="toc-text"> 什么是 MPI？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#mpi-%E4%B8%AD%E7%9A%84%E7%BB%8F%E5%85%B8%E6%A6%82%E5%BF%B5"><span class="toc-text"> MPI 中的经典概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mpi-%E7%9A%84%E5%9F%BA%E6%9C%AC%E8%AF%AD%E5%8F%A5"><span class="toc-text"> MPI 的基本语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hello-world-%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B"><span class="toc-text"> Hello World 代码案例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mpi-%E4%B8%AD%E7%9A%84%E7%82%B9%E5%AF%B9%E7%82%B9%E9%80%9A%E4%BF%A1"><span class="toc-text"> MPI 中的点对点通信</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A0%87%E5%87%86%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%BC%8F"><span class="toc-text"> 1. 标准通信模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E9%80%9A%E4%BF%A1%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-text"> 标准通信流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E8%AF%AD%E5%BA%8F"><span class="toc-text"> 通信语序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-text"> 示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%90%8C%E6%AD%A5%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%BC%8F"><span class="toc-text"> 2. 同步通信模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E6%A8%A1%E5%BC%8F%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-text"> 同步模式流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-2"><span class="toc-text"> 示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%BC%93%E5%AD%98%E6%A8%A1%E5%BC%8F"><span class="toc-text"> 3. 缓存模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E6%A8%A1%E5%BC%8F%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-text"> 缓存模式流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B3%E8%AF%B7-%E9%87%8A%E6%94%BE%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-text"> 申请 &#x2F; 释放缓冲区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-3"><span class="toc-text"> 示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B0%B1%E7%BB%AA%E6%A8%A1%E5%BC%8F"><span class="toc-text"> 4. 就绪模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-4"><span class="toc-text"> 示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%AD%BB%E9%94%81"><span class="toc-text"> 5. 死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E7%94%9F%E6%AD%BB%E9%94%81"><span class="toc-text"> 发生死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E6%AD%BB%E9%94%81"><span class="toc-text"> 避免死锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E9%9D%9E%E9%98%BB%E5%A1%9E%E6%A8%A1%E5%BC%8F"><span class="toc-text"> 6. 非阻塞模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mpi-%E4%B8%AD%E7%9A%84%E9%9B%86%E4%BD%93%E9%80%9A%E4%BF%A1"><span class="toc-text"> MPI 中的集体通信</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: #8EC3B0"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Guohao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: 'ea138c6f176d57705144',
+      clientSecret: 'c999d74b366c68c80bc3b704c716a8ff8d67af6d',
+      repo: 'Dave0126.github.io',
+      owner: 'Dave0126',
+      admin: ['Dave0126'],
+      id: '74fa7aee2242a862e5d89e654cf24c27',
+      updateCountCallback: commentCount
+    },))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div></div></body></html>
