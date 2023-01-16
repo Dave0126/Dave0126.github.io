@@ -368,21 +368,7 @@
   </url>
   
   <url>
-    <loc>https://lostnfound.top/tags/SQL/</loc>
-    <lastmod>2023-01-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://lostnfound.top/tags/JUC/</loc>
-    <lastmod>2023-01-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://lostnfound.top/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</loc>
     <lastmod>2023-01-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -397,6 +383,20 @@
   
   <url>
     <loc>https://lostnfound.top/tags/TLA/</loc>
+    <lastmod>2023-01-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lostnfound.top/tags/SQL/</loc>
+    <lastmod>2023-01-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lostnfound.top/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</loc>
     <lastmod>2023-01-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -431,14 +431,14 @@
   </url>
   
   <url>
-    <loc>https://lostnfound.top/tags/sychronized/</loc>
+    <loc>https://lostnfound.top/tags/%E9%94%81/</loc>
     <lastmod>2023-01-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://lostnfound.top/tags/%E9%94%81/</loc>
+    <loc>https://lostnfound.top/tags/sychronized/</loc>
     <lastmod>2023-01-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
