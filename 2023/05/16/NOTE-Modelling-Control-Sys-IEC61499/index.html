@@ -1,0 +1,234 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>【笔记】Modelling Control Systeme Using IEC61499 | Lost N Found</title><meta name="author" content="Guohao"><meta name="copyright" content="Guohao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="关于《Modelling Control Systeme Using IEC61499》的读书笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【笔记】Modelling Control Systeme Using IEC61499">
+<meta property="og:url" content="https://lostnfound.top/2023/05/16/NOTE-Modelling-Control-Sys-IEC61499/index.html">
+<meta property="og:site_name" content="Lost N Found">
+<meta property="og:description" content="关于《Modelling Control Systeme Using IEC61499》的读书笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lostnfound.top/linear-gradient(45deg,%20#8EC3B0,%20#9ED5C5,%20#F8C4B4,%20#FF8787)">
+<meta property="article:published_time" content="2023-05-16T02:46:01.000Z">
+<meta property="article:modified_time" content="2023-05-16T07:21:09.816Z">
+<meta property="article:author" content="Guohao">
+<meta property="article:tag" content="自动化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lostnfound.top/linear-gradient(45deg,%20#8EC3B0,%20#9ED5C5,%20#F8C4B4,%20#FF8787)"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://lostnfound.top/2023/05/16/NOTE-Modelling-Control-Sys-IEC61499/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: Guohao","link":"链接: ","source":"来源: Lost N Found","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【笔记】Modelling Control Systeme Using IEC61499',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-05-16 15:21:09'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Lost N Found" type="application/atom+xml">
+</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-battery-full"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-calendar-check"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-hashtag"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-user-circle"></i><span> 关于我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Dave0126"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li><li><a class="site-page child" href="mailto:dave980126@outlook.com"><i class="fa-fw fas fa-envelope"></i><span> Mail</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(45deg, #8EC3B0, #9ED5C5, #F8C4B4, #FF8787)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Lost N Found</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-battery-full"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-calendar-check"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-hashtag"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-user-circle"></i><span> 关于我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Dave0126"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li><li><a class="site-page child" href="mailto:dave980126@outlook.com"><i class="fa-fw fas fa-envelope"></i><span> Mail</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【笔记】Modelling Control Systeme Using IEC61499</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-05-16T02:46:01.000Z" title="发表于 2023-05-16 10:46:01">2023-05-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-16T07:21:09.816Z" title="更新于 2023-05-16 15:21:09">2023-05-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.4k</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="介绍"><a class="markdownIt-Anchor" href="#介绍"></a> 介绍</h1>
+<h2 id="背景"><a class="markdownIt-Anchor" href="#背景"></a> 背景</h2>
+<p>目前为止，工业控制系统分成了两大阵营。一类是基于传统的分布式控制系统(DCS)，另一类是基于可编程逻辑控制器（PLC）。</p>
+<ul>
+<li>
+<p>现行的DCS 主要应用于化工厂和炼油厂。它们是由少量的大型中央处理器构成，提供监控和数据采集。通过本地网络和部署在工厂中的众多控制器，仪表，传感器和执行部件相联。</p>
+<img src="/2023/05/16/NOTE-Modelling-Control-Sys-IEC61499/image-20230516105230518.png" alt="image-20230516105230518" style="zoom:80%;">
+<p>系统可以具有分立的仪表和超级工作站。超级工作站由本地控制器和一串仪表构成。在一个DCS 中，许多的监控来自于一个或者多个中心处理器。工厂中的仪表提供本地的闭环控制，例如PID 控制。</p>
+</li>
+<li>
+<p>在许多机器控制和生产过程控制中（特别是自动化生产线中），控制系统是使用PLC来设计的。</p>
+<img src="/2023/05/16/NOTE-Modelling-Control-Sys-IEC61499/image-20230516105952159.png" alt="image-20230516105952159" style="zoom:80%;">
+<p>大型PLC 系统通常由多个PLC ，它们通过一个或者多个特定的高速网络相互通信。PLC 一般连接大量的输入输出（I/O) 信号，由它们处理传感器和执行部件。在这种场合，分立仪表，比如温度，压力传感器也连接到PLC 上。</p>
+</li>
+</ul>
+<p>使用这两种设计方法，系统都倾向编写一个大型单一的软件包。这种软件通常很难在新的应用中重复使用，相互之间集成也非常困难。DCS和PLC 两种系统<u><em><strong>难以修改和扩展，不能提供高度的灵活性</strong></em></u>。而这一点却是先进，灵活的控制系统所期望的。</p>
+<h2 id="iec-61499-function-block-standard"><a class="markdownIt-Anchor" href="#iec-61499-function-block-standard"></a> IEC 61499 function block standard</h2>
+<p>IEC 已经开发了一个专门的标准 IEC61499 ，它定义了如何将功能块（<u><em><strong>function block</strong></em></u>）用于分布式工业过程，测量和控制系统。这项工作有助于解决语义集成的问题。</p>
+<blockquote>
+<p>&quot;In industrial systems, function blocks are an established concept for defining robust, re-usable software components. A function block can provide a software solution to a small problem, such as the control of a valve, or control a major unit of plant, such as a complete production line.</p>
+<p>Function blocks allow industrial algorithms to be encapsulated in a form that can be readily understood and applied by people who are not software specialists. Each block has a defined set of input parameters, which are read by the internal algorithm when it executes. The results from the algorithm are written to the block’s outputs. Complete applications can be built from networks of function blocks formed by interconnecting block inputs and outputs.&quot;</p>
+<p>在工业系统中，功能块建立了定义鲁棒性，可重用软件组件的概念。一个功能块能够提供解决小问题的软件解决方法，比如控制阀门。也可以解决一个工厂的主要部件，例如完整的生产线。</p>
+<p>功能块允许工业算法封装在一种可理解的形式中，使非软件专家的人士可以使用。每个功能块都有数据输入，供算法执行时读取。算法的结果写入功能块的输出。完整的应用由功能块输入输出互联的功能块网络组成。</p>
+</blockquote>
+<p>现场总线是连接智能现场设备和自动化系统的数字式、双向传输、多分支结构的通讯网络。也就是说基于现场总线的系统是以单个分散的，数字化，智能化的测量和控制设备作为网络的节点，用总线相连，实现信息的相互交换，使得不同网络，不同现场设备之间可以信息共享。</p>
+<h3 id="为什么使用功能块"><a class="markdownIt-Anchor" href="#为什么使用功能块"></a> 为什么使用功能块？</h3>
+<p>在面向对象程序设计中的<u><em><strong>对象</strong></em></u>在某种程度上类似于<u><em><strong>功能块</strong></em></u>。对象的概念之所以成功，是因为它们能够为在真实世界的概念和项目建立行为建模。</p>
+<p>尽管面向对象的软件开发大大地改变了软件开发的世界，不过它不能保证软件的提供可重复软件。对象往往是为它们的特定使用场合过度定制化设计的，限制了它们的可应用性。</p>
+<p>为了改善这种情形，引入了软件组件的陌生概念。他定义软件组件类似于对象：“软件组件是一个完全指定的接口和上下文独立的组合（uint of composition 单元，软件组件独立地部署，应满足被第三方组合使用的条件。</p>
+<h1 id="function-block"><a class="markdownIt-Anchor" href="#function-block"></a> Function Block</h1>
+<p>功能块（Function Block）具有自己的数据结构，并且由一个或者多个算法来处理它们。功能块类型（function block  type）提供了数据结构和算法的形式化描述。</p>
+<p>功能块可以有多个实例（instance）。从形式上看，功能块和面向对象中的对象非常类似。</p>
+<ul>
+<li>每个功能块有一个类型名称和一个实例名称。</li>
+<li>每一个功能块都有一系列事件输入（<code>Evnet Input</code>）。它们能够接收其它功能块通过事件连接传递的事件。</li>
+<li>每个功能块都能有事件输出（<code>Evnet Output</code>）。它们向其它功能块传递事件。</li>
+<li>每个功能块会有数据输入（<code>Data Input</code>）。传递给它其它功能块内部产生的数据。</li>
+<li>每个功能块会有数据输出（<code>Data Output</code>）。将该功能块内部产生的数据传递该其它功能块。</li>
+<li>事件可以使用 “<code>WITH</code>” 修饰词与数据关联。在图形表示中，将事件和相关联的数据连接线交叉点画一个小方块。</li>
+<li>功能块的行为定义为一系列的算法和状态信息。利用块的状态和状态的变化，可以建立各种策略的模型，以定义哪些算法将在响应特定事件时执行。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://lostnfound.top">Guohao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lostnfound.top/2023/05/16/NOTE-Modelling-Control-Sys-IEC61499/">https://lostnfound.top/2023/05/16/NOTE-Modelling-Control-Sys-IEC61499/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lostnfound.top" target="_blank">Lost N Found</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a></div><div class="post_share"><div class="social-share" data-image="/linear-gradient(45deg,%20#8EC3B0,%20#9ED5C5,%20#F8C4B4,%20#FF8787)" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Guohao</div><div class="author-info__description">L’existence précède l‘essence</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Dave0126" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:dave980126@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text"> 介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text"> 背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iec-61499-function-block-standard"><span class="toc-text"> IEC 61499 function block standard</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 为什么使用功能块？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#function-block"><span class="toc-text"> Function Block</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: #8EC3B0"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By Guohao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: 'ea138c6f176d57705144',
+      clientSecret: 'c999d74b366c68c80bc3b704c716a8ff8d67af6d',
+      repo: 'Dave0126.github.io',
+      owner: 'Dave0126',
+      admin: ['Dave0126'],
+      id: '0977791134aa8ed5f5410207f933517e',
+      updateCountCallback: commentCount
+    },))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div></div></body></html>

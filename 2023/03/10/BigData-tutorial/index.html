@@ -1,0 +1,405 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>BigData_tutorial | Lost N Found</title><meta name="author" content="Guohao"><meta name="copyright" content="Guohao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="写在前面： 本文章是根据法国国立高等电力技术、电子学、计算机、水力学与电信学校 (E.N.S.E.E.I.H.T.) 第九学期课程 “Infrastructure for Big Data” 及以下参考资料总结而来的课程笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。 参考资料：  S. Ghemawat, H. Gobioff, S. Leung, The Google File">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BigData_tutorial">
+<meta property="og:url" content="https://lostnfound.top/2023/03/10/BigData-tutorial/index.html">
+<meta property="og:site_name" content="Lost N Found">
+<meta property="og:description" content="写在前面： 本文章是根据法国国立高等电力技术、电子学、计算机、水力学与电信学校 (E.N.S.E.E.I.H.T.) 第九学期课程 “Infrastructure for Big Data” 及以下参考资料总结而来的课程笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。 参考资料：  S. Ghemawat, H. Gobioff, S. Leung, The Google File">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lostnfound.top/linear-gradient(45deg,%20#8EC3B0,%20#9ED5C5,%20#F8C4B4,%20#FF8787)">
+<meta property="article:published_time" content="2023-03-10T01:49:29.000Z">
+<meta property="article:modified_time" content="2023-03-12T14:32:09.463Z">
+<meta property="article:author" content="Guohao">
+<meta property="article:tag" content="课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lostnfound.top/linear-gradient(45deg,%20#8EC3B0,%20#9ED5C5,%20#F8C4B4,%20#FF8787)"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://lostnfound.top/2023/03/10/BigData-tutorial/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: Guohao","link":"链接: ","source":"来源: Lost N Found","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'BigData_tutorial',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-12 22:32:09'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Lost N Found" type="application/atom+xml">
+</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-battery-full"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-calendar-check"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-hashtag"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-user-circle"></i><span> 关于我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Dave0126"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li><li><a class="site-page child" href="mailto:dave980126@outlook.com"><i class="fa-fw fas fa-envelope"></i><span> Mail</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(45deg, #8EC3B0, #9ED5C5, #F8C4B4, #FF8787)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Lost N Found</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-battery-full"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-calendar-check"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-hashtag"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-user-circle"></i><span> 关于我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Dave0126"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li><li><a class="site-page child" href="mailto:dave980126@outlook.com"><i class="fa-fw fas fa-envelope"></i><span> Mail</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">BigData_tutorial</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-10T01:49:29.000Z" title="发表于 2023-03-10 09:49:29">2023-03-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-12T14:32:09.463Z" title="更新于 2023-03-12 22:32:09">2023-03-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.4k</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>写在前面：</p>
+<p>本文章是根据法国国立高等电力技术、电子学、计算机、水力学与电信学校 (<em>E.N.S.E.E.I.H.T.</em>) 第九学期课程 <em>“Infrastructure for Big Data”</em> 及以下参考资料总结而来的课程笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。</p>
+<p>参考资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://research.google.com/archive/gfs-sosp2003.pdf">S. Ghemawat, H. Gobioff, S. Leung, The Google File System, Google Inc., 2003</a></li>
+<li><a target="_blank" rel="noopener" href="https://research.google.com/archive/mapreduce-osdi04.pdf">J. Dean and S. Ghemawat, MapReduce: Simplified Data Processing on Large Clusters, Google Inc., 2004</a></li>
+<li><a target="_blank" rel="noopener" href="https://research.google.com/archive/bigtable-osdi06.pdf">F. Chang, J. Dean, S. Ghemawat, Bigtable: A Distributed Storage System for Structured Data, Google Inc., 2006</a></li>
+</ul>
+<hr>
+<h1 id="1-hadoop"><a class="markdownIt-Anchor" href="#1-hadoop"></a> 1. Hadoop</h1>
+<h2 id="11-hadoop-入门概念"><a class="markdownIt-Anchor" href="#11-hadoop-入门概念"></a> 1.1 Hadoop 入门概念</h2>
+<p>Hadoop 是一个由 Apache 基金会所开发的<u><em><strong>分布式系统基础架构</strong></em></u>，其理论模型来自于 Google 的三篇论文：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://research.google.com/archive/gfs-sosp2003.pdf">S. Ghemawat, H. Gobioff, S. Leung, The Google File System, 2003</a></li>
+<li><a target="_blank" rel="noopener" href="https://research.google.com/archive/mapreduce-osdi04.pdf">J. Dean and S. Ghemawat, MapReduce: Simplified Data Processing on Large Clusters, 2004</a></li>
+<li><a target="_blank" rel="noopener" href="https://research.google.com/archive/bigtable-osdi06.pdf">F. Chang, J. Dean, S. Ghemawat, Bigtable: A Distributed Storage System for Structured Data, 2006</a></li>
+</ol>
+<p>主要解决：海量数据的<u><em><strong>存储</strong></em></u>和<u><em><strong>分析计算</strong></em></u>问题</p>
+<p>广义上来说，Hadoop 通常是指一个更加广泛的概念：Hadoop 生态圈。</p>
+<p><u><em><strong>Hadoop 优势</strong></em></u>：</p>
+<ol>
+<li>高可靠性：Hadoop 底层维护多个数据副本（默认为3个副本），当某个 Hadoop 计算或存储单元出现故障，也不会导致数据的丢失；</li>
+<li>高扩展性：在集群间分配任务数据，可以方便地动态扩展数以千计的节点；</li>
+<li>高效性：在 Map-Reduce 的思想下，Hadoop 是并行工作的，以加快任务的处理速度；</li>
+<li>高容错性：可以自动将失败的任务自动分配。</li>
+</ol>
+<h3 id="hadoop-的组成"><a class="markdownIt-Anchor" href="#hadoop-的组成"></a> Hadoop 的组成</h3>
+<h4 id="hadoop-1x-和-20-的组成"><a class="markdownIt-Anchor" href="#hadoop-1x-和-20-的组成"></a> Hadoop <code>1.x</code> 和 <code>2.0</code> 的组成</h4>
+<img src="/2023/03/10/BigData-tutorial/image-20230310154331342.png" alt="image-20230310154331342" style="zoom:40%;">
+<ul>
+<li>在 Hadoop <code>1.x</code> 的时代，Hadoop 中的 <u><em><strong>Map-Reduce</strong></em></u> 同时处理业务<u><em><strong>逻辑运算</strong></em></u>和<u><em><strong>资源调度</strong></em></u>，耦合性较大；</li>
+<li>在 Hadoop <code>2.x</code> 的时代，增加了 <u><em><strong>Yarn</strong></em></u> 来负责资源的调度</li>
+</ul>
+<h4 id="hdfs-架构概述"><a class="markdownIt-Anchor" href="#hdfs-架构概述"></a> HDFS 架构概述</h4>
+<p>Hadoop Distributed File System，简称 <u><em><strong>HDFS</strong></em></u>， 是一个<u><em><strong>分布式文件系统</strong></em></u>。其主要结构如下：</p>
+<img src="/2023/03/10/BigData-tutorial/image-20230310155805789.png" alt="image-20230310155805789" style="zoom:40%;">
+<ul>
+<li><u><em><strong>NameNode</strong></em></u>：存储文件的<u><em><strong>元数据</strong></em></u>，如<u><em><strong>文件名</strong></em></u>、<u><em><strong>文件目录结构</strong></em></u>、<u><em><strong>文件属性</strong></em></u>（生成时间、副本数、文件权限等），以及每个文件的<u><em><strong>块（block）列表</strong></em></u>和<u><em><strong>块所在的 DataNode</strong></em></u> 等</li>
+<li><u><em><strong>Secondary NameNode</strong></em></u>：是对 <u><em><strong>NameNode</strong></em></u> 元数据的部分备份，当 <u><em><strong>NameNode</strong></em></u> 无法工作时，其会恢复部分数据</li>
+<li><u><em><strong>DataNode</strong></em></u>：在本地文件系统<u><em><strong>存储数据块数据</strong></em></u>，以及<u><em><strong>块数据的校验和</strong></em></u></li>
+</ul>
+<h4 id="yarn-结构概述"><a class="markdownIt-Anchor" href="#yarn-结构概述"></a> YARN 结构概述</h4>
+<p>Yet Another Resource Negotiator，简称 <u><em><strong>YARN</strong></em></u>，是另一种资源协调者，是 Hadoop 的<u><em><strong>资源管理器</strong></em></u>（主要管理 CPU 和内存）。其主要结构如下：</p>
+<img src="/2023/03/10/BigData-tutorial/image-20230310162808092.png" alt="image-20230310162808092" style="zoom:40%;">
+<ul>
+<li><u><em><strong>Resource Manager</strong></em></u>：<u><em><strong>整个集群</strong></em></u>资源（内存、CPU）的管理者；</li>
+<li><u><em><strong>Node Manager</strong></em></u>：<u><em><strong>单个节点</strong></em></u>服务器的资源管理者；</li>
+<li><u><em><strong>Container</strong></em></u>：容器概念，封装了任务运行时所需的资源，如内存、CPU、磁盘、网络等；</li>
+<li><u><em><strong>Application Master</strong></em></u>：<u><em><strong>单个任务</strong></em></u>运行的资源管理者，一个集群上可以运行多个AppMaster</li>
+<li><u><em><strong>Client</strong></em></u>：客户端接口，同一个集群可以支持多客户端访问</li>
+</ul>
+<h4 id="map-reduce-架构概述"><a class="markdownIt-Anchor" href="#map-reduce-架构概述"></a> Map-Reduce 架构概述</h4>
+<p><u><em><strong>Map-Reduce</strong></em></u> 将计算过程分为<u><em><strong>两个阶段</strong></em></u>：<u><em><strong>Map 阶段</strong></em></u>和 <u><em><strong>Reduce 阶段</strong></em></u>。</p>
+<ul>
+<li><u><em><strong>Map 阶段</strong></em></u>：进行并行处理输入数据；</li>
+<li><u><em><strong>Reduce 阶段</strong></em></u>：对 Map 的结果进行汇总。</li>
+</ul>
+<img src="/2023/03/10/BigData-tutorial/image-20230310170318754.png" alt="image-20230310170318754" style="zoom:40%;">
+<h4 id="hdfs-yarn-mapreduce-三者关系"><a class="markdownIt-Anchor" href="#hdfs-yarn-mapreduce-三者关系"></a> HDFS、YARN、MapReduce 三者关系</h4>
+<img src="/2023/03/10/BigData-tutorial/image-20230310173331360.png" alt="image-20230310173331360" style="zoom:40%;">
+<p>在上图中，<font color="green">绿色系</font>代表<u><em><strong>HDFS 结构</strong></em></u>，<font color="red">红色系</font>代表 <u><em><strong>YARN 结构</strong></em></u>，<font color="orange">橙色系</font>代表 <u><em><strong>Map-Reduce 结构</strong></em></u></p>
+<h2 id="12-hdfs"><a class="markdownIt-Anchor" href="#12-hdfs"></a> 1.2 HDFS</h2>
+<h3 id="hdfs-概述"><a class="markdownIt-Anchor" href="#hdfs-概述"></a> HDFS 概述</h3>
+<h4 id="hdfs-产生背景"><a class="markdownIt-Anchor" href="#hdfs-产生背景"></a> HDFS 产生背景</h4>
+<p>随着数据量越来越大，在一个操作系统存不下所有的数据，那么就分配到更多的操作系统管理的磁盘中，但是不方便管理和维护，迫切需要一种系统来管理多台机器上的文件，这就是分布式文件管理系统。HDFS 只是分布式文件管理系统中的一种。</p>
+<h4 id="hdfs-定义"><a class="markdownIt-Anchor" href="#hdfs-定义"></a> HDFS 定义</h4>
+<p>HDFS (Hadoop Distributed File System），它是一个<u><em><strong>文件系统</strong></em></u>，用于存储文件，通过目录树来定位文件；其次，它是<u><em><strong>分布式</strong></em></u>的，由很多服务器联合起来实现其功能，集群中的服务器有各自的角色。</p>
+<p>HDFS 的使用场景：<u><em><strong>适合一次写入，多次读出的场景</strong></em></u>。一个文件经过创建、写入和关闭之后就不需要改变。</p>
+<h4 id="hdfs-优缺点"><a class="markdownIt-Anchor" href="#hdfs-优缺点"></a> HDFS 优缺点</h4>
+<p>【<u><em><strong>优点</strong></em></u>】</p>
+<ol>
+<li>高容错性：数据自动保存多个副本，某个副本丢失后，可以自动恢复。</li>
+<li>适合处理大数据：包括单体大容量文件（单个文件规模达到 TB 甚至 PB 级）和百万规模以上的文件数量</li>
+<li>可以构建在廉价的机器上</li>
+</ol>
+<p>【<u><em><strong>缺点</strong></em></u>】</p>
+<ol>
+<li>不适合低延时的数据访问，比如毫秒级的存储数据</li>
+<li>无法高效地对大量<u><em><strong>小文件</strong></em></u>进行存储</li>
+<li>不支持并发写入、文件随机修改（支持内容追加）</li>
+</ol>
+<h3 id="hdfs-组成架构"><a class="markdownIt-Anchor" href="#hdfs-组成架构"></a> HDFS 组成架构</h3>
+<img src="/2023/03/10/BigData-tutorial/image-20230310182920248.png" alt="image-20230310182920248" style="zoom:35%;">
+<p>在上图中：</p>
+<ul>
+<li>
+<p><u><em><strong>NameNode</strong></em></u> (nn)：就是 Master，它是一个主管、管理者。</p>
+<ul>
+<li>管理 HDFS 的名称空间；</li>
+<li>配置副本策略；</li>
+<li>管理数据块 （Block）映射信息，</li>
+<li>处理客户端读写请求。</li>
+</ul>
+</li>
+<li>
+<p><u><em><strong>DataNode</strong></em></u> (dn)：就是 Worker。 NameNode 下达命令，DataNode 执行实际的操作。</p>
+<ul>
+<li>存储实际的数据块</li>
+<li>执行数据块的读/写操作</li>
+</ul>
+</li>
+<li>
+<p><u><em><strong>Secondary NameNode</strong></em></u> (2nn)：并非 <u><em><strong>NameNode</strong></em></u> 的热备份，当 NameNode 崩溃的时候，它并不能马上替换NameNode 并提供服务。</p>
+<ul>
+<li>辅助 NameNode，分担其工作量，比如定期合并 Fsimauge 和 Edits， 并推送给 NameNode；</li>
+<li>在紧急情况下，可辅助<u><em><strong>部分</strong></em></u>恢复 NameNode</li>
+</ul>
+</li>
+<li>
+<p><u><em><strong>Client</strong></em></u>：即客户端。其功能有：</p>
+<ul>
+<li>文件切分。文件上传 HDFS 的时候，Client 将文件切分成一个一个的 <u><em><strong>Block</strong></em></u>（可更改，默认 <code>128MB</code>），然后进行上传；</li>
+<li><u><em><strong>与 NameNode 交互</strong></em></u>，获取文件的<u><em><strong>位置信息</strong></em></u>；</li>
+<li><u><em><strong>与 DataNode 交互</strong></em></u>，<u><em><strong>读写数据</strong></em></u>；</li>
+<li>Client 提供一些命令来管理或访问 HDFS，比如 NameNode 格式化；</li>
+</ul>
+</li>
+</ul>
+<h2 id="13-map-reduce"><a class="markdownIt-Anchor" href="#13-map-reduce"></a> 1.3 Map-Reduce</h2>
+<h3 id="mapreduce-概述"><a class="markdownIt-Anchor" href="#mapreduce-概述"></a> MapReduce 概述</h3>
+<h4 id="mapreduce-定义"><a class="markdownIt-Anchor" href="#mapreduce-定义"></a> MapReduce 定义</h4>
+<p>MapReduce 是一个<u><em><strong>分布式运算程序</strong></em></u>的<u><em><strong>编程框架</strong></em></u>，是用户开发“基于 Hadoop 的数据分析应用”的核心框架。</p>
+<p>MapReduce 核心功能是将用户编写的业务逻辑代码和自带默认组件整合成一个完整的<u><em><strong>分布式运算程序</strong></em></u>，并发运行在一个Hadoop 集群上。</p>
+<h4 id="mapreduce-优缺点"><a class="markdownIt-Anchor" href="#mapreduce-优缺点"></a> MapReduce 优缺点</h4>
+<p>【<u><em><strong>优点</strong></em></u>】</p>
+<ul>
+<li>MapReduce 易于编程：用户可以通过简单地实现一些框架接口，就可以完成一个分布式程序。用户只需要关心业务逻辑。</li>
+<li>良好的扩展性：可以动态增加服务器，解决计算资源不够的问题</li>
+<li>高容错性：任何节点崩溃后，可以将任务转移到其他节点</li>
+<li>适合海量数据计算（TB/PB），千台服务器共同计算</li>
+</ul>
+<p>【<u><em><strong>缺点</strong></em></u>】</p>
+<ul>
+<li>不擅长实时计算</li>
+<li>不擅长流式计算</li>
+<li>不擅长 DAG 有向无环图计算（迭代计算）</li>
+</ul>
+<h5 id="以-wordcount-为例子介绍-mapreduce-流程"><a class="markdownIt-Anchor" href="#以-wordcount-为例子介绍-mapreduce-流程"></a> 以 <code>wordCount</code> 为例子，介绍 MapReduce 流程</h5>
+<ol>
+<li>
+<p>输入数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Hello World Bye World</span><br><span class="line">Goodbye Man</span><br><span class="line">Hello Hadoop Goodbye Hadoop</span><br><span class="line">Goodbye Grid</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>输出数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;Hello, <span class="number">2</span>&gt;</span><br><span class="line">&lt;World, <span class="number">2</span>&gt;</span><br><span class="line">&lt;Bye, <span class="number">1</span>&gt;</span><br><span class="line">&lt;Goodbye, <span class="number">3</span>&gt;</span><br><span class="line">&lt;Man, <span class="number">1</span>&gt;</span><br><span class="line">&lt;Hadoop, <span class="number">2</span>&gt;</span><br><span class="line">&lt;Grid, <span class="number">1</span>&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>Mapper</code></p>
+<ul>
+<li>
+<p>将 <code>MapTask</code> 传给我们的文本内容按行读取为 <code>String</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello World Bye World</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>根据空格将这一行单词切分成单词</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Hello</span><br><span class="line">World</span><br><span class="line">Bye</span><br><span class="line">World</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>将单词输出为 <code>&lt;单词, 1&gt;</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;Hello, <span class="number">1</span>&gt;</span><br><span class="line">&lt;World, <span class="number">1</span>&gt;</span><br><span class="line">&lt;Bye, <span class="number">1</span>&gt;</span><br><span class="line">&lt;World, <span class="number">1</span>&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><code>Reducer</code></p>
+<ul>
+<li>
+<p>汇总各个 key 的个数：<code>&lt;K, &#123;V&#125;&gt;</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Hello, [<span class="number">1</span>]&gt;</span><br><span class="line">&lt;World, [<span class="number">1</span>,<span class="number">1</span>]&gt;</span><br><span class="line">&lt;Bye, [<span class="number">1</span>]&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>输出该 key 的总次数：<code>&lt;K, V&gt;</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Hello, <span class="number">1</span>&gt;</span><br><span class="line">&lt;World, <span class="number">2</span>&gt;</span><br><span class="line">&lt;Bye, <span class="number">1</span>&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><code>Driver</code></p>
+<ul>
+<li>获取配置信息，获取 <code>job</code> 对象示例</li>
+<li>指定本程序 <code>jar</code> 包所在的本地路径</li>
+<li>关联 <code>Mapper/Reducer</code> 业务类</li>
+<li>指定 <code>Mapper</code> 输出数据的 kv 类型</li>
+<li>指定最终输出的数据的 kv 类型</li>
+<li>指定 <code>job</code> 的原始输入文件所在目录</li>
+<li>指定 <code>job</code> 的输出结果所在目录</li>
+<li>提交作业</li>
+</ul>
+</li>
+</ol>
+<h1 id="2-spark"><a class="markdownIt-Anchor" href="#2-spark"></a> 2. Spark</h1>
+<p>与 Hadoop 每次 Map-Reduce 每次计算都要将结果写入磁盘不同，Spark 是一种<u><em><strong>基于内存</strong></em></u>的，快速、通用、可扩展的大数据分析计算引擎。</p>
+<h2 id="21-spark-与-hadoop-的区别"><a class="markdownIt-Anchor" href="#21-spark-与-hadoop-的区别"></a> 2.1 Spark 与 Hadoop 的区别</h2>
+<ol>
+<li>
+<p>应用场景不同</p>
+<p>Hadoop 和 Spark两者都是大数据框架，但是各自应用场景是不同的。Hadoop是一个分布式数据存储架构，它将巨大的数据集分派到一个由普通计算机组成的集群中的多个节点进行存储，降低了硬件的成本。Spark 是那么一个专门用来对那些分布式存储的大数据进行处理的工具，它要借助 HDFS 的数据存储。</p>
+</li>
+<li>
+<p>处理速度不同</p>
+<p>Hadoop 的 MapReduce 是分步对数据进行处理的，从磁盘中读取数据，进行一次处理，将结果写到磁盘，然后在从磁盘中读取更新后的数据，再次进行的处理，最后再将结果存入磁盘，这存取磁盘的过程会影响处理速度。Spark 从磁盘中读取数据，把中间数据放到内存中，完成所有必须的分析处理，将结果写回集群，所以 Spark 更快。</p>
+</li>
+<li>
+<p>容错性不同</p>
+<p>Hadoop 将每次处理后的数据都写入到<u><em><strong>磁盘</strong></em></u>上，基本谈不上断电或者出错数据丢失的情况。Spark 的数据对象存储在<u><em><strong>内存</strong></em></u>中的弹性分布式数据集 <u><em><strong>RDD</strong></em></u>，<u><em><strong>RDD</strong></em></u> 是分布在一组节点中的只读对象集合，如果数据集一部分丢失，则可以根据于数据衍生过程对它们进行重建。而且 RDD 计算时可以通过  CheckPoint 来实现容错。</p>
+<img src="/2023/03/10/BigData-tutorial/image-20230312094904978.png" alt="image-20230312094904978" style="zoom:50%;">
+</li>
+</ol>
+<h2 id="22-spark-的架构"><a class="markdownIt-Anchor" href="#22-spark-的架构"></a> 2.2 Spark 的架构</h2>
+<h3 id="yarn-架构回顾"><a class="markdownIt-Anchor" href="#yarn-架构回顾"></a> YARN 架构回顾</h3>
+<p>YARN 主要有 4 类角色，可以从两个层面去看：</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://lostnfound.top">Guohao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lostnfound.top/2023/03/10/BigData-tutorial/">https://lostnfound.top/2023/03/10/BigData-tutorial/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lostnfound.top" target="_blank">Lost N Found</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></div><div class="post_share"><div class="social-share" data-image="/linear-gradient(45deg,%20#8EC3B0,%20#9ED5C5,%20#F8C4B4,%20#FF8787)" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Guohao</div><div class="author-info__description">L’existence précède l‘essence</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Dave0126" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:dave980126@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-hadoop"><span class="toc-text"> 1. Hadoop</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#11-hadoop-%E5%85%A5%E9%97%A8%E6%A6%82%E5%BF%B5"><span class="toc-text"> 1.1 Hadoop 入门概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hadoop-%E7%9A%84%E7%BB%84%E6%88%90"><span class="toc-text"> Hadoop 的组成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#hadoop-1x-%E5%92%8C-20-%E7%9A%84%E7%BB%84%E6%88%90"><span class="toc-text"> Hadoop 1.x 和 2.0 的组成</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hdfs-%E6%9E%B6%E6%9E%84%E6%A6%82%E8%BF%B0"><span class="toc-text"> HDFS 架构概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#yarn-%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0"><span class="toc-text"> YARN 结构概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#map-reduce-%E6%9E%B6%E6%9E%84%E6%A6%82%E8%BF%B0"><span class="toc-text"> Map-Reduce 架构概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hdfs-yarn-mapreduce-%E4%B8%89%E8%80%85%E5%85%B3%E7%B3%BB"><span class="toc-text"> HDFS、YARN、MapReduce 三者关系</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-hdfs"><span class="toc-text"> 1.2 HDFS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hdfs-%E6%A6%82%E8%BF%B0"><span class="toc-text"> HDFS 概述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#hdfs-%E4%BA%A7%E7%94%9F%E8%83%8C%E6%99%AF"><span class="toc-text"> HDFS 产生背景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hdfs-%E5%AE%9A%E4%B9%89"><span class="toc-text"> HDFS 定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hdfs-%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text"> HDFS 优缺点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hdfs-%E7%BB%84%E6%88%90%E6%9E%B6%E6%9E%84"><span class="toc-text"> HDFS 组成架构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-map-reduce"><span class="toc-text"> 1.3 Map-Reduce</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mapreduce-%E6%A6%82%E8%BF%B0"><span class="toc-text"> MapReduce 概述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mapreduce-%E5%AE%9A%E4%B9%89"><span class="toc-text"> MapReduce 定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mapreduce-%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text"> MapReduce 优缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%A5-wordcount-%E4%B8%BA%E4%BE%8B%E5%AD%90%E4%BB%8B%E7%BB%8D-mapreduce-%E6%B5%81%E7%A8%8B"><span class="toc-text"> 以 wordCount 为例子，介绍 MapReduce 流程</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-spark"><span class="toc-text"> 2. Spark</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#21-spark-%E4%B8%8E-hadoop-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text"> 2.1 Spark 与 Hadoop 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#22-spark-%E7%9A%84%E6%9E%B6%E6%9E%84"><span class="toc-text"> 2.2 Spark 的架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#yarn-%E6%9E%B6%E6%9E%84%E5%9B%9E%E9%A1%BE"><span class="toc-text"> YARN 架构回顾</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #8EC3B0"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By Guohao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: 'ea138c6f176d57705144',
+      clientSecret: 'c999d74b366c68c80bc3b704c716a8ff8d67af6d',
+      repo: 'Dave0126.github.io',
+      owner: 'Dave0126',
+      admin: ['Dave0126'],
+      id: '8e1a8562c0b27662facbf1b841f56b9a',
+      updateCountCallback: commentCount
+    },))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div></div></body></html>
