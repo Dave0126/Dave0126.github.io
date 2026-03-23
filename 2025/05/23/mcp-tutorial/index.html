@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Guohao" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  <meta name="description" content="L’existence précède l‘essence" />
+  
+  
+  
+  <title>
+    
+      mcp_tutorial 
+      
+      
+      |
+    
+     Lost N Found
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Guohao</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">mcp_tutorial</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2026-03-24 00:03:39
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="标签"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/LLM/" title="LLM">
+                    #LLM
+                  </a>
+                </span>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/Anthropic/" title="Anthropic">
+                    #Anthropic
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <p>写在前面：</p>
+<p>本文章是关于 Anthropic 公司开源协议框架 MPC 的部分学习笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。</p>
+<p>参考文档：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/docs/getting-started/intro">Anthropic 官方文档（EN）</a></li>
+</ul>
+<hr>
+<h1 id="MCP-与-FunctionCalling-的关系"><a href="#MCP-与-FunctionCalling-的关系" class="headerlink" title="MCP 与 FunctionCalling 的关系"></a>MCP 与 FunctionCalling 的关系</h1><h2 id="什么是-FunctionCalling"><a href="#什么是-FunctionCalling" class="headerlink" title="什么是 FunctionCalling"></a>什么是 FunctionCalling</h2><blockquote>
+<p>Function Calling 能让 LLM 触发外部行为，是因为：它把“行为”编码成了模型可以预测的“文本结构”。</p>
+</blockquote>
+<p>无论多复杂，LLM 本质只有一个能力：<strong>预测下一个 token</strong>。那么为什么“预测 token”可以变成“触发行为”？</p>
+<ul>
+<li>没有 Function Calling 时，模型只能输出：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">今天天气是 20 度</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>有 Function Calling 时，我们给模型一种“特殊语言”：</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;get_weather&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;arguments&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;city&quot;</span><span class="punctuation">:</span> <span class="string">&quot;上海&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>由此可见，函数调用（Function Calling）并不是真正调用，而是一段“特定格式（格式化）的文本”。</p>
+<p><strong>真正的触发发生在哪里？</strong></p>
+<ul>
+<li><strong>模型</strong>做的事：输出 JSON</li>
+<li><strong>系统</strong>做的事：解析 JSON $\to$ 调用函数 $\to$ 返回结果</li>
+</ul>
+<p>所以，触发行为的不是 LLM本身，而是“系统解释&#x2F;调用了 LLM 的输出”。</p>
+<p><strong>为什么模型“会说这种话”？</strong></p>
+<p>因为我们在训练或提示中做了两件事：给它工具说明（Schema）&#x2F;告诉它规则，所以当 $P(\text{function call} | 输入) &gt; P(文本 | 输入)$时，模型就会输出“特定格式的文本”。</p>
+<p>由此可见，针对不同的模型实现相同的 Function Calling 往往需要针对性开发适配，而 MCP 的出现很好的解决了规范性的问题（协议）。</p>
+<h2 id="Function-Calling-VS-MCP"><a href="#Function-Calling-VS-MCP" class="headerlink" title="Function Calling VS. MCP"></a>Function Calling VS. MCP</h2><p>Function Calling 解决了“模型怎么调用自定义函数”，但在实际使用中还面临一些问题：</p>
+<ul>
+<li>多个工具组成的调用链（先查天气、再发邮件）</li>
+<li>工具参数结构的规范与自动注册</li>
+<li>不同调用方式的适配（HTTP、本地插件等）</li>
+<li>在不同模型间复用统一的工具体系</li>
+</ul>
+<p>MCP 是由 Anthropic 推出的开放标准协议，旨在为大模型和外部工具之间的通信提供<strong>通用接口</strong>。它不是 Function Calling 的替代，而是对其在<strong>执行层面</strong>的进一步规范和封装，使工具系统<strong>更易接入、更易管理、更易复用</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Function Calling</th>
+<th>MCP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>目标</td>
+<td>让模型调用函数</td>
+<td>标准化工具接入</td>
+</tr>
+<tr>
+<td>面向对象</td>
+<td>LLM</td>
+<td>系统 &#x2F; Agent &#x2F; 工具生态</td>
+</tr>
+<tr>
+<td>关注点</td>
+<td>调用“哪个函数 + 参数”</td>
+<td>工具“怎么被发现 + 调用”</td>
+</tr>
+<tr>
+<td>本质</td>
+<td>推理能力增强</td>
+<td>通信协议</td>
+</tr>
+</tbody></table>
+<h1 id="MCP-核心角色"><a href="#MCP-核心角色" class="headerlink" title="MCP 核心角色"></a>MCP 核心角色</h1><p>MCP 采用客户端-服务端架构（CS），其中 MCP 宿主（Host），如 Claude Code 等 AI 应用，会建立与一个或多个 MCP 服务端的连接。MCP 宿主通过为每个 MCP 服务端创建一个 MCP 客户端来实现这一点。每个 MCP 客户端与其对应的 MCP 服务端保持专用连接。以下是 MCP 官方展示的架构：</p>
+<p><img src="/2025-05-23-mcp-tutorial/2430457-20250512135338388-1937866079.png" alt="2430457-20250512135338388-1937866079"></p>
+<h2 id="MCP-Client"><a href="#MCP-Client" class="headerlink" title="MCP Client"></a>MCP Client</h2><ul>
+<li>向 MCP Server 请求工具列表</li>
+<li>使用 HTTP 或 stdio 协议发起工具调用请求</li>
+</ul>
+<p>例如，聊天应用类，提供自然语言交互服务，让用户通过对话调用 AI 能力；编码工具类，在 IDE 里调用外部应用和系统的能力；任务自动化类，帮用户自动化执行重复性任务，如数据处理、流程调度，以提升效率。</p>
+<h2 id="MCP-Server"><a href="#MCP-Server" class="headerlink" title="MCP Server"></a>MCP Server</h2><ul>
+<li>接收 tool_calls，根据调用内容执行对应工具</li>
+<li>返回统一格式的结构化结果</li>
+</ul>
+<p>例如，数据库类（如 ClickHouse、Supabase）负责数据存储、查询与管理；设计类（如 Figma、Blender）支撑设计创作、文件协作等功能；生产力工具类（如 Notion、Obsidian）提供笔记管理、知识整理等办公协作服务；支付类（如 Stripe），处理在线支付交易，支持商业场景的资金流转。</p>
+<h2 id="MCP-分层"><a href="#MCP-分层" class="headerlink" title="MCP 分层"></a>MCP 分层</h2><p>MCP 由两层组成</p>
+<ul>
+<li><strong>数据层</strong>：定义基于 <strong>JSON-RPC</strong> 的客户端-服务端通信协议，包括生命周期管理以及工具、资源、提示词和通知等核心原语。</li>
+<li><strong>传输层</strong>：定义支持客户端和服务端之间数据交换的通信机制和通道，包括特定传输方式的连接建立、消息分帧和授权。</li>
+</ul>
+<p>从概念上讲，数据层是内层，而传输层是外层。</p>
+<h3 id="数据层"><a href="#数据层" class="headerlink" title="数据层"></a>数据层</h3><p>数据层实现了一个基于 <a target="_blank" rel="noopener" href="https://www.jsonrpc.org/">JSON-RPC 2.0</a> 的交互协议，定义了消息结构和语义。该层包括</p>
+<ul>
+<li><strong>生命周期管理</strong>：处理客户端和服务端之间的连接初始化、能力协商和连接终止</li>
+<li><strong>服务端特性</strong>：使服务端能够提供核心功能，包括用于 AI 操作的“工具”、用于上下文数据的“资源”以及用于交互模板的“提示词”</li>
+<li><strong>客户端特性</strong>：使服务端能够请求客户端从宿主 LLM 进行采样、引导用户输入以及向客户端记录日志消息</li>
+<li><strong>实用特性</strong>：支持额外功能，如用于实时更新的“通知”和用于长时间运行操作的“进度跟踪”</li>
+</ul>
+<h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>传输层管理客户端和服务端之间的通信通道和认证。它负责处理 MCP 参与者之间的连接建立、消息分帧和安全通信。MCP 支持两种传输机制：</p>
+<ul>
+<li><strong>Stdio 传输</strong>：使用标准输入&#x2F;输出流进行同一机器上本地进程间的直接通信，提供无网络开销的最佳性能。<ul>
+<li><strong>可流式 HTTP 传输</strong>：使用 <code>HTTP POST</code> 发送客户端到服务端的请求，并结合可选的服务器发送事件 (SSE) 实现流式功能。此传输方式支持远程服务器通信，并支持标准 HTTP 认证方法，包括 Bearer 令牌、API 密钥和自定义标头。MCP 建议使用 <code>OAuth</code> 来获取身份验证令牌。</li>
+</ul>
+</li>
+</ul>
+<p>传输层将通信细节从协议层中抽象出来，使得相同的 JSON-RPC 2.0 消息格式可以在所有传输机制中使用。</p>
+<h2 id="MCP-原语"><a href="#MCP-原语" class="headerlink" title="MCP 原语"></a>MCP 原语</h2><p>MCP 原语是 MCP 中最重要的概念。它们定义了客户端和服务端可以相互提供的内容。这些原语指定了可以与 AI 应用共享的上下文信息类型以及可以执行的操作范围。MCP 定义了 <strong>服务端</strong> 可以暴露的三种核心原语：</p>
+<ul>
+<li><strong>工具 (Tools)</strong>：AI 应用可以调用以执行操作的可执行函数（例如：文件操作、API 调用、数据库查询）</li>
+<li><strong>资源 (Resources)</strong>：为 AI 应用提供上下文信息的数据源（例如：文件内容、数据库记录、API 响应）</li>
+<li><strong>提示词 (Prompts)</strong>：帮助构建与语言模型交互的可重用模板（例如：系统提示词、少样本示例）</li>
+</ul>
+<p>每种原语类型都有关联的发现 (<code>*/list</code>)、获取 (<code>*/get</code>) 以及在某些情况下的执行 (<code>tools/call</code>) 方法。MCP 客户端将使用 <code>*/list</code> 方法来发现可用的原语。</p>
+<p>例如，客户端可以先列出所有可用工具 (<code>tools/list</code>) 然后执行它们。这种设计允许列表是动态的。举一个具体的例子，考虑一个提供数据库上下文的 MCP 服务端。它可以暴露用于查询数据库的“工具”，一个包含数据库模式的“资源”，以及一个包含与工具交互的少样本示例的“提示词”。</p>
+<p>MCP 还定义了 <strong>客户端</strong> 可以暴露的原语。这些原语允许 MCP 服务端作者构建更丰富的交互。</p>
+<ul>
+<li><strong>采样 (Sampling)</strong>：允许服务端请求客户端 AI 应用进行语言模型补全。当服务端作者想要访问语言模型，但希望保持模型独立且不愿在 MCP 服务端中包含语言模型 SDK 时，这非常有用。他们可以使用 <code>sampling/complete</code> 方法请求客户端 AI 应用进行语言模型补全。</li>
+<li><strong>引导 (Elicitation)</strong>：允许服务端向用户请求额外信息。当服务端作者想要从用户那里获取更多信息或请求对某项操作的确认时，这非常有用。他们可以使用 <code>elicitation/request</code> 方法向用户请求额外信息。</li>
+<li><strong>日志记录 (Logging)</strong>：使服务端能够向客户端发送日志消息，用于调试和监控目的。</li>
+</ul>
+<h2 id="数据层生命周期序列"><a href="#数据层生命周期序列" class="headerlink" title="数据层生命周期序列"></a>数据层生命周期序列</h2><h3 id="1-初始化（生命周期管理）"><a href="#1-初始化（生命周期管理）" class="headerlink" title="1. 初始化（生命周期管理）"></a>1. 初始化（生命周期管理）</h3><p>MCP 从通过能力协商握手（capability negotiation handshake）进行的生命周期管理开始，客户端发送 <code>initialize</code> 请求以建立连接并协商支持的特性。</p>
+<ul>
+<li>初始化请求</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;initialize&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;params&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;protocolVersion&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2025-05-18&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;capabilities&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;elicitation&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;clientInfo&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;example-client&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1.0.0&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>初始化响应</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;result&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;protocolVersion&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2025-05-18&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;capabilities&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;tools&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;listChanged&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;resources&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;serverInfo&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;example-server&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1.0.0&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>初始化过程是 MCP 生命周期管理的关键部分，具有几个重要目的</p>
+<ol>
+<li><strong>协议版本协商</strong>：<code>protocolVersion</code> 字段（例如 <code>&quot;2025-05-18&quot;</code>）确保客户端和服务端使用的是兼容的协议版本。这可以防止不同版本尝试交互时可能发生的通信错误。如果没有协商出共同兼容的版本，则应终止连接。</li>
+<li><strong>能力发现</strong>：<code>capabilities</code> 对象允许各方声明它们支持哪些特性，包括它们可以处理哪些原语（工具、资源、提示词）以及是否支持通知等特性。这通过避免不支持的操作来实现高效通信。</li>
+<li><strong>身份交换</strong>：<code>clientInfo</code> 和 <code>serverInfo</code> 对象提供标识和版本信息，用于调试和兼容性目的。</li>
+</ol>
+<p>在此示例中，能力协商展示了 MCP 原语是如何声明的：</p>
+<ul>
+<li><p><strong>客户端能力</strong>：</p>
+<ul>
+<li><code>&quot;elicitation&quot;: {}</code> - 客户端声明它可以处理用户交互请求（可以接收 <code>elicitation/create</code> 方法调用）</li>
+</ul>
+</li>
+<li><p><strong>服务端能力</strong>:</p>
+<ul>
+<li><code>&quot;tools&quot;: {&quot;listChanged&quot;: true}</code> - 服务端支持工具原语，并且可以在工具列表更改时发送 <code>tools/list_changed</code> 通知</li>
+<li><code>&quot;resources&quot;: {}</code> - 服务端还支持资源原语（可以处理 <code>resources/list</code> 和 <code>resources/read</code> 方法）</li>
+</ul>
+</li>
+</ul>
+<p>初始化成功后，客户端发送通知表示已就绪</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;notifications/initialized&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>在初始化期间，AI 应用的 MCP 客户端管理器会建立与已配置服务端的连接，并存储它们的能力以备后用。应用使用此信息来确定哪些服务端可以提供特定类型的功能（工具、资源、提示词）以及它们是否支持实时更新。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 伪代码</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">with</span> stdio_client(server_config) <span class="keyword">as</span> (read, write):</span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> ClientSession(read, write) <span class="keyword">as</span> session:</span><br><span class="line">        init_response = <span class="keyword">await</span> session.initialize()</span><br><span class="line">        <span class="keyword">if</span> init_response.capabilities.tools:</span><br><span class="line">            app.register_mcp_server(session, supports_tools=<span class="literal">True</span>)</span><br><span class="line">        app.set_server_ready(session)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-工具发现（原语）"><a href="#2-工具发现（原语）" class="headerlink" title="2. 工具发现（原语）"></a>2. 工具发现（原语）</h3><p>既然连接已建立，客户端就可以通过发送 <code>tools/list</code> 请求来发现可用的工具。此请求是 MCP 工具发现机制的基础——它允许客户端在尝试使用工具之前了解服务端上有哪些工具可用。</p>
+<ul>
+<li>工具列表请求：<code>tools/list</code> 请求很简单，不包含任何参数。</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tools/list&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>工具列表响应：</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;result&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;tools&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;calculator_arithmetic&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;title&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Calculator&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Perform mathematical calculations including basic arithmetic, trigonometric functions, and algebraic operations&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;inputSchema&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;expression&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Mathematical expression to evaluate (e.g., &#x27;2 + 3 * 4&#x27;, &#x27;sin(30)&#x27;, &#x27;sqrt(16)&#x27;)&quot;</span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">          <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;required&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;expression&quot;</span><span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;weather_current&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;title&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Weather Information&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Get current weather information for any location worldwide&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;inputSchema&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;location&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;City name, address, or coordinates (latitude,longitude)&quot;</span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;units&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;enum&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;metric&quot;</span><span class="punctuation">,</span> <span class="string">&quot;imperial&quot;</span><span class="punctuation">,</span> <span class="string">&quot;kelvin&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Temperature units to use in response&quot;</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;default&quot;</span><span class="punctuation">:</span> <span class="string">&quot;metric&quot;</span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">          <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;required&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;location&quot;</span><span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应包含一个 <code>tools</code> 数组，提供有关每个可用工具的详尽元数据。这种基于数组的结构允许服务端同时暴露多个工具，同时保持不同功能之间的清晰界限。响应中的每个工具对象包含几个关键字段：</p>
+<ul>
+<li><code>name</code>：服务端命名空间内工具的唯一标识符。这是工具执行的主键，应遵循清晰的命名模式（例如：<code>calculator_arithmetic</code> 而不仅仅是 <code>calculate</code>）</li>
+<li><code>title</code>：工具的人类可读显示名称，客户端可以向用户显示</li>
+<li><code>description</code>：关于工具用途及何时使用的详细说明</li>
+<li><code>inputSchema</code>：一个 JSON Schema，定义了预期的输入参数，支持类型验证并提供关于必填和可选参数的清晰文档。</li>
+</ul>
+<p>AI 应用从所有连接的 MCP 服务端获取可用工具，并将它们合并到一个语言模型可以访问的统一工具注册表中。这使得 LLM 能够理解它可以执行哪些操作，并在对话期间自动生成适当的工具调用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 伪代码</span></span><br><span class="line">available_tools = []</span><br><span class="line"><span class="keyword">for</span> session <span class="keyword">in</span> app.mcp_server_sessions():</span><br><span class="line">    tools_response = <span class="keyword">await</span> session.list_tools()</span><br><span class="line">    available_tools.extend(tools_response.tools)</span><br><span class="line">conversation.register_available_tools(available_tools)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-工具执行（原语）"><a href="#3-工具执行（原语）" class="headerlink" title="3. 工具执行（原语）"></a>3. 工具执行（原语）</h3><p>客户端现在可以使用 <code>tools/call</code> 方法执行工具。这演示了 MCP 原语在实践中是如何使用的：在发现可用工具后，客户端可以使用适当的参数调用它们。</p>
+<ul>
+<li>工具调用请求：<code>tools/call</code> 请求遵循结构化格式，确保客户端和服务端之间的类型安全和清晰通信。</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tools/call&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;params&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;weather_current&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;arguments&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;location&quot;</span><span class="punctuation">:</span> <span class="string">&quot;San Francisco&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;units&quot;</span><span class="punctuation">:</span> <span class="string">&quot;imperial&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>请求结构包含几个重要部分</p>
+<ol>
+<li><code>name</code>：必须与发现响应中的工具名称 (<code>weather_current</code>) 完全匹配。这确保了服务端可以正确识别要执行哪个工具。</li>
+<li><code>arguments</code>：包含由工具的 <code>inputSchema</code> 定义的输入参数。在本例中<ul>
+<li><code>location</code>: “San Francisco”（必填参数）</li>
+<li><code>units</code>: “imperial”（可选参数，如果不指定则默认为 “metric”）</li>
+</ul>
+</li>
+<li><strong>JSON-RPC 结构</strong>：使用标准 JSON-RPC 2.0 格式，带有用于请求-响应关联的唯一 <code>id</code>。</li>
+</ol>
+<ul>
+<li>工具调用相应：</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;result&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Current weather in San Francisco: 68°F, partly cloudy with light winds from the west at 8 mph. Humidity: 65%&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应展示了 MCP 灵活的内容系统</p>
+<ol>
+<li><code>content</code> 数组：工具响应返回内容对象的数组，支持丰富的多格式响应（文本、图像、资源等）</li>
+<li><code>content</code>类型：每个内容对象都有一个 <code>type</code> 字段。在本例中，<code>&quot;type&quot;: &quot;text&quot;</code> 表示纯文本内容，但 MCP 支持针对不同用例的各种内容类型。</li>
+<li><strong>结构化输出</strong>：响应提供了可操作的信息，AI 应用可以将其用作语言模型交互的上下文。</li>
+</ol>
+<p>这种执行模式允许 AI 应用动态调用服务端功能，并接收可以集成到与语言模型对话中的结构化响应。</p>
+<p>当语言模型在对话期间决定使用工具时，AI 应用会拦截该工具调用，将其路由到适当的 MCP 服务端执行，并将结果作为对话流的一部分返回给 LLM。这使得 LLM 能够访问实时数据并在外部世界执行操作。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 伪代码</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">handle_tool_call</span>(<span class="params">conversation, tool_name, arguments</span>):</span><br><span class="line">    session = app.find_mcp_session_for_tool(tool_name)</span><br><span class="line">    result = <span class="keyword">await</span> session.call_tool(tool_name, arguments)</span><br><span class="line">    conversation.add_tool_result(result.content)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-实时更新（通知）"><a href="#4-实时更新（通知）" class="headerlink" title="4. 实时更新（通知）"></a>4. 实时更新（通知）</h3><p>MCP 支持实时通知，使服务端能够告知客户端更改而无需明确请求。这是一个保持 MCP 连接同步和响应灵敏的关键特性。当服务端的可用工具发生变化时，例如新功能上线、现有工具被修改或工具暂时不可用，服务端可以主动通知已连接的客户端。</p>
+<p> MCP 通知的主要特性</p>
+<ol>
+<li><strong>无需响应</strong>：请注意通知中没有 <code>id</code> 字段。这遵循了 JSON-RPC 2.0 通知语义，即不期望也不发送响应。</li>
+<li><strong>基于能力</strong>：此通知仅由在初始化期间在其工具能力中声明了 <code>&quot;listChanged&quot;: true</code> 的服务端发送（如步骤 1 所示）。</li>
+<li><strong>事件驱动</strong>：服务端根据内部状态更改决定何时发送通知，使 MCP 连接具有动态性和响应性。</li>
+</ol>
+<ul>
+<li>请求</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;notifications/tools/list_changed&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>收到此通知后，客户端通常会通过请求更新后的工具列表来做出反应。这创建了一个刷新循环，使客户端对可用工具的理解保持最新。</p>
+<ul>
+<li>响应</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tools/list&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>此通知系统至关重要，原因如下：</p>
+<ol>
+<li><strong>动态环境</strong>：工具可能会根据服务端状态、外部依赖或用户权限而出现或消失</li>
+<li><strong>效率</strong>：客户端不需要轮询更改；当更新发生时它们会被通知</li>
+<li><strong>一致性</strong>：确保客户端始终拥有关于可用服务端能力的准确信息</li>
+<li><strong>实时协作</strong>：支持能够适应不断变化的上下文的响应式 AI 应用</li>
+</ol>
+<p>这种通知模式不仅限于工具，还扩展到了其他 MCP 原语，实现了客户端和服务端之间全面的实时同步。</p>
+<p>当 AI 应用收到有关工具更改的通知时，它会立即刷新其工具注册表并更新 LLM 的可用能力。这确保了正在进行的对话始终可以访问最新的工具集，并且 LLM 可以动态适应新功能。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 伪代码</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">handle_tools_changed_notification</span>(<span class="params">session</span>):</span><br><span class="line">    tools_response = <span class="keyword">await</span> session.list_tools()</span><br><span class="line">    app.update_available_tools(session, tools_response.tools)</span><br><span class="line">    <span class="keyword">if</span> app.conversation.is_active():</span><br><span class="line">        app.conversation.notify_llm_of_new_capabilities()</span><br></pre></td></tr></table></figure>
+
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/03/10/mlx-tutorial/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2026-03-24 00:03:39
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="标签"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/LLM/" title="LLM">
+                        #LLM
+                      </a>
+                    </span>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/Anthropic/" title="Anthropic">
+                        #Anthropic
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MCP-%E4%B8%8E-FunctionCalling-%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-text">MCP 与 FunctionCalling 的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-FunctionCalling"><span class="toc-text">什么是 FunctionCalling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Function-Calling-VS-MCP"><span class="toc-text">Function Calling VS. MCP</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MCP-%E6%A0%B8%E5%BF%83%E8%A7%92%E8%89%B2"><span class="toc-text">MCP 核心角色</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MCP-Client"><span class="toc-text">MCP Client</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MCP-Server"><span class="toc-text">MCP Server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MCP-%E5%88%86%E5%B1%82"><span class="toc-text">MCP 分层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%B1%82"><span class="toc-text">数据层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-text">传输层</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MCP-%E5%8E%9F%E8%AF%AD"><span class="toc-text">MCP 原语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%B1%82%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%BA%8F%E5%88%97"><span class="toc-text">数据层生命周期序列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%88%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%AE%A1%E7%90%86%EF%BC%89"><span class="toc-text">1. 初始化（生命周期管理）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%B7%A5%E5%85%B7%E5%8F%91%E7%8E%B0%EF%BC%88%E5%8E%9F%E8%AF%AD%EF%BC%89"><span class="toc-text">2. 工具发现（原语）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%B7%A5%E5%85%B7%E6%89%A7%E8%A1%8C%EF%BC%88%E5%8E%9F%E8%AF%AD%EF%BC%89"><span class="toc-text">3. 工具执行（原语）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%AE%9E%E6%97%B6%E6%9B%B4%E6%96%B0%EF%BC%88%E9%80%9A%E7%9F%A5%EF%BC%89"><span class="toc-text">4. 实时更新（通知）</span></a></li></ol></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/Dave0126">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+        <li>
+          
+            <a title="email" href="mailto:dai.guohao@outlook.com">
+              <i class="iconfont icon-envelope"></i>
+            </a>
+            
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/Dave0126">Copyright © 2026 Guohao</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + mcp_tutorial + '&url=' + https%3A%2F%2Flostnfound.top%2F2025%2F05%2F23%2Fmcp-tutorial%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://lostnfound.top/2025/05/23/mcp-tutorial/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

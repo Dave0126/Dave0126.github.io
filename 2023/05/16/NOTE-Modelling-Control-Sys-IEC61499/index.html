@@ -1,149 +1,182 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>【笔记】Modelling Control Systeme Using IEC61499 | Lost N Found</title><meta name="author" content="Guohao"><meta name="copyright" content="Guohao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="关于《Modelling Control Systeme Using IEC61499》的读书笔记">
-<meta property="og:type" content="article">
-<meta property="og:title" content="【笔记】Modelling Control Systeme Using IEC61499">
-<meta property="og:url" content="https://lostnfound.top/2023/05/16/NOTE-Modelling-Control-Sys-IEC61499/index.html">
-<meta property="og:site_name" content="Lost N Found">
-<meta property="og:description" content="关于《Modelling Control Systeme Using IEC61499》的读书笔记">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://lostnfound.top/2023-05-16-NOTE-Modelling-Control-Sys-IEC61499/image-cover.png">
-<meta property="article:published_time" content="2023-05-16T02:46:01.000Z">
-<meta property="article:modified_time" content="2023-06-03T01:16:44.910Z">
-<meta property="article:author" content="Guohao">
-<meta property="article:tag" content="自动化">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://lostnfound.top/2023-05-16-NOTE-Modelling-Control-Sys-IEC61499/image-cover.png"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://lostnfound.top/2023/05/16/NOTE-Modelling-Control-Sys-IEC61499/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: undefined,
-  translate: undefined,
-  noticeOutdate: undefined,
-  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  relativeDate: {
-    homepage: false,
-    post: false
-  },
-  runtime: '天',
-  date_suffix: {
-    just: '刚刚',
-    min: '分钟前',
-    hour: '小时前',
-    day: '天前',
-    month: '个月前'
-  },
-  copyright: {"limitCount":100,"languages":{"author":"作者: Guohao","link":"链接: ","source":"来源: Lost N Found","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
-  lightbox: 'fancybox',
-  Snackbar: undefined,
-  source: {
-    justifiedGallery: {
-      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
-      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
-    }
-  },
-  isPhotoFigcaption: false,
-  islazyload: false,
-  isAnchor: false
-}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: '【笔记】Modelling Control Systeme Using IEC61499',
-  isPost: true,
-  isHome: false,
-  isHighlightShrink: false,
-  isToc: true,
-  postUpdate: '2023-06-03 09:16:44'
-}</script><noscript><style type="text/css">
-  #nav {
-    opacity: 1
-  }
-  .justified-gallery img {
-    opacity: 1
-  }
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
 
-  #recent-posts time,
-  #post-meta time {
-    display: inline !important
-  }
-</style></noscript><script>(win=>{
-    win.saveToLocal = {
-      set: function setWithExpiry(key, value, ttl) {
-        if (ttl === 0) return
-        const now = new Date()
-        const expiryDay = ttl * 86400000
-        const item = {
-          value: value,
-          expiry: now.getTime() + expiryDay,
-        }
-        localStorage.setItem(key, JSON.stringify(item))
-      },
-
-      get: function getWithExpiry(key) {
-        const itemStr = localStorage.getItem(key)
-
-        if (!itemStr) {
-          return undefined
-        }
-        const item = JSON.parse(itemStr)
-        const now = new Date()
-
-        if (now.getTime() > item.expiry) {
-          localStorage.removeItem(key)
-          return undefined
-        }
-        return item.value
-      }
-    }
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Guohao" />
+  <!-- Open Graph Description 简短摘要-->
   
-    win.getScript = url => new Promise((resolve, reject) => {
-      const script = document.createElement('script')
-      script.src = url
-      script.async = true
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function() {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
-      }
-      document.head.appendChild(script)
-    })
+  <!-- 用于搜索引擎的文章摘要 -->
   
-      win.activateDarkMode = function () {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
-        }
-      }
-      win.activateLightMode = function () {
-        document.documentElement.setAttribute('data-theme', 'light')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
-        }
-      }
-      const t = saveToLocal.get('theme')
+  <!-- 文章页 -->
+  <meta name="description" content="关于《Modelling Control Systeme Using IEC61499》的读书笔记" />
+  
+  
+  
+  <title>
     
-          if (t === 'dark') activateDarkMode()
-          else if (t === 'light') activateLightMode()
+      【笔记】Modelling Control Systeme Using IEC61499 
+      
+      
+      |
+    
+     Lost N Found
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Guohao</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">【笔记】Modelling Control Systeme Using IEC61499</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2023-06-03 09:16:44
+        </span>
         
-      const asideStatus = saveToLocal.get('aside-status')
-      if (asideStatus !== undefined) {
-        if (asideStatus === 'hide') {
-          document.documentElement.classList.add('hide-aside')
-        } else {
-          document.documentElement.classList.remove('hide-aside')
-        }
-      }
-    
-    const detectApple = () => {
-      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
-        document.documentElement.classList.add('apple')
-      }
-    }
-    detectApple()
-    })(window)</script><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Lost N Found" type="application/atom+xml">
-</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-battery-full"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-calendar-check"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-hashtag"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-user-circle"></i><span> 关于我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Dave0126"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li><li><a class="site-page child" href="mailto:dave980126@outlook.com"><i class="fa-fw fas fa-envelope"></i><span> Mail</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/2023-05-16-NOTE-Modelling-Control-Sys-IEC61499/image-cover.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Lost N Found</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-battery-full"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-calendar-check"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-hashtag"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-user-circle"></i><span> 关于我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Dave0126"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li><li><a class="site-page child" href="mailto:dave980126@outlook.com"><i class="fa-fw fas fa-envelope"></i><span> Mail</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【笔记】Modelling Control Systeme Using IEC61499</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-05-16T02:46:01.000Z" title="发表于 2023-05-16 10:46:01">2023-05-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-03T01:16:44.910Z" title="更新于 2023-06-03 09:16:44">2023-06-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">35.7k</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>写在前面：</p>
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="标签"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" title="自动化">
+                    #自动化
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <p>写在前面：</p>
 <p>本文章是根据 Robert Lewis 所著《Modelling Control Systems Using IEC 61499》翻译、整理而来。碍于本人学识有限，同时并非本专业人士，部分叙述难免存在纰漏，请读者注意甄别。</p>
 <p>参考资料：</p>
 <ul>
@@ -1620,75 +1653,358 @@ IEC 61131‑3 的 PLC 创建的应用程序与 IEC 61499 应用程序之间的�
 <p><img src="/2023/05/16/NOTE-Modelling-Control-Sys-IEC61499/image-20230526160222157.png" alt="image-20230526160222157"></p>
 <p>该块的部分类型说明在图 6.4 中给出； 这显示了外部类型规范和内部类型规范。 ECC 显示当此块分别接收到 “<code>INIT</code>” 和 “<code>RUN</code>” 事件时存在的两个状态 “<code>INIT</code>” 和 “<code>PID_RUN</code>”。 当 “<code>INIT</code>” 状态激活时，初始化算法“<code>ALG_INIT</code>” 运行； 同样，PID 算法 “<code>ALG_PID</code>” 在 “<code>RUN_PID</code>” 状态激活时运行。 当任一算法完成时，ECC 总是返回到初始 “<code>START</code>” 状态。</p>
 <p>图 6.2 所示的功能块图显示了在单个资源上运行的功能块网络。 通过使用服务接口块（例如 <code>PUBLISH</code> 和 <code>SUBSCRIBE</code>）在资源之间传输数据，可以将同一模型分布在多个资源上运行。 例如，这个应用程序可以在两个控制器上运行，如第 3 章中回顾的子应用程序示例所示。</p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://lostnfound.top">Guohao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lostnfound.top/2023/05/16/NOTE-Modelling-Control-Sys-IEC61499/">https://lostnfound.top/2023/05/16/NOTE-Modelling-Control-Sys-IEC61499/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lostnfound.top" target="_blank">Lost N Found</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a></div><div class="post_share"><div class="social-share" data-image="/2023-05-16-NOTE-Modelling-Control-Sys-IEC61499/image-cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Guohao</div><div class="author-info__description">L’existence précède l‘essence</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Dave0126" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:dave980126@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E4%BB%8B%E7%BB%8D"><span class="toc-text"> 1. 介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text"> 背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iec-61499-function-block-standard"><span class="toc-text"> IEC 61499 function block standard</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 为什么使用功能块？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E5%9D%97%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%81%94%E7%B3%BB%E4%B8%8E%E5%8C%BA%E5%88%AB"><span class="toc-text"> 功能块与对象的联系与区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-iec-61499%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%A6%82%E5%BF%B5"><span class="toc-text"> 2. IEC 61499中的模型与概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#21-%E7%B3%BB%E7%BB%9F%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.1 系统模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#22-%E8%AE%BE%E5%A4%87%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.2 设备模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#23-%E8%B5%84%E6%BA%90%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.3 资源模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#24-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.4 应用模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#25-%E5%8A%9F%E8%83%BD%E5%9D%97%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.5 功能块模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#26-%E5%8A%9F%E8%83%BD%E5%9D%97%E7%B1%BB%E5%9E%8B"><span class="toc-text"> 2.6 功能块类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E5%9D%97%E7%B1%BB%E5%9E%8B"><span class="toc-text"> 基本功能块类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E5%9D%97%E7%9A%84%E6%89%A7%E8%A1%8C%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 基本功能块的执行模型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E5%8A%9F%E8%83%BD%E5%9D%97%E7%B1%BB%E5%9E%8B"><span class="toc-text"> 复合功能块类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3%E5%8A%9F%E8%83%BD%E5%9D%97%E7%B1%BB%E5%9E%8B"><span class="toc-text"> 服务接口功能块类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#27-%E5%88%86%E5%B8%83%E5%BC%8F%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.7 分布式模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#28-%E7%AE%A1%E7%90%86%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.8 管理模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#29-%E8%BF%90%E8%A1%8C%E7%8A%B6%E6%80%81%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.9 运行状态模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#210-%E4%BD%BF%E7%94%A8%E9%80%82%E9%85%8D%E5%99%A8%E7%9A%84%E9%80%9A%E7%94%A8%E6%8E%A5%E5%8F%A3"><span class="toc-text"> 2.10 使用适配器的通用接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#211-iec-61499-%E5%AE%9E%E4%BD%93%E7%9A%84%E6%96%87%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-text"> 2.11 IEC 61499 实体的文本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-3%E9%80%892%E6%8A%95%E7%A5%A8%E7%AE%97%E6%B3%95"><span class="toc-text"> 【示例】- 3选2投票算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#212-%E6%80%BB%E7%BB%93"><span class="toc-text"> 2.12 总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%AE%9A%E4%B9%89%E5%8A%9F%E8%83%BD%E5%9D%97%E5%92%8C%E5%AD%90%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%B1%BB%E5%9E%8B"><span class="toc-text"> 3. 定义功能块和子应用程序类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#31-%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AE%9E%E4%BE%8B"><span class="toc-text"> 3.1 类型与实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32-%E4%B8%8D%E5%90%8C%E5%BD%A2%E5%BC%8F%E7%9A%84%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 3.2 不同形式的功能块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#33-%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E5%9D%97%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text"> 3.3 基本功能块的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E5%A4%96%E6%8E%A5%E5%8F%A3%E5%A3%B0%E6%98%8E"><span class="toc-text"> 对外接口声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E9%83%A8%E8%A1%8C%E4%B8%BA"><span class="toc-text"> 内部行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%8E%A7%E5%88%B6%E5%9B%BEecc%E5%8A%9F%E8%83%BD"><span class="toc-text"> 执行控制图（ECC）功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E8%AF%AD%E6%B3%95textual-syntax%E7%A4%BA%E4%BE%8B"><span class="toc-text"> 文本语法（Textual syntax）示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%8A%9F%E8%83%BD%E5%9D%97%E5%AE%9E%E4%BE%8B%E7%9A%84%E8%A1%8C%E4%B8%BA"><span class="toc-text"> 基础功能块实例的行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E7%9A%84%E6%89%A7%E8%A1%8C"><span class="toc-text"> 算法的执行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#34-%E5%A4%8D%E5%90%88%E5%8A%9F%E8%83%BD%E5%9D%97%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text"> 3.4 复合功能块的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E5%9D%97%E7%B1%BB%E5%9E%8B%E8%A7%84%E8%8C%83%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text"> 复合块类型规范的规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text"> 事件连接的规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text"> 数据连接的规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E5%9D%97%E7%A4%BA%E4%BE%8B"><span class="toc-text"> 复合块示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#with-%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text"> WITH 结构的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E5%8A%9F%E8%83%BD%E5%9D%97%E7%9A%84%E6%89%A7%E8%A1%8C"><span class="toc-text"> 复合功能块的执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E5%8A%9F%E8%83%BD%E5%9D%97%E7%9A%84%E6%96%87%E6%9C%AC%E8%AF%AD%E6%B3%95%E7%A4%BA%E4%BE%8B"><span class="toc-text"> 复合功能块的文本语法示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#35-%E5%AD%90%E5%BA%94%E7%94%A8%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text"> 3.5 子应用的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E5%BA%94%E7%94%A8%E7%B1%BB%E5%9E%8B%E8%A7%84%E8%8C%83%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text"> 子应用类型规范的规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E5%BA%94%E7%94%A8%E7%9A%84%E6%89%A7%E8%A1%8C%E8%A7%84%E5%88%99"><span class="toc-text"> 子应用的执行规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%90%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="toc-text"> 分布式子应用实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#36-%E6%80%BB%E7%BB%93"><span class="toc-text"> 3.6 总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3service-interface%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 4. 服务接口（Service Interface）功能块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#41-%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89"><span class="toc-text"> 4.1 类型定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#si-%E5%8A%9F%E8%83%BD%E5%9D%97%E7%9A%84%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA"><span class="toc-text"> SI 功能块的标准输入和输出</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%BE%93%E5%85%A5"><span class="toc-text"> 事件输入</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#init"><span class="toc-text"> INIT</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#req"><span class="toc-text"> REQ</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#rsp"><span class="toc-text"> RSP</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%BE%93%E5%87%BA"><span class="toc-text"> 事件输出</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#inito"><span class="toc-text"> INITO</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#cnf"><span class="toc-text"> CNF</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ind"><span class="toc-text"> IND</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%BE%93%E5%85%A5"><span class="toc-text"> 数据输入</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#qi-bool"><span class="toc-text"> QI: BOOL</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#params-any"><span class="toc-text"> PARAMS： ANY</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#sd_1-sd_n-any"><span class="toc-text"> SD_1, ... SD_N: ANY</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%BE%93%E5%87%BA"><span class="toc-text"> 数据输出</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#qo-bool"><span class="toc-text"> QO: BOOL</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#status-any"><span class="toc-text"> STATUS： ANY</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#rd_1-rd_n-any"><span class="toc-text"> RD_1, ..., RD_N: ANY</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#42-si-%E5%8A%9F%E8%83%BD%E5%9D%97%E7%9A%84%E8%A1%8C%E4%B8%BA"><span class="toc-text"> 4.2 SI 功能块的行为</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#si-%E6%A0%87%E5%87%86%E4%BA%8B%E4%BB%B6%E7%9A%84%E8%AF%AD%E4%B9%89"><span class="toc-text"> SI 标准事件的语义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E8%AF%AD%E6%B3%95-si%E5%8A%9F%E8%83%BD%E5%9D%97%E7%A4%BA%E4%BE%8B"><span class="toc-text"> 文本语法 - SI功能块示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#43-%E4%BC%99%E4%BC%B4%E5%BC%8Fpartnered%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 4.3 伙伴式（Partnered）服务接口功能块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#44-%E7%AE%A1%E7%90%86%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 4.4 管理功能块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A2%AB%E7%AE%A1%E7%90%86%E7%9A%84%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 被管理的功能块</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#45-%E6%80%BB%E7%BB%93"><span class="toc-text"> 4.5 总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E4%BA%8B%E4%BB%B6event%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 5. 事件（Event）功能块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#50-%E6%A6%82%E8%BF%B0"><span class="toc-text"> 5.0 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#51-%E6%A0%87%E5%87%86%E4%BA%8B%E4%BB%B6%E5%8A%9F%E8%83%BD%E5%9D%97%E7%B1%BB%E5%9E%8B"><span class="toc-text"> 5.1 标准事件功能块类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%88%86%E5%89%B2%E5%99%A8-event-splitter"><span class="toc-text"> 事件分割器 Event Splitter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%90%88%E5%B9%B6%E5%99%A8-event-merger"><span class="toc-text"> 事件合并器 Event Merger</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AA%E4%BA%8B%E4%BB%B6%E6%B1%87%E5%90%88-two-event-rendezvous"><span class="toc-text"> 两个事件汇合 Two Event Rendezvous</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%81%E8%AE%B8%E6%80%A7%E4%BA%8B%E4%BB%B6%E6%8E%A8%E8%BF%9B%E5%99%A8-permissive-event-propagator"><span class="toc-text"> 允许性事件推进器 Permissive Event Propagator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E9%80%89%E6%8B%A9%E5%99%A8-event-selector"><span class="toc-text"> 事件选择器 Event Selector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%88%87%E6%8D%A2-event-switch"><span class="toc-text"> 事件切换 Event Switch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%B6%E8%BF%9F%E4%BA%8B%E4%BB%B6%E6%8E%A8%E8%BF%9B%E5%99%A8-delayed-event-propagator"><span class="toc-text"> 延迟事件推进器 Delayed Event Propagator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E4%BA%8B%E4%BB%B6%E5%8F%91%E7%94%9F%E5%99%A8-restart-event-generator"><span class="toc-text"> 重启事件发生器 Restart Event Generator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E4%BA%8B%E4%BB%B6%E5%8F%91%E7%94%9F%E5%99%A8-cyclic-event-generator"><span class="toc-text"> 循环事件发生器 Cyclic Event Generator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%BA%8F%E5%88%97%E5%8F%91%E7%94%9F%E5%99%A8-event-train-generator"><span class="toc-text"> 事件序列发生器 Event Train Generator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%BA%8F%E5%88%97%E8%A1%A8%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%8F%91%E7%94%9F%E5%99%A8-event-train-table-driven-generator"><span class="toc-text"> 事件序列表驱动的发生器 Event Train Table-driven Generator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E7%8B%AC%E4%BA%8B%E4%BB%B6%E8%A1%A8%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%8F%91%E7%94%9F%E5%99%A8-separate-event-table-driven-generator"><span class="toc-text"> 单独事件表驱动的发生器 Separate Event Table-driven Generator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%8F%8C%E7%A8%B3%E6%80%81-event-driven-bistable%E8%AE%BE%E7%BD%AE%E4%B8%BB%E5%AF%BC"><span class="toc-text"> 事件驱动的双稳态 Event-driven Bistable（设置主导）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%8F%8C%E7%A8%B3%E6%80%81-event-driven-bistable%E5%A4%8D%E4%BD%8D%E5%8D%A0%E4%BC%98"><span class="toc-text"> 事件驱动的双稳态 Event-driven Bistable（复位占优）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#d%E6%95%B0%E6%8D%AE%E9%94%81%E5%AD%98%E5%8F%8C%E7%A8%B3%E6%80%81-d-data-latch-bistable"><span class="toc-text"> D（数据锁存）双稳态 D (Data Latch) Bistable</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E4%B8%8A%E5%8D%87%E6%B2%BF%E6%A3%80%E6%B5%8B%E5%99%A8-boolean-rising-edge-detector"><span class="toc-text"> 布尔上升沿检测器 Boolean Rising Edge Detector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E5%9E%8B%E4%B8%8B%E9%99%8D%E6%B2%BF%E6%A3%80%E6%B5%8B%E5%99%A8-boolean-falling-edge-detector"><span class="toc-text"> 布尔型下降沿检测器 Boolean Falling Edge Detector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E7%9A%84%E4%B8%8A%E5%8D%87%E8%AE%A1%E6%95%B0%E5%99%A8-event-driven-up-counter"><span class="toc-text"> 事件驱动的上升计数器 Event-driven Up-counter</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#52-%E4%BD%BF%E7%94%A8%E4%BA%8B%E4%BB%B6%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 5.2 使用事件功能块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#53-%E6%80%BB%E7%BB%93"><span class="toc-text"> 5.3 总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E5%B7%A5%E4%B8%9A%E5%BA%94%E7%94%A8%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-text"> 6. 工业应用的例子</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#60-%E6%A6%82%E8%BF%B0"><span class="toc-text"> 6.0 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#61-%E6%B8%A9%E5%BA%A6%E6%8E%A7%E5%88%B6%E7%A4%BA%E4%BE%8B"><span class="toc-text"> 6.1 温度控制示例</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #8EC3B0"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2025 By Guohao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
-  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
-    btf.wrap(item, 'div', { class: 'katex-wrap'})
-  })
-})()</script><script>(() => {
-  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
-  if ($mermaidWrap.length) {
-    window.runMermaid = () => {
-      window.loadMermaid = true
-      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
 
-      Array.from($mermaidWrap).forEach((item, index) => {
-        const mermaidSrc = item.firstElementChild
-        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
-        const mermaidID = 'mermaid-' + index
-        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
-        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
-          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
-        })
-      })
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2023/05/05/Cpp-Tutorial/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2023-06-03 09:16:44
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="标签"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" title="自动化">
+                        #自动化
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2023/05/17/NOTE-Concepts-for-Automating-Systems-Integration/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E4%BB%8B%E7%BB%8D"><span class="toc-text"> 1. 介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text"> 背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iec-61499-function-block-standard"><span class="toc-text"> IEC 61499 function block standard</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 为什么使用功能块？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E5%9D%97%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%81%94%E7%B3%BB%E4%B8%8E%E5%8C%BA%E5%88%AB"><span class="toc-text"> 功能块与对象的联系与区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-iec-61499%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%A6%82%E5%BF%B5"><span class="toc-text"> 2. IEC 61499中的模型与概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#21-%E7%B3%BB%E7%BB%9F%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.1 系统模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#22-%E8%AE%BE%E5%A4%87%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.2 设备模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#23-%E8%B5%84%E6%BA%90%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.3 资源模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#24-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.4 应用模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#25-%E5%8A%9F%E8%83%BD%E5%9D%97%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.5 功能块模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#26-%E5%8A%9F%E8%83%BD%E5%9D%97%E7%B1%BB%E5%9E%8B"><span class="toc-text"> 2.6 功能块类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E5%9D%97%E7%B1%BB%E5%9E%8B"><span class="toc-text"> 基本功能块类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E5%9D%97%E7%9A%84%E6%89%A7%E8%A1%8C%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 基本功能块的执行模型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E5%8A%9F%E8%83%BD%E5%9D%97%E7%B1%BB%E5%9E%8B"><span class="toc-text"> 复合功能块类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3%E5%8A%9F%E8%83%BD%E5%9D%97%E7%B1%BB%E5%9E%8B"><span class="toc-text"> 服务接口功能块类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#27-%E5%88%86%E5%B8%83%E5%BC%8F%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.7 分布式模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#28-%E7%AE%A1%E7%90%86%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.8 管理模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#29-%E8%BF%90%E8%A1%8C%E7%8A%B6%E6%80%81%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.9 运行状态模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#210-%E4%BD%BF%E7%94%A8%E9%80%82%E9%85%8D%E5%99%A8%E7%9A%84%E9%80%9A%E7%94%A8%E6%8E%A5%E5%8F%A3"><span class="toc-text"> 2.10 使用适配器的通用接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#211-iec-61499-%E5%AE%9E%E4%BD%93%E7%9A%84%E6%96%87%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-text"> 2.11 IEC 61499 实体的文本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-3%E9%80%892%E6%8A%95%E7%A5%A8%E7%AE%97%E6%B3%95"><span class="toc-text"> 【示例】- 3选2投票算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#212-%E6%80%BB%E7%BB%93"><span class="toc-text"> 2.12 总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%AE%9A%E4%B9%89%E5%8A%9F%E8%83%BD%E5%9D%97%E5%92%8C%E5%AD%90%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%B1%BB%E5%9E%8B"><span class="toc-text"> 3. 定义功能块和子应用程序类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#31-%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AE%9E%E4%BE%8B"><span class="toc-text"> 3.1 类型与实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32-%E4%B8%8D%E5%90%8C%E5%BD%A2%E5%BC%8F%E7%9A%84%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 3.2 不同形式的功能块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#33-%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E5%9D%97%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text"> 3.3 基本功能块的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E5%A4%96%E6%8E%A5%E5%8F%A3%E5%A3%B0%E6%98%8E"><span class="toc-text"> 对外接口声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E9%83%A8%E8%A1%8C%E4%B8%BA"><span class="toc-text"> 内部行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%8E%A7%E5%88%B6%E5%9B%BEecc%E5%8A%9F%E8%83%BD"><span class="toc-text"> 执行控制图（ECC）功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E8%AF%AD%E6%B3%95textual-syntax%E7%A4%BA%E4%BE%8B"><span class="toc-text"> 文本语法（Textual syntax）示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%8A%9F%E8%83%BD%E5%9D%97%E5%AE%9E%E4%BE%8B%E7%9A%84%E8%A1%8C%E4%B8%BA"><span class="toc-text"> 基础功能块实例的行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E7%9A%84%E6%89%A7%E8%A1%8C"><span class="toc-text"> 算法的执行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#34-%E5%A4%8D%E5%90%88%E5%8A%9F%E8%83%BD%E5%9D%97%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text"> 3.4 复合功能块的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E5%9D%97%E7%B1%BB%E5%9E%8B%E8%A7%84%E8%8C%83%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text"> 复合块类型规范的规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text"> 事件连接的规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text"> 数据连接的规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E5%9D%97%E7%A4%BA%E4%BE%8B"><span class="toc-text"> 复合块示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#with-%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text"> WITH 结构的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E5%8A%9F%E8%83%BD%E5%9D%97%E7%9A%84%E6%89%A7%E8%A1%8C"><span class="toc-text"> 复合功能块的执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E5%8A%9F%E8%83%BD%E5%9D%97%E7%9A%84%E6%96%87%E6%9C%AC%E8%AF%AD%E6%B3%95%E7%A4%BA%E4%BE%8B"><span class="toc-text"> 复合功能块的文本语法示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#35-%E5%AD%90%E5%BA%94%E7%94%A8%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text"> 3.5 子应用的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E5%BA%94%E7%94%A8%E7%B1%BB%E5%9E%8B%E8%A7%84%E8%8C%83%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text"> 子应用类型规范的规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E5%BA%94%E7%94%A8%E7%9A%84%E6%89%A7%E8%A1%8C%E8%A7%84%E5%88%99"><span class="toc-text"> 子应用的执行规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%90%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="toc-text"> 分布式子应用实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#36-%E6%80%BB%E7%BB%93"><span class="toc-text"> 3.6 总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3service-interface%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 4. 服务接口（Service Interface）功能块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#41-%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89"><span class="toc-text"> 4.1 类型定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#si-%E5%8A%9F%E8%83%BD%E5%9D%97%E7%9A%84%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA"><span class="toc-text"> SI 功能块的标准输入和输出</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%BE%93%E5%85%A5"><span class="toc-text"> 事件输入</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#init"><span class="toc-text"> INIT</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#req"><span class="toc-text"> REQ</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#rsp"><span class="toc-text"> RSP</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%BE%93%E5%87%BA"><span class="toc-text"> 事件输出</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#inito"><span class="toc-text"> INITO</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#cnf"><span class="toc-text"> CNF</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ind"><span class="toc-text"> IND</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%BE%93%E5%85%A5"><span class="toc-text"> 数据输入</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#qi-bool"><span class="toc-text"> QI: BOOL</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#params-any"><span class="toc-text"> PARAMS： ANY</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#sd_1-sd_n-any"><span class="toc-text"> SD_1, ... SD_N: ANY</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%BE%93%E5%87%BA"><span class="toc-text"> 数据输出</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#qo-bool"><span class="toc-text"> QO: BOOL</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#status-any"><span class="toc-text"> STATUS： ANY</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#rd_1-rd_n-any"><span class="toc-text"> RD_1, ..., RD_N: ANY</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#42-si-%E5%8A%9F%E8%83%BD%E5%9D%97%E7%9A%84%E8%A1%8C%E4%B8%BA"><span class="toc-text"> 4.2 SI 功能块的行为</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#si-%E6%A0%87%E5%87%86%E4%BA%8B%E4%BB%B6%E7%9A%84%E8%AF%AD%E4%B9%89"><span class="toc-text"> SI 标准事件的语义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E8%AF%AD%E6%B3%95-si%E5%8A%9F%E8%83%BD%E5%9D%97%E7%A4%BA%E4%BE%8B"><span class="toc-text"> 文本语法 - SI功能块示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#43-%E4%BC%99%E4%BC%B4%E5%BC%8Fpartnered%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 4.3 伙伴式（Partnered）服务接口功能块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#44-%E7%AE%A1%E7%90%86%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 4.4 管理功能块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A2%AB%E7%AE%A1%E7%90%86%E7%9A%84%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 被管理的功能块</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#45-%E6%80%BB%E7%BB%93"><span class="toc-text"> 4.5 总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E4%BA%8B%E4%BB%B6event%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 5. 事件（Event）功能块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#50-%E6%A6%82%E8%BF%B0"><span class="toc-text"> 5.0 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#51-%E6%A0%87%E5%87%86%E4%BA%8B%E4%BB%B6%E5%8A%9F%E8%83%BD%E5%9D%97%E7%B1%BB%E5%9E%8B"><span class="toc-text"> 5.1 标准事件功能块类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%88%86%E5%89%B2%E5%99%A8-event-splitter"><span class="toc-text"> 事件分割器 Event Splitter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%90%88%E5%B9%B6%E5%99%A8-event-merger"><span class="toc-text"> 事件合并器 Event Merger</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AA%E4%BA%8B%E4%BB%B6%E6%B1%87%E5%90%88-two-event-rendezvous"><span class="toc-text"> 两个事件汇合 Two Event Rendezvous</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%81%E8%AE%B8%E6%80%A7%E4%BA%8B%E4%BB%B6%E6%8E%A8%E8%BF%9B%E5%99%A8-permissive-event-propagator"><span class="toc-text"> 允许性事件推进器 Permissive Event Propagator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E9%80%89%E6%8B%A9%E5%99%A8-event-selector"><span class="toc-text"> 事件选择器 Event Selector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%88%87%E6%8D%A2-event-switch"><span class="toc-text"> 事件切换 Event Switch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%B6%E8%BF%9F%E4%BA%8B%E4%BB%B6%E6%8E%A8%E8%BF%9B%E5%99%A8-delayed-event-propagator"><span class="toc-text"> 延迟事件推进器 Delayed Event Propagator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E4%BA%8B%E4%BB%B6%E5%8F%91%E7%94%9F%E5%99%A8-restart-event-generator"><span class="toc-text"> 重启事件发生器 Restart Event Generator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E4%BA%8B%E4%BB%B6%E5%8F%91%E7%94%9F%E5%99%A8-cyclic-event-generator"><span class="toc-text"> 循环事件发生器 Cyclic Event Generator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%BA%8F%E5%88%97%E5%8F%91%E7%94%9F%E5%99%A8-event-train-generator"><span class="toc-text"> 事件序列发生器 Event Train Generator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%BA%8F%E5%88%97%E8%A1%A8%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%8F%91%E7%94%9F%E5%99%A8-event-train-table-driven-generator"><span class="toc-text"> 事件序列表驱动的发生器 Event Train Table-driven Generator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E7%8B%AC%E4%BA%8B%E4%BB%B6%E8%A1%A8%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%8F%91%E7%94%9F%E5%99%A8-separate-event-table-driven-generator"><span class="toc-text"> 单独事件表驱动的发生器 Separate Event Table-driven Generator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%8F%8C%E7%A8%B3%E6%80%81-event-driven-bistable%E8%AE%BE%E7%BD%AE%E4%B8%BB%E5%AF%BC"><span class="toc-text"> 事件驱动的双稳态 Event-driven Bistable（设置主导）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%8F%8C%E7%A8%B3%E6%80%81-event-driven-bistable%E5%A4%8D%E4%BD%8D%E5%8D%A0%E4%BC%98"><span class="toc-text"> 事件驱动的双稳态 Event-driven Bistable（复位占优）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#d%E6%95%B0%E6%8D%AE%E9%94%81%E5%AD%98%E5%8F%8C%E7%A8%B3%E6%80%81-d-data-latch-bistable"><span class="toc-text"> D（数据锁存）双稳态 D (Data Latch) Bistable</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E4%B8%8A%E5%8D%87%E6%B2%BF%E6%A3%80%E6%B5%8B%E5%99%A8-boolean-rising-edge-detector"><span class="toc-text"> 布尔上升沿检测器 Boolean Rising Edge Detector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E5%9E%8B%E4%B8%8B%E9%99%8D%E6%B2%BF%E6%A3%80%E6%B5%8B%E5%99%A8-boolean-falling-edge-detector"><span class="toc-text"> 布尔型下降沿检测器 Boolean Falling Edge Detector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E7%9A%84%E4%B8%8A%E5%8D%87%E8%AE%A1%E6%95%B0%E5%99%A8-event-driven-up-counter"><span class="toc-text"> 事件驱动的上升计数器 Event-driven Up-counter</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#52-%E4%BD%BF%E7%94%A8%E4%BA%8B%E4%BB%B6%E5%8A%9F%E8%83%BD%E5%9D%97"><span class="toc-text"> 5.2 使用事件功能块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#53-%E6%80%BB%E7%BB%93"><span class="toc-text"> 5.3 总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E5%B7%A5%E4%B8%9A%E5%BA%94%E7%94%A8%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-text"> 6. 工业应用的例子</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#60-%E6%A6%82%E8%BF%B0"><span class="toc-text"> 6.0 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#61-%E6%B8%A9%E5%BA%A6%E6%8E%A7%E5%88%B6%E7%A4%BA%E4%BE%8B"><span class="toc-text"> 6.1 温度控制示例</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/Dave0126">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+        <li>
+          
+            <a title="email" href="mailto:dai.guohao@outlook.com">
+              <i class="iconfont icon-envelope"></i>
+            </a>
+            
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/Dave0126">Copyright © 2026 Guohao</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
     }
 
-    const loadMermaid = () => {
-      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
     }
 
-    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
-  }
-})()</script><script>function addGitalkSource () {
-  const ele = document.createElement('link')
-  ele.rel = 'stylesheet'
-  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
-  document.getElementsByTagName('head')[0].appendChild(ele)
-}
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
 
-function loadGitalk () {
-  function initGitalk () {
-    var gitalk = new Gitalk(Object.assign({
-      clientID: 'ea138c6f176d57705144',
-      clientSecret: 'c999d74b366c68c80bc3b704c716a8ff8d67af6d',
-      repo: 'Dave0126.github.io',
-      owner: 'Dave0126',
-      admin: ['Dave0126'],
-      id: '0977791134aa8ed5f5410207f933517e',
-      updateCountCallback: commentCount
-    },))
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
 
-    gitalk.render('gitalk-container')
-  }
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
 
-  if (typeof Gitalk === 'function') initGitalk()
-  else {
-    addGitalkSource()
-    getScript('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js').then(initGitalk)
-  }
-}
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
 
-function commentCount(n){
-  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
-  if (isCommentCount) {
-    isCommentCount.innerHTML= n
-  }
-}
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
 
-if ('Gitalk' === 'Gitalk' || !true) {
-  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
-  else loadGitalk()
-} else {
-  function loadOtherComment () {
-    loadGitalk()
-  }
-}</script></div></div></body></html>
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E3%80%90%E7%AC%94%E8%AE%B0%E3%80%91Modelling%20Control%20Systeme%20Using%20IEC61499 + '&url=' + https%3A%2F%2Flostnfound.top%2F2023%2F05%2F16%2FNOTE-Modelling-Control-Sys-IEC61499%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://lostnfound.top/2023/05/16/NOTE-Modelling-Control-Sys-IEC61499/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

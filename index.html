@@ -1,422 +1,524 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Lost N Found</title><meta name="author" content="Guohao"><meta name="copyright" content="Guohao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="L’existence précède l‘essence">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Lost N Found">
-<meta property="og:url" content="https://lostnfound.top/index.html">
-<meta property="og:site_name" content="Lost N Found">
-<meta property="og:description" content="L’existence précède l‘essence">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://lostnfound.top/img/avatar.jpg">
-<meta property="article:author" content="Guohao">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://lostnfound.top/img/avatar.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://lostnfound.top/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: undefined,
-  translate: undefined,
-  noticeOutdate: undefined,
-  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  relativeDate: {
-    homepage: false,
-    post: false
-  },
-  runtime: '天',
-  date_suffix: {
-    just: '刚刚',
-    min: '分钟前',
-    hour: '小时前',
-    day: '天前',
-    month: '个月前'
-  },
-  copyright: {"limitCount":100,"languages":{"author":"作者: Guohao","link":"链接: ","source":"来源: Lost N Found","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
-  lightbox: 'fancybox',
-  Snackbar: undefined,
-  source: {
-    justifiedGallery: {
-      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
-      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
-    }
-  },
-  isPhotoFigcaption: false,
-  islazyload: false,
-  isAnchor: false
-}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: 'Lost N Found',
-  isPost: false,
-  isHome: true,
-  isHighlightShrink: false,
-  isToc: false,
-  postUpdate: '2025-03-13 15:22:52'
-}</script><noscript><style type="text/css">
-  #nav {
-    opacity: 1
-  }
-  .justified-gallery img {
-    opacity: 1
-  }
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
 
-  #recent-posts time,
-  #post-meta time {
-    display: inline !important
-  }
-</style></noscript><script>(win=>{
-    win.saveToLocal = {
-      set: function setWithExpiry(key, value, ttl) {
-        if (ttl === 0) return
-        const now = new Date()
-        const expiryDay = ttl * 86400000
-        const item = {
-          value: value,
-          expiry: now.getTime() + expiryDay,
-        }
-        localStorage.setItem(key, JSON.stringify(item))
-      },
-
-      get: function getWithExpiry(key) {
-        const itemStr = localStorage.getItem(key)
-
-        if (!itemStr) {
-          return undefined
-        }
-        const item = JSON.parse(itemStr)
-        const now = new Date()
-
-        if (now.getTime() > item.expiry) {
-          localStorage.removeItem(key)
-          return undefined
-        }
-        return item.value
-      }
-    }
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Guohao" />
+  <!-- Open Graph Description 简短摘要-->
   
-    win.getScript = url => new Promise((resolve, reject) => {
-      const script = document.createElement('script')
-      script.src = url
-      script.async = true
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function() {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
-      }
-      document.head.appendChild(script)
-    })
+  <!-- 用于搜索引擎的文章摘要 -->
   
-      win.activateDarkMode = function () {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
-        }
-      }
-      win.activateLightMode = function () {
-        document.documentElement.setAttribute('data-theme', 'light')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
-        }
-      }
-      const t = saveToLocal.get('theme')
+  <meta name="description" content="L’existence précède l‘essence" />
+  
+  
+  
+  <title>
     
-          if (t === 'dark') activateDarkMode()
-          else if (t === 'light') activateLightMode()
+     Lost N Found
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Guohao</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <div class="container index">
+  <div class="post-list">
+    <!-- 遍历渲染文章 -->
+    
+      <div class="post-item" title="Java 并发多线程编程 (JUC)">
+        <div class="time-m-d">2022-03-23</div>
+        <div class="title">
+          <a href="/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-1/">
+            
+              
+                <span>Java 并发多线程编程 (JUC)</span>
+              
+            
+          </a>
+        </div>
+      </div>
+    
+      <div class="post-item" title="Java 虚拟机 - JVM">
+        <div class="time-m-d">2022-03-22</div>
+        <div class="title">
+          <a href="/2022/03/22/JVM-1/">
+            
+              
+                <span>Java 虚拟机 - JVM</span>
+              
+            
+          </a>
+        </div>
+      </div>
+    
+      <div class="post-item" title="MySQL 相关笔记">
+        <div class="time-m-d">2022-09-25</div>
+        <div class="title">
+          <a href="/2022/09/25/MySQL-%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/">
+            
+              
+                <span>MySQL 相关笔记</span>
+              
+            
+          </a>
+        </div>
+      </div>
+    
+      <div class="post-item" title="mcp_tutorial">
+        <div class="time-m-d">2025-05-23</div>
+        <div class="title">
+          <a href="/2025/05/23/mcp-tutorial/">
+            
+              
+                <span>mcp_tutorial</span>
+              
+            
+          </a>
+        </div>
+      </div>
+    
+      <div class="post-item" title="mlx_tutorial">
+        <div class="time-m-d">2025-03-10</div>
+        <div class="title">
+          <a href="/2025/03/10/mlx-tutorial/">
+            
+              
+                <span>mlx_tutorial</span>
+              
+            
+          </a>
+        </div>
+      </div>
+    
+      <div class="post-item" title="《LLM Engineers Handbook》读书笔记">
+        <div class="time-m-d">2025-03-10</div>
+        <div class="title">
+          <a href="/2025/03/10/llm-engineers-handbook-note/">
+            
+              
+                <span>《LLM Engineers Handbook》读书笔记</span>
+              
+            
+          </a>
+        </div>
+      </div>
+    
+      <div class="post-item" title="类UNIX常用设置">
+        <div class="time-m-d">2024-11-22</div>
+        <div class="title">
+          <a href="/2024/11/22/unix-like-config/">
+            
+              
+                <span>类UNIX常用设置</span>
+              
+            
+          </a>
+        </div>
+      </div>
+    
+      <div class="post-item" title="ROS 学习笔记">
+        <div class="time-m-d">2023-09-27</div>
+        <div class="title">
+          <a href="/2023/09/27/ROS-tutorial/">
+            
+              
+                <span>ROS 学习笔记</span>
+              
+            
+          </a>
+        </div>
+      </div>
+    
+      <div class="post-item" title="RabbitMQ 学习笔记">
+        <div class="time-m-d">2023-06-13</div>
+        <div class="title">
+          <a href="/2023/06/13/RabbitMQ-tutorial/">
+            
+              
+                <span>RabbitMQ 学习笔记</span>
+              
+            
+          </a>
+        </div>
+      </div>
+    
+      <div class="post-item" title="Prolog_学习笔记">
+        <div class="time-m-d">2023-06-07</div>
+        <div class="title">
+          <a href="/2023/06/07/NOTE-Prolog-tutorial/">
+            
+              
+                <span>Prolog_学习笔记</span>
+              
+            
+          </a>
+        </div>
+      </div>
+    
+  </div>
+  <nav class="post-navigation">
+    
+    <span class="page-num">1 / 5</span>
+    
+      <a href="/page/2/"><i class="iconfont icon-angleright"></i></a>
+    
+  </nav>
+</div>
+
         
-      const asideStatus = saveToLocal.get('aside-status')
-      if (asideStatus !== undefined) {
-        if (asideStatus === 'hide') {
-          document.documentElement.classList.add('hide-aside')
-        } else {
-          document.documentElement.classList.remove('hide-aside')
-        }
-      }
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/Dave0126">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+        <li>
+          
+            <a title="email" href="mailto:dai.guohao@outlook.com">
+              <i class="iconfont icon-envelope"></i>
+            </a>
+            
+        </li>
+        
+    </ul>
+  </div>
+  
     
-    const detectApple = () => {
-      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
-        document.documentElement.classList.add('apple')
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/Dave0126">Copyright © 2026 Guohao</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
       }
     }
-    detectApple()
-    })(window)</script><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Lost N Found" type="application/atom+xml">
-</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-battery-full"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-calendar-check"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-hashtag"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-user-circle"></i><span> 关于我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Dave0126"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li><li><a class="site-page child" href="mailto:dave980126@outlook.com"><i class="fa-fw fas fa-envelope"></i><span> Mail</span></a></li></ul></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background: linear-gradient(45deg, #8EC3B0, #9ED5C5, #F8C4B4, #FF8787)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Lost N Found</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-battery-full"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-calendar-check"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-hashtag"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-user-circle"></i><span> 关于我</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Dave0126"><i class="fa-fw fab fa-github"></i><span> Github</span></a></li><li><a class="site-page child" href="mailto:dave980126@outlook.com"><i class="fa-fw fas fa-envelope"></i><span> Mail</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Lost N Found</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/Dave0126" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:dave980126@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/03/23/JUC-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B-1/" title="Java 并发多线程编程 (JUC)">Java 并发多线程编程 (JUC)</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack sticky"></i><span class="sticky">置顶</span><span class="article-meta-separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-03-23T13:13:13.000Z" title="发表于 2022-03-23 21:13:13">2022-03-23</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-10T18:13:18.974Z" title="更新于 2022-11-11 02:13:18">2022-11-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content">本文主要通过以下几个方面来系统的介绍 Java 并发多线程编程：
 
-线程与进程
-Java 线程
-共享模型之 Monitor
-共享模型之 JMM
-共享模型之 无锁（乐观锁）
-并发工具之 线程池
-
-
-【参考资料】:
-视频课程: BiliBili - 黑马程序员Java并发编程 JUC
-笔记参考: Java并发 - Nyima’s Blog
-
-注：本课程笔记基于 JDK8，采用 lsf4j 打印日志
-
-
- 1 线程与进程
- 1.1 进程
-
-程序由指令和数据组成，但这些指令要运行，数据要读写，就必须将指令加载至 CPU，数据加载至内存。在指令运行过程中还需要用到磁盘、网络等设备。进程就是用来加载指令、管理内存、管理 IO 的。
-当一个程序被运行，从磁盘加载这个程序的代码至内存，这时就开启了一个进程。
-进程就可以视为程序的一个实例（程序是静态的，进程是动态的）。大部分程序可以同时运行多个实例进程（例如记事本、画图、浏览器 等），也有的程序只能启动一个实例进程（例如网易云音乐、360 安全卫士等）
-
- 1.2 线程
-
-一个进程可以分为一到多个线程。
-一个线程就是一个指令流，将指令流中的一条条指令以 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/03/22/JVM-1/" title="Java 虚拟机 - JVM">Java 虚拟机 - JVM</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack sticky"></i><span class="sticky">置顶</span><span class="article-meta-separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-03-22T13:52:44.000Z" title="发表于 2022-03-22 21:52:44">2022-03-22</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-10T18:16:24.763Z" title="更新于 2022-11-11 02:16:24">2022-11-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Java/">Java</a></span></div><div class="content">本文主要通过以下几个方面来系统的介绍 JVM ：
-
-第一章：JVM 结构
-第二章：JVM 内存结构
-第三章：JVM 垃圾回收
-第四章：类加载与字节码技术
-第五章：JMM 内存模型
-
-【参考资料】
-
-视频课程：BiliBili - 黑马程序员 JVM 完整教程
-The Java® Virtual Machine Specification - Java SE 8 Edition 官方文档
-
-
- 零、什么是 JVM？
-JVM (Java Virtual Machine) 是 Java 程序的运行环境(Java 二进制字节码的运行环境)
-好处:
-
-可以提供一个跨平台的一致的运行环境, 达到平台无关性；
-提供内存管理, 垃圾回收功能；
-
-JRE = JVM + 基础类库
-JDK = JVM + 基础类库 + 编译工具
-
- 一、JVM 结构
-
-总体分为三大部分：
-
-ClassLoader 类加载器：Java 代码编译成二进制后，会经过类加载器，这样才能加载到 JVM 中运行。
-JVM 内存结构
-执行引擎
-
- 二、JVM 内存结构
-
-程序计数器 (Program Counter Register) ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/09/25/MySQL-%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/" title="MySQL 相关笔记">MySQL 相关笔记</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack sticky"></i><span class="sticky">置顶</span><span class="article-meta-separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-09-25T08:56:12.000Z" title="发表于 2022-09-25 16:56:12">2022-09-25</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-10T18:32:52.739Z" title="更新于 2022-11-11 02:32:52">2022-11-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/SQL/">SQL</a></span></div><div class="content"> MySQL 基础知识
- 1 数据库相关概念
-
-
-
-名称
-简称
-作用
-
-
-
-
-数据库
-DataBase (DB)
-存储数据的仓库，数据是有组织的进行存储
-
-
-数据库操作系统
-DataBase Management System (DBMS)
-操纵和管理数据库的大型软件
-
-
-SQL
-Structured Query Language
-操作关系型数据库的编程语言，定义了一套操作关系型数据库的统一语言
-
-
-
-常见的 DBMS：Oracle、MySQL、SQL Server 等。我们以 MySQL 作为课程的讲解的管理系统。
- 2 MySQL 数据库的数据模型
-关系型数据库（RDBMS）：建立在关系模型基础上，由多张相关联的二维表  Table 组成的数据库。如
-
-MySQL 数据库的结构为：
-MySQL客户端→DBMS→DB→表 (Table)→记录\text{MySQL客户端} \to \text{DBMS} \to \text{DB} \to \text{表 (Table)} \to \text{记录}
-MySQL客户端→DBMS→DB→表 (Table)→记录
- 3 SQL 语句
- 3 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/03/10/llm-engineers-handbook-note/" title="《LLM Engineers Handbook》读书笔记">《LLM Engineers Handbook》读书笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-10T05:04:09.000Z" title="发表于 2025-03-10 13:04:09">2025-03-10</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-13T05:06:44.807Z" title="更新于 2025-03-13 13:06:44">2025-03-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/LLM/">LLM</a></span></div><div class="content">写在前面：
-本文章是关于《LLM Engineer’s Handbook》的部分学习笔记。原书以开发一个名为 LLM Twin 的、模仿某人的写作风格的端到端项目，展示如何运用 LLM 工程和 MLOps ，构建一个最小可行产品以解决特定问题。其中，作者使用较多笔墨来介绍 LLM 在工程化中的开发方法论，对于原理的探讨着墨较少。所以在以原书为主线的前提下会添加部分对于原理的介绍，作为对于方法论的补充说明。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。感谢所有学者、工程师的开源帮助。
-参考资料：
-
-《LLM Engineer’s Handbook》书中示例代码：[Github]( https://github.com/PacktPublishing/ LLM-Engineers-Handbook)
-张奇、桂韬、郑锐、黄萱菁，大语言模型理论与实践，https://intro-llm.github.io/, 2023.
-
-
- 零、前言
-大型语言模型（Large Language Model, LLM）工程领域迅速崛起，已成为人工智能和机器学习中的关键领域。随着 LLM 持续革新自然 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/03/10/mlx-tutorial/" title="mlx_tutorial">mlx_tutorial</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-10T01:21:26.000Z" title="发表于 2025-03-10 09:21:26">2025-03-10</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-10T05:03:03.471Z" title="更新于 2025-03-10 13:03:03">2025-03-10</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/LLM/">LLM</a></span></div><div class="content">写在前面：
-本文章是关于 Apple 公司开源人工智能框架 MLX 的部分学习笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。
-参考资料：
-
-代码托管仓库：GitHub: ml-explore/mlx
-开发文档
-
-
- 零、前言
-MLX 是苹果公司于 2023 年 12 月发布的、专为 Apple Silicon 芯片（Arm 架构）设计的开源机器学习框架，旨在支持在 Apple Silicon 芯片上高效地训练和部署模型。
-但是针对苹果此次发布的 MLX，呈现了两种截然不同的声音。
-从头造轮子 or 重复造轮子？
-
-正方观点：MLX 作为一个针对苹果芯片优化的 PyTorch-style 神经网络架构，可能是苹果在 AI 开源领域，迄今为止最重要的举措。
-反方观点：苹果本可以跟 PyTorch 合作，发布针对苹果芯片优化的 PyTorch 后端。而如今开发者不得不重复工作，同时支持 MLX 和 PyTorch。
-
-</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/11/22/unix-like-config/" title="类UNIX常用设置">类UNIX常用设置</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-11-21T16:05:21.000Z" title="发表于 2024-11-22 00:05:21">2024-11-22</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-26T14:05:46.749Z" title="更新于 2024-12-26 22:05:46">2024-12-26</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%B3%BB%E7%BB%9F/">系统</a></span></div><div class="content"> zsh 相关配置
-1234567891011121314151617181920212223242526# 更新软件源sudo apt update &amp;&amp; sudo apt upgrade -y# 安装 zsh git curlsudo apt install zsh git curl -y# GitHub proxygit config --global http.proxy http://127.0.0.1:7890chsh -s /bin/zshsh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&quot;# 查看bash配置文件，并手动复制自定义配置cat ~/.bashrc# 编辑zsh配置文件，并粘贴自定义配置nano ~/.zshrc# 启动新的zsh配置source ~/.zshrcgit clone --depth=1 https://github.com/romkatv/powerlevel10k.gi ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/09/27/ROS-tutorial/" title="ROS 学习笔记">ROS 学习笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-09-27T02:07:14.000Z" title="发表于 2023-09-27 10:07:14">2023-09-27</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-11-20T14:10:24.000Z" title="更新于 2024-11-20 22:10:24">2024-11-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/ROS/">ROS</a></span></div><div class="content">写在前面：
-本文章是根据 ROS 官方文档以及其他相关资料翻译、整理而来。碍于本人学识有限，且非本专业人士，部分叙述难免存在纰漏，请读者注意甄别。
-使用版本：
-
-Linux 20.04 LTS
-ROS Noetic (ROS1)
-
-参考资料：
-
-ROS 官方网站
-ROS Wiki
-ROS (NOETIC) 官方教程
-ROS2 (HUMBLE) 官方文档
-张虎（2022）：《机器人SLAM导航：核心技术与实战》，北京：机械工业出版社。
-
- 0. 安装
- ROS Noetic / linux 20.04
-
-ROS Noetic 环境安装及配置：官方教程(EN)
-Ubuntu 20.04.6 LTS 官方镜像文件
-
-以下提供一个基于 Ubuntu20.04.6 系统版本的 ROS Noetic 安装脚本：
-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/06/13/RabbitMQ-tutorial/" title="RabbitMQ 学习笔记">RabbitMQ 学习笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-13T01:19:31.000Z" title="发表于 2023-06-13 09:19:31">2023-06-13</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-09-27T02:52:27.000Z" title="更新于 2023-09-27 10:52:27">2023-09-27</time></span></div><div class="content">本文主要通过以下几个方面来系统的介绍 RabbitMQ 框架：
-
-一、MQ 基本概念
-二、RabbitMQ 的入门程序
-三、RabbitMQ 的工作模式
-四、Spring 整合 RabbitMQ
-
-参考资料
-
-哔哩哔哩：“黑马程序员”2020 版 RabbitMQ 全套教程
-
-
- 一、MQ 的基本概念
- 1 MQ 的概述
-MQ 全称 Message Queue（消息队列），是在消息的传输过程中保存的容器。多用于分布式系统之间进行通信。
-下图是两种分布式的数据通信方式：
-
-直接通信（耦合）
-
-graph
-	subgraph 直接调用
-		a[A系统] --"远程调用"--> b[B系统]
-	end
-
-间接通信（解耦合）
-
-graph LR
-	subgraph 消息生产者
-		a[A 系统]
-	end
-	
-	subgraph 中间件
-		MQ[(MQ 消息队列)]
-	end
-	
-	subgraph 消息消费者
-		b[B 系统]
-	end
-	a ---> MQ ---> b
- 2 MQ 的优劣势
-【MQ 的优势】
-
-
-应用解耦：提升容错性和可维护性。
-   graph LR
-	p[顾客]
- ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/06/07/NOTE-Prolog-tutorial/" title="Prolog_学习笔记">Prolog_学习笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-07T01:59:41.000Z" title="发表于 2023-06-07 09:59:41">2023-06-07</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-08T08:26:44.000Z" title="更新于 2023-06-08 16:26:44">2023-06-08</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%8F%8F%E8%BF%B0%E6%80%A7%E8%AF%AD%E8%A8%80/">描述性语言</a></span></div><div class="content">写在前面：
-本文章旨在介绍一种有关逻辑推理的、描述性语言 Prolog，以及其在语义网络（Semantic Web）相关领域的应用。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。
-参考资料：
-
-Learn Prolog The Hard Way
-Prolog Tutorial - Tutorialspoint
-SWI-Prolog RDF parser
-SWI-Prolog Semantic Web Library 3.0
-
-
- 0 准备工作
- 搭建开发环境
-主流的 Prolog 解释器有两个：
-
-SWI Prolog : 点击此处跳转官方网站
-GNU Prolog : 点击此处跳转官方网站
-
-关于他们的区别，请参考如下两篇文章及其相关内容。总的来说，两者在执行效率和提供的资源库等方面存在着些许差异，但对于初学者影响甚微。
-
-参考：
-
-Quora : “What is the difference between SWI-Prolog and GNU prolog?”
-Stack overflow : “atom_concat works on swi-prolog but  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/05/17/NOTE-Concepts-for-Automating-Systems-Integration/" title="【笔记】Concepts for Automating Systems Integration (edtion 2003)">【笔记】Concepts for Automating Systems Integration (edtion 2003)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-05-17T03:10:48.000Z" title="发表于 2023-05-17 11:10:48">2023-05-17</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-17T07:13:59.137Z" title="更新于 2023-05-17 15:13:59">2023-05-17</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a></span></div><div class="content"> 1. 背景
-
-
-许多大型制造企业通过专注于最强大的产品市场和专业化能力，降低了内部成本并增加市场和灵活性，并将“非核心”职能（许多零部件和子组件的设计和生产、成品分销和备件）转移到供应商组织。随着产品部件的设计和生产越来越多地被分配给供应商，而且这个过程对客户需求的变化反应更加迅速，整合问题变成了在企业边界的系统（制造的信息现在通常分布在几十个甚至几百个独立公司的软件系统）之间建立信息流。
-
-也就是说，由于在供应商组织间的多种系统间传递的信息流，是的决策层对于需求变化的感知不明显、也不及时。
-
-
-
-在此背景下，美国国家标准与技术研究所（NIST）开始了一项研究项目：集成系统的自动化方法（AMIS）。旨在研究我们现在是否有技术来实现一些制造软件集成过程的自动化。项目的目标：
-
-to identify integration activities that may benefit from automation （自动化对于集成有益）
-to identify methods and technologies that may be brought to bear on automatio ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/#content-inner">5</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Guohao</div><div class="author-info__description">L’existence précède l‘essence</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Dave0126" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:dave980126@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget card-categories"><div class="item-headline">
-            <i class="fas fa-folder-open"></i>
-            <span>分类</span>
-            <a class="card-more-btn" href="/categories/" title="查看更多">
-    <i class="fas fa-angle-right"></i></a>
-            </div>
-            <ul class="card-category-list" id="aside-cat-list">
-            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/IDEA/"><span class="card-category-list-name">IDEA</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/"><span class="card-category-list-name">Java</span><span class="card-category-list-count">13</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/LLM/"><span class="card-category-list-name">LLM</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/ROS/"><span class="card-category-list-name">ROS</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/SQL/"><span class="card-category-list-name">SQL</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">工具</span><span class="card-category-list-count">1</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/LaTeX/"><span class="card-category-list-name">LaTeX</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%8F%8F%E8%BF%B0%E6%80%A7%E8%AF%AD%E8%A8%80/"><span class="card-category-list-name">描述性语言</span><span class="card-category-list-count">1</span></a></li>
-            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Apple/" style="font-size: 1.1em; color: #999">Apple</a> <a href="/tags/DeepLearning/" style="font-size: 1.1em; color: #999">DeepLearning</a> <a href="/tags/Engineering/" style="font-size: 1.1em; color: #999">Engineering</a> <a href="/tags/IDEA/" style="font-size: 1.1em; color: #999">IDEA</a> <a href="/tags/JMM/" style="font-size: 1.1em; color: #999">JMM</a> <a href="/tags/JUC/" style="font-size: 1.26em; color: #999fa8">JUC</a> <a href="/tags/JVM/" style="font-size: 1.1em; color: #999">JVM</a> <a href="/tags/Java/" style="font-size: 1.42em; color: #99a6b7">Java</a> <a href="/tags/LLM/" style="font-size: 1.18em; color: #999ca1">LLM</a> <a href="/tags/MyBatis/" style="font-size: 1.1em; color: #999">MyBatis</a> <a href="/tags/Prolog/" style="font-size: 1.1em; color: #999">Prolog</a> <a href="/tags/ROS/" style="font-size: 1.1em; color: #999">ROS</a> <a href="/tags/SQL/" style="font-size: 1.18em; color: #999ca1">SQL</a> <a href="/tags/Spring/" style="font-size: 1.26em; color: #999fa8">Spring</a> <a href="/tags/TLA/" style="font-size: 1.1em; color: #999">TLA+</a> <a href="/tags/sychronized/" style="font-size: 1.1em; color: #999">sychronized</a> <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 1.1em; color: #999">图论</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1.18em; color: #999ca1">工具</a> <a href="/tags/%E6%8F%8F%E8%BF%B0%E6%80%A7%E8%AF%AD%E8%A8%80/" style="font-size: 1.1em; color: #999">描述性语言</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 1.1em; color: #999">数据结构</a> <a href="/tags/%E6%9C%80%E4%BC%98%E5%8C%96/" style="font-size: 1.26em; color: #999fa8">最优化</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.1em; color: #999">算法</a> <a href="/tags/%E7%B3%BB%E7%BB%9F/" style="font-size: 1.34em; color: #99a3b0">系统</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" style="font-size: 1.18em; color: #999ca1">自动化</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 1.1em; color: #999">设计模式</a> <a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" style="font-size: 1.5em; color: #99a9bf">课程笔记</a> <a href="/tags/%E9%94%81/" style="font-size: 1.18em; color: #999ca1">锁</a></div></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">42</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2021-10-19T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">427.7k</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-03-13T07:22:52.024Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background: #8EC3B0"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2025 By Guohao</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><script>function subtitleType () {
-  if (true) { 
-    window.typed = new Typed("#subtitle", {
-      strings: ["年轻人，","你的职责是平整土地，而非焦虑时光。","你做三四月的事，在八九月自有答案。"],
-      startDelay: 700,
-      typeSpeed: 130,
-      loop: false,
-      backSpeed: 40
-    })
-  } else {
-    document.getElementById("subtitle").innerHTML = '年轻人，'
-  }
-}
-
-if (true) {
-  if (typeof Typed === 'function') {
-    subtitleType()
-  } else {
-    getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js').then(subtitleType)
-  }
-} else {
-  subtitleType()
-}</script><script>(() => {
-  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
-  if ($mermaidWrap.length) {
-    window.runMermaid = () => {
-      window.loadMermaid = true
-      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
-
-      Array.from($mermaidWrap).forEach((item, index) => {
-        const mermaidSrc = item.firstElementChild
-        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
-        const mermaidID = 'mermaid-' + index
-        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
-        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
-          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
-        })
-      })
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
     }
 
-    const loadMermaid = () => {
-      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
     }
 
-    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
-  }
-})()</script></div></div></body></html>
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
