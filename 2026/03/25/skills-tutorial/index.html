@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Guohao" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  <meta name="description" content="L’existence précède l‘essence" />
+  
+  
+  
+  <title>
+    
+      skills 简单介绍 
+      
+      
+      |
+    
+     Lost N Found
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Guohao</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">skills 简单介绍</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2026-03-25 23:47:41
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="分类"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/LLM/" title="LLM">
+                    <b>#</b> LLM
+                  </a>
+                </span>
+                
+              </span>
+          
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="标签"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/LLM/" title="LLM">
+                    #LLM
+                  </a>
+                </span>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/Anthropic/" title="Anthropic">
+                    #Anthropic
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <p>写在前面：</p>
+<p>本文章是关于 Anthropic 公司开源标准 Skills 的部分学习笔记。碍于本人学识有限，部分叙述难免存在纰漏，请读者注意甄别。</p>
+<p>参考文档：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://agentskills.io/home">Anthropic 官方文档（EN）</a></li>
+</ul>
+<hr>
+<h1 id="什么是-Skills"><a href="#什么是-Skills" class="headerlink" title="什么是 Skills"></a>什么是 Skills</h1><p><strong>Agent Skills（技能）</strong> 是一种<strong>轻量级、开放格式</strong>，用于为 AI Agent 扩展能力，使其具备特定领域的知识和工作流程。</p>
+<blockquote>
+<p>简单来说，Agent Skills 就是一种“带目录的说明书”。是一种<strong>渐进式披露提示词</strong>的机制。</p>
+</blockquote>
+<p>从本质上讲，一个 Skill 就是一个<strong>文件夹</strong>，其中包含一个 <code>SKILL.md</code> 文件。</p>
+<p>这个文件包含：</p>
+<ul>
+<li>元数据（Metadata，<strong>必定加载</strong>，至少包括 name 和 description，可类比为目录）</li>
+<li>操作指令（Instruction，<strong>按需加载</strong>，告诉 Agent 如何完成某个任务，可类比为正文）</li>
+</ul>
+<p>此外，一个 Skill 还可以包含（<strong>按需加载</strong>，可类比为附录）：</p>
+<ul>
+<li>脚本（scripts）</li>
+<li>参考资料（references）</li>
+<li>模板或资源（assets）</li>
+</ul>
+<p><strong>示例结构</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">my-skill/</span><br><span class="line">├── SKILL.md          # 必需：说明 + 元数据</span><br><span class="line">├── scripts/          # 可选：可执行代码</span><br><span class="line">├── references/       # 可选：文档</span><br><span class="line">└── assets/           # 可选：模板、资源</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用 Agent Skills 的时候，会先把元数据（目录）加载进提示词，然后根据需要，再决定是否需要渐进式地加载指令（正文）和资源（附录）。使用这种机制可以大幅降低 Token&#x2F;上下文窗口 的消耗和 Prompt 的复杂程度。</p>
+</blockquote>
+<h2 id="Skills-的工作方式"><a href="#Skills-的工作方式" class="headerlink" title="Skills 的工作方式"></a>Skills 的工作方式</h2><p>Skills 使用一种叫做 <strong>“渐进式披露（progressive disclosure）”</strong> 的机制来优化上下文：</p>
+<h3 id="1-Discovery（发现阶段）"><a href="#1-Discovery（发现阶段）" class="headerlink" title="1. Discovery（发现阶段）"></a>1. Discovery（发现阶段）</h3><p>Agent 启动时：</p>
+<ul>
+<li>只加载每个 Skill 的 <strong>name + description</strong></li>
+<li>用于判断这个 Skill 是否可能有用</li>
+</ul>
+<p>类似：<strong>只加载索引，不加载全文</strong></p>
+<h3 id="2-Activation（激活阶段）"><a href="#2-Activation（激活阶段）" class="headerlink" title="2. Activation（激活阶段）"></a>2. Activation（激活阶段）</h3><p>当任务匹配 Skill 描述时：</p>
+<ul>
+<li>Agent 才会读取完整的 <code>SKILL.md</code></li>
+</ul>
+<p>类似：<strong>命中后再加载详细说明</strong></p>
+<h3 id="3-Execution（执行阶段）"><a href="#3-Execution（执行阶段）" class="headerlink" title="3. Execution（执行阶段）"></a>3. Execution（执行阶段）</h3><p>Agent 在执行阶段：</p>
+<ul>
+<li>按 <code>SKILL.md</code> 的步骤执行</li>
+<li>可以加载引用文件&#x2F;执行脚本</li>
+</ul>
+<p>类似：<strong>运行 playbook &#x2F; SOP（标准操作流程）</strong></p>
+<blockquote>
+<p>这个机制的核心好处：让 Agent <strong>既轻量（快）又有能力（强）</strong></p>
+</blockquote>
+<h2 id="SKILL-md-文件"><a href="#SKILL-md-文件" class="headerlink" title="SKILL.md 文件"></a>SKILL.md 文件</h2><p>每个 Skill 都必须包含一个 <code>SKILL.md</code> 文件，结构如下：</p>
+<h3 id="元数据"><a href="#元数据" class="headerlink" title="元数据"></a>元数据</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">pdf-processing</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">Extract</span> <span class="string">PDF</span> <span class="string">text,</span> <span class="string">fill</span> <span class="string">forms,</span> <span class="string">merge</span> <span class="string">files.</span> <span class="string">Use</span> <span class="string">when</span> <span class="string">handling</span> <span class="string">PDFs.</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<p>必须包含：</p>
+<ul>
+<li><code>name</code>：技能标识</li>
+<li><code>description</code>：什么时候用这个技能</li>
+</ul>
+<h3 id="Markdown-内容（自由格式）"><a href="#Markdown-内容（自由格式）" class="headerlink" title="Markdown 内容（自由格式）"></a>Markdown 内容（自由格式）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># PDF Processing</span><br><span class="line"></span><br><span class="line">## When to use this skill</span><br><span class="line">当用户需要处理 PDF 文件时使用...</span><br><span class="line"></span><br><span class="line">## How to extract text</span><br><span class="line">1. 使用 pdfplumber 提取文本...</span><br><span class="line"></span><br><span class="line">## How to fill forms</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>这里本质就是：<strong>写给 AI 的操作手册</strong></p>
+<p><strong>这种设计的优势</strong>：</p>
+<ol>
+<li>自解释（Self-documenting）：看 <code>SKILL.md</code> 就能理解这个 Skill 做什么；易审计、易维护。类似技术设计文档 &#x2F; API说明文档。</li>
+<li>可扩展（Extensible）：Skill 可以从简单到复杂，纯文本指令、脚本、模板都可以。</li>
+<li>可移植（Portable）：因为 Skill 的本质是文件，可以使用 Git 管理、版本控制、共享复用等。</li>
+</ol>
+<h2 id="Skills-规范说明"><a href="#Skills-规范说明" class="headerlink" title="Skills 规范说明"></a>Skills 规范说明</h2><h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p>一个 Skill 至少是一个包含 <code>SKILL.md</code> 的目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">skill-name/</span><br><span class="line">├── SKILL.md          # 必需：元数据 + 指令</span><br><span class="line">├── scripts/          # 可选：可执行代码</span><br><span class="line">├── references/       # 可选：文档</span><br><span class="line">├── assets/           # 可选：模板、资源</span><br><span class="line">└── ...               # 其他文件</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="SKILL-md-格式"><a href="#SKILL-md-格式" class="headerlink" title="SKILL.md 格式"></a>SKILL.md 格式</h3><p><code>SKILL.md</code> 必须包含：</p>
+<blockquote>
+<p>YAML frontmatter + Markdown 内容</p>
+</blockquote>
+<h4 id="元数据-1"><a href="#元数据-1" class="headerlink" title="元数据"></a>元数据</h4><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>必需</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>name</td>
+<td>✅</td>
+<td>技能名</td>
+</tr>
+<tr>
+<td>description</td>
+<td>✅</td>
+<td>描述用途</td>
+</tr>
+<tr>
+<td>license</td>
+<td>❌</td>
+<td>许可证</td>
+</tr>
+<tr>
+<td>compatibility</td>
+<td>❌</td>
+<td>运行环境要求</td>
+</tr>
+<tr>
+<td>metadata</td>
+<td>❌</td>
+<td>自定义字段</td>
+</tr>
+<tr>
+<td>allowed-tools</td>
+<td>❌</td>
+<td>允许调用的工具</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">pdf-processing</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">Extract</span> <span class="string">PDF</span> <span class="string">text,</span> <span class="string">fill</span> <span class="string">forms,</span> <span class="string">merge</span> <span class="string">files.</span> <span class="string">Use</span> <span class="string">when</span> <span class="string">handling</span> <span class="string">PDFs.</span></span><br><span class="line"><span class="attr">license:</span> <span class="string">Apache-2.0</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">author:</span> <span class="string">gdai</span></span><br><span class="line">  <span class="attr">version:</span> <span class="string">&quot;1.0&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<p>其中，标准对部分字段做出了规范：</p>
+<ol>
+<li><p><code>name</code> 字段：</p>
+<ul>
+<li>长度：1～64 字符</li>
+<li>只能：小写字母 + 数字 + <code>-</code>，不能以 <code>-</code> 开头或结尾或连续 <code>--</code></li>
+<li>必须与目录名一致</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">pdf-processing</span>	<span class="comment"># ✅</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">PDF-Processing</span>	<span class="comment"># ❌ 大写不允许</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>description</code> 字段：（这是 Agent 的“路由规则”）</p>
+<ul>
+<li>长度：1～1024 字符</li>
+<li>必须描述这个 Skills 要做什么（<strong>What</strong>），以及什么时候用（<strong>When</strong>）</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">description:</span> <span class="string">Extracts</span> <span class="string">text</span> <span class="string">and</span> <span class="string">tables</span> <span class="string">from</span> <span class="string">PDF</span> <span class="string">files,</span> <span class="string">fills</span> <span class="string">PDF</span> <span class="string">forms,</span> <span class="string">and</span> <span class="string">merges</span> <span class="string">multiple</span> <span class="string">PDFs.</span> <span class="string">Use</span> <span class="string">when</span> <span class="string">working</span> <span class="string">with</span> <span class="string">PDF</span> <span class="string">documents</span> <span class="string">or</span> <span class="string">when</span> <span class="string">the</span> <span class="string">user</span> <span class="string">mentions</span> <span class="string">PDFs,</span> <span class="string">forms,</span> <span class="string">or</span> <span class="string">document</span> <span class="string">extraction.</span>	<span class="comment"># ✅ 好例子</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">Helps</span> <span class="string">with</span> <span class="string">PDFs.</span>	<span class="comment"># ❌ 差例子</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>license</code>（可选）：</p>
+<p>说明许可证相关信息。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">license:</span> <span class="string">Proprietary.</span> <span class="string">LICENSE.txt</span> <span class="string">has</span> <span class="string">complete</span> <span class="string">terms</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>compatibility</code>（可选）:</p>
+<p>说明运行环境要求。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">compatibility:</span> <span class="string">Requires</span> <span class="string">Python</span> <span class="number">3.14</span><span class="string">+</span> <span class="string">and</span> <span class="string">uv</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>metadata</code>（可选）：</p>
+<p>任意 key-value：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">author:</span> <span class="string">gdai</span></span><br><span class="line">  <span class="attr">version:</span> <span class="string">&quot;1.0&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>allowed-tools</code>（实验特性）：</p>
+<p>用于允许&#x2F;限制 Agent 可调用工具。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">allowed-tools:</span> <span class="string">Bash(git:*)</span> <span class="string">Bash(jq:*)</span> <span class="string">Read</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="正文内容（Markdown）"><a href="#正文内容（Markdown）" class="headerlink" title="正文内容（Markdown）"></a>正文内容（Markdown）</h4><p>没有格式限制，但建议包含：</p>
+<ul>
+<li>步骤说明</li>
+<li>输入输出示例</li>
+<li>边界情况</li>
+</ul>
+<h3 id="scripts-目录"><a href="#scripts-目录" class="headerlink" title="scripts&#x2F; 目录"></a>scripts&#x2F; 目录</h3><p>包含 Agent 可以运行的代码&#x2F;脚本。<code>scripts</code> 应该：</p>
+<ul>
+<li>是自包含（self-contained）或者明确的文档应用（document dependencies）；</li>
+<li>包含有用的错误信息</li>
+<li>完善的边界处理情况</li>
+</ul>
+<p>语言取决于 Agent 可以实现的语言，通常为 <code>bash</code>、<code>python</code>、<code>javascript</code> 等</p>
+<h3 id="references-目录"><a href="#references-目录" class="headerlink" title="references&#x2F; 目录"></a>references&#x2F; 目录</h3><p>应当包含，当 Agent 需要时，一些额外补充的文档。包括：</p>
+<ul>
+<li><code>REFERENCE.md</code>：“详细技术说明书”，用于按需加载的补充知识文件</li>
+<li><code>FORMS.md</code>：一些表格或者格式化数据的模版。</li>
+<li>一些领域给规定的文档，例如 <code>finance.md</code>、<code>legal.md</code> 等</li>
+</ul>
+<h3 id="assets-目录"><a href="#assets-目录" class="headerlink" title="assets&#x2F; 目录"></a>assets&#x2F; 目录</h3><p>包含一些静态资源，例如：</p>
+<ul>
+<li><code>Templates</code> 模版文件：文件模版、配置模版；</li>
+<li><code>Images</code> 图片文件</li>
+<li><code>Datas</code> 数据文件：查找表（look-up table）或 schemas 等</li>
+</ul>
+<h3 id="渐进式披露"><a href="#渐进式披露" class="headerlink" title="渐进式披露"></a>渐进式披露</h3><p>Skill 设计要考虑上下文优化：</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>内容</th>
+<th>何时加载</th>
+<th>Tokens</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Metadata</td>
+<td>name + description</td>
+<td>启动时</td>
+<td>~100 tokens</td>
+</tr>
+<tr>
+<td>Instructions</td>
+<td>SKILL.md</td>
+<td>激活时</td>
+<td>&lt; 5000 tokens recommended</td>
+</tr>
+<tr>
+<td>Resources</td>
+<td>scripts &#x2F; references</td>
+<td>按需</td>
+<td>as needed</td>
+</tr>
+</tbody></table>
+<p>建议：<code>SKILL.md</code>的长度应该小于 500 行，并且应该将复杂内容拆分到不同的文件中，通过引用渐进式的加载。</p>
+<p><strong>文件的引用</strong>：当在 <code>SKILL.md</code> 文件（根）中引用其他文件时，需要使用<strong>相对路径</strong>。应该确保引用文件与 <code>SKILL.md</code> 的层级，避免出现<strong>嵌套&#x2F;循环</strong>引用的情况。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">See [<span class="string">the reference guide</span>](<span class="link">references/REFERENCE.md</span>)</span><br><span class="line"></span><br><span class="line">Run:</span><br><span class="line">scripts/extract.py</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="校验"><a href="#校验" class="headerlink" title="校验"></a>校验</h3><p>可以使用 <code>skills-ref</code> 库（<a target="_blank" rel="noopener" href="https://github.com/agentskills/agentskills/tree/main/skills-ref">点击跳转</a>）来检查我们的 Skill 文件是否合规，<code>SKILL.md</code> 元数据是否有效，并遵循所有命名规范。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">skills-ref validate ./my-skill</span><br></pre></td></tr></table></figure>
+
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/05/23/mcp-tutorial/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2026-03-25 23:47:41
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="分类"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/LLM/" title="LLM">
+                        <b>#</b> LLM
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="标签"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/LLM/" title="LLM">
+                        #LLM
+                      </a>
+                    </span>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/Anthropic/" title="Anthropic">
+                        #Anthropic
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Skills"><span class="toc-text">什么是 Skills</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Skills-%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="toc-text">Skills 的工作方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Discovery%EF%BC%88%E5%8F%91%E7%8E%B0%E9%98%B6%E6%AE%B5%EF%BC%89"><span class="toc-text">1. Discovery（发现阶段）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Activation%EF%BC%88%E6%BF%80%E6%B4%BB%E9%98%B6%E6%AE%B5%EF%BC%89"><span class="toc-text">2. Activation（激活阶段）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Execution%EF%BC%88%E6%89%A7%E8%A1%8C%E9%98%B6%E6%AE%B5%EF%BC%89"><span class="toc-text">3. Execution（执行阶段）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SKILL-md-%E6%96%87%E4%BB%B6"><span class="toc-text">SKILL.md 文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-text">元数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Markdown-%E5%86%85%E5%AE%B9%EF%BC%88%E8%87%AA%E7%94%B1%E6%A0%BC%E5%BC%8F%EF%BC%89"><span class="toc-text">Markdown 内容（自由格式）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Skills-%E8%A7%84%E8%8C%83%E8%AF%B4%E6%98%8E"><span class="toc-text">Skills 规范说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SKILL-md-%E6%A0%BC%E5%BC%8F"><span class="toc-text">SKILL.md 格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%83%E6%95%B0%E6%8D%AE-1"><span class="toc-text">元数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A3%E6%96%87%E5%86%85%E5%AE%B9%EF%BC%88Markdown%EF%BC%89"><span class="toc-text">正文内容（Markdown）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#scripts-%E7%9B%AE%E5%BD%95"><span class="toc-text">scripts&#x2F; 目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#references-%E7%9B%AE%E5%BD%95"><span class="toc-text">references&#x2F; 目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#assets-%E7%9B%AE%E5%BD%95"><span class="toc-text">assets&#x2F; 目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%90%E8%BF%9B%E5%BC%8F%E6%8A%AB%E9%9C%B2"><span class="toc-text">渐进式披露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8C"><span class="toc-text">校验</span></a></li></ol></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/Dave0126">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+        <li>
+          
+            <a title="email" href="mailto:dai.guohao@outlook.com">
+              <i class="iconfont icon-envelope"></i>
+            </a>
+            
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/Dave0126">Copyright © 2026 Guohao</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + skills%20%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D + '&url=' + https%3A%2F%2Flostnfound.top%2F2026%2F03%2F25%2Fskills-tutorial%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://lostnfound.top/2026/03/25/skills-tutorial/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
